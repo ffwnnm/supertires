@@ -4,6 +4,8 @@ package kz.supershiny.core.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,19 +20,26 @@ import javax.persistence.Table;
  * @author kilrwhle
  */
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 public class User implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "username")
-    private String name;
+    @Column
+    private String username;
+    @Column
+    private String phone;
+    @Column
+    private String password;
     
     public User() {
     }
 
-    public User(String name) {
-        this.name = name;
+    public User(String username, String phone, String password) {
+        this.username = username;
+        this.phone = phone;
+        this.password = password;
     }
 
     public Long getId() {
@@ -41,12 +50,27 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
-    
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

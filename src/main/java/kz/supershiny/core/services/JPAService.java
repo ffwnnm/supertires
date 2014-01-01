@@ -9,6 +9,7 @@ package kz.supershiny.core.services;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -16,26 +17,46 @@ import org.hibernate.Session;
  */
 public abstract class JPAService {
     
-    @PersistenceContext(unitName = "tires-pu")
-    protected EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
+    @Transactional
     public void save(Object object) {
-        em.persist(object);
-        em.flush();
+        try {
+            em.persist(object);
+            em.flush();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
+    @Transactional
     public void update(Object object) {
-        em.merge(object);
-        em.flush();
+        try {
+            em.merge(object);
+            em.flush();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
+    @Transactional
     public void delete(Object object) {
-        em.remove(em.merge(object));
-        em.flush();
+        try {
+            em.remove(em.merge(object));
+            em.flush();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void refresh(Object object) {
-        object = em.merge(object);
+        try {
+            object = em.merge(object);
+            em.flush();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public Session getHibernateSession() {

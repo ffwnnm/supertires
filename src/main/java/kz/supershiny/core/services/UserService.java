@@ -4,10 +4,17 @@
  */
 package kz.supershiny.core.services;
 
+import org.springframework.stereotype.Service;
+
 /**
  *
  * @author kilrwhle
  */
-public interface UserService {
-    public void testMethod();
+@Service
+public class UserService extends JPAService {
+
+    public void testMethod() {
+        System.out.println("\t\t\tThis is a service test");
+    }
+    
 }
