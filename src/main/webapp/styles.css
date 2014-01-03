@@ -1,0 +1,32 @@
+/* 
+    Document   : styles
+    Created on : 04.01.2014, 2:32:35
+    Author     : kilrwhle
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+.topPanel {
+    width: 100%;
+}
+
+.contentPanel {
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginPanel {
+    width: 400px;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.logout {
+    text-decoration: none;
+    cursor: pointer;
+}

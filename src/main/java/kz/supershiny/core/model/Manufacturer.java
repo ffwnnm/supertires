@@ -5,15 +5,11 @@
 package kz.supershiny.core.model;
 
 import java.io.Serializable;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -31,8 +27,6 @@ public class Manufacturer implements Serializable {
     private String companyName;
     @Column
     private String description;
-    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.LAZY)
-    private Set<Tire> tires;
     
     public Manufacturer() {
     }

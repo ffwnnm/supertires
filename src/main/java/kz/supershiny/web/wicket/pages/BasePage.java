@@ -6,6 +6,8 @@
 
 package kz.supershiny.web.wicket.pages;
 
+import kz.supershiny.core.model.User;
+import kz.supershiny.web.wicket.TiresSession;
 import org.apache.wicket.markup.html.WebPage;
 
 /**
@@ -18,4 +20,11 @@ public class BasePage extends WebPage {
         super();
     }
     
+    protected User getUser() {
+        return ((TiresSession) getSession()).getUser();
+    }
+    
+    protected TiresSession getTiresSession() {
+        return (TiresSession) getSession();
+    }
 }

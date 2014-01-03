@@ -6,6 +6,8 @@
 
 package kz.supershiny.web.wicket.pages;
 
+import kz.supershiny.web.wicket.panels.ContentPanel;
+import kz.supershiny.web.wicket.panels.TopPanel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.StringResourceModel;
 
@@ -20,6 +22,9 @@ public class HomePage extends BasePage {
         
         Label title = new Label("title", new StringResourceModel("titleHome", HomePage.this, null));
         add(title);
+        
+        add(new TopPanel("topPanel"));
+        add(new ContentPanel("contentPanel"));
     }
     
 }

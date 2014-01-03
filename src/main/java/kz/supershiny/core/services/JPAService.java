@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public abstract class JPAService {
     
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
     @Transactional
     public void save(Object object) {

@@ -1,17 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns:wicket>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" 
+      xml:lang="en" 
+      lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>LoginPanel</title>
     </head>
     <body>
         <wicket:panel>
-            <!-- TODO - add components here, ala
-            
-            <span wicket:id="title">title here</span>
-            
-            -->
+            <form wicket:id="loginForm">
+                <input type="text" wicket:id="login"/>
+                <input type="password" wicket:id="password"/>
+                <input type="submit" wicket:message="value:logMeIn"/>
+            </form>
+            <span wicket:id="username"/>
+            <a href="#" wicket:id="logout" class="logout">&nbsp;<wicket:message key="logout"/></a>
         </wicket:panel>
     </body>
 </html>
