@@ -49,7 +49,7 @@ public class Country implements Serializable {
             return false;
         }
         final Country other = (Country) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+        if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
             return false;
         }
         return true;

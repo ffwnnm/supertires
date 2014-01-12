@@ -6,7 +6,12 @@
 
 package kz.supershiny.web.wicket;
 
+import kz.supershiny.core.model.Country;
+import kz.supershiny.core.model.Manufacturer;
+import kz.supershiny.core.model.TireSize;
+import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.model.User;
+import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.services.UserService;
 import kz.supershiny.web.wicket.pages.HomePage;
 import org.apache.wicket.Page;
@@ -30,6 +35,7 @@ public class TiresApplication extends WebApplication {
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
         
         createInitialUser();
+        initDictData();
         
         //mount pages
         mountPage("/home", HomePage.class);
@@ -55,8 +61,41 @@ public class TiresApplication extends WebApplication {
         user.setPassword("qwpo4294");
         user.setUsername("admin");
         
+        User user1 = new User();
+        user1.setPhone("123");
+        user1.setPassword("qwe");
+        user1.setUsername("admin");
+        
         ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         UserService us = applicationContext.getBean(UserService.class);
         us.save(user);
+        us.save(user1);
+    }
+    
+    /**
+     * For debug purposes
+     */
+    private void initDictData() {
+        ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+        TireService ts = applicationContext.getBean(TireService.class);
+        
+        ts.save(new TireType("Фрикционная"));
+        ts.save(new TireType("Под шипы"));
+        ts.save(new TireType("Шипованная"));
+        
+        ts.save(new Manufacturer("Yokohama"));
+        ts.save(new Manufacturer("Hankook"));
+        ts.save(new Manufacturer("Maxxis"));
+        ts.save(new Manufacturer("Toyo"));
+        
+        ts.save(new TireSize("195/65/15"));
+        ts.save(new TireSize("205/65/15"));
+        ts.save(new TireSize("185/65/15"));
+        
+        ts.save(new Country("Корея"));
+        ts.save(new Country("Китай"));
+        ts.save(new Country("Филиппины"));
+        ts.save(new Country("Япония"));
+        ts.save(new Country("Германия"));
     }
 }

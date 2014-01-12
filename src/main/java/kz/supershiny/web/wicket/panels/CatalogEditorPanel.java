@@ -1,0 +1,276 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package kz.supershiny.web.wicket.panels;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import kz.supershiny.core.model.Country;
+import kz.supershiny.core.model.Manufacturer;
+import kz.supershiny.core.model.Tire;
+import kz.supershiny.core.model.TireSize;
+import kz.supershiny.core.model.TireType;
+import kz.supershiny.core.services.TireService;
+import kz.supershiny.core.util.Constants;
+import kz.supershiny.web.wicket.pages.HomePage;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.convert.ConversionException;
+import org.apache.wicket.util.convert.IConverter;
+
+/**
+ *
+ * @author kilrwhle
+ */
+public final class CatalogEditorPanel extends Panel {
+    
+    @SpringBean
+    private TireService tireService;
+    
+    private List<TireType> typesList;
+    private List<TireSize> sizesList;
+    private List<Country> countriesList;
+    private List<Manufacturer> manufacturersList;
+    private List<String> modelsList;
+    
+    private EditTireForm editor;
+    private SearchTireForm searcher;
+
+    public CatalogEditorPanel(String id) {
+        super(id);
+        
+        //init dictionaries
+        typesList = tireService.getTypes();
+        sizesList = tireService.getUniqueSizes();
+        countriesList = tireService.getUniqueCountries();
+        manufacturersList = tireService.getUniqueManufacturers();
+        modelsList = tireService.getUniqueModels();
+        if(typesList == null) typesList = new ArrayList<TireType>();
+        if(sizesList == null) sizesList = new ArrayList<TireSize>();
+        if(countriesList == null) countriesList = new ArrayList<Country>();
+        if(manufacturersList == null) manufacturersList = new ArrayList<Manufacturer>();
+        if(modelsList == null) modelsList = new ArrayList<String>();
+        
+        editor = new EditTireForm("editTireForm", new Tire());
+        searcher = new SearchTireForm("searchTireForm");
+        
+        add(editor.setOutputMarkupId(true));
+        add(searcher.setOutputMarkupId(true));
+    }
+    
+    private class SearchTireForm extends Form<Tire> {
+
+        public SearchTireForm(String id) {
+            super(id);
+        }
+
+        public SearchTireForm(String id, IModel<Tire> model) {
+            super(id, model);
+        }
+        
+    }
+    
+    private class EditTireForm extends Form<Tire> {
+        
+        private AutoCompleteTextField<Manufacturer> manufacturer;
+        private AutoCompleteTextField<Country> country;
+        private AutoCompleteTextField<String> modelName;
+        private AutoCompleteTextField<TireSize> size;
+        private DropDownChoice<TireType> type;
+        private DropDownChoice<String> season;
+        private TextField<BigDecimal> price;
+        private TextField<Long> quantity;
+        private AjaxButton saveButton;
+        private AjaxButton clearButton;
+        private FeedbackPanel feedback;
+
+        public EditTireForm(String id, Tire tire) {
+            super(id, new CompoundPropertyModel<Tire>(tire));
+
+            manufacturer = new AutoCompleteTextField<Manufacturer>("manufacturer") {
+                @Override
+                protected Iterator<Manufacturer> getChoices(String string) {
+                    return manufacturersList.iterator();
+                }
+
+                @Override
+                public <C> IConverter<C> getConverter(Class<C> type) {
+                    return new IConverter<C>() {
+
+                        @Override
+                        public C convertToObject(String string, Locale locale) throws ConversionException {
+                            Manufacturer result = null;
+                            if(string != null && !string.isEmpty()) {
+                                int pos = manufacturersList.indexOf(new Manufacturer(string));
+                                result = pos > -1 ? manufacturersList.get(pos) : new Manufacturer(string);
+                            } else {
+                                editor.error(new StringResourceModel("error.invalidManufacturer", CatalogEditorPanel.this, null).getString());
+                            }
+                            return (C) result;
+                        }
+
+                        @Override
+                        public String convertToString(C c, Locale locale) {
+                            if(c == null) {
+                                return "";
+                            }
+                            return c.toString();
+                        }
+                    };
+                }
+            };
+            country = new AutoCompleteTextField<Country>("country") {
+                @Override
+                protected Iterator<Country> getChoices(String string) {
+                    return countriesList.iterator();
+                }
+
+                @Override
+                public <C> IConverter<C> getConverter(Class<C> type) {
+                    return new IConverter<C>() {
+
+                        @Override
+                        public C convertToObject(String string, Locale locale) throws ConversionException {
+                            Country result = null;
+                            if(string != null && !string.isEmpty()) {
+                                int pos = countriesList.indexOf(new Country(string));
+                                result = pos > -1 ? countriesList.get(pos) : new Country(string);
+                            } else {
+                                editor.error(new StringResourceModel("error.invalidCountry", CatalogEditorPanel.this, null).getString());
+                            }
+                            return (C) result;
+                        }
+
+                        @Override
+                        public String convertToString(C c, Locale locale) {
+                            if(c == null) {
+                                return "";
+                            }
+                            return c.toString();
+                        }
+                    };
+                }
+            };
+            size = new AutoCompleteTextField<TireSize>("size") {
+                @Override
+                protected Iterator<TireSize> getChoices(String string) {
+                    return sizesList.iterator();
+                }
+                @Override
+                public <C> IConverter<C> getConverter(Class<C> type) {
+                    return new IConverter<C>() {
+
+                        @Override
+                        public C convertToObject(String string, Locale locale) throws ConversionException {
+                            TireSize result = null;
+                            if(TireSize.TIRE_SIZE_PATTERN.matcher(string).matches()) {
+                                int pos = sizesList.indexOf(new TireSize(string));
+                                result = pos > -1 ? sizesList.get(pos) : new TireSize(string);
+                            } else {
+                                editor.error(new StringResourceModel("error.invalidSize", CatalogEditorPanel.this, null).getString());
+                            }
+                            return (C) result;
+                        }
+
+                        @Override
+                        public String convertToString(C c, Locale locale) {
+                            if(c == null) {
+                                return "";
+                            }
+                            return c.toString();
+                        }
+                    };
+                }
+            };
+            modelName = new AutoCompleteTextField<String>("modelName") {
+                @Override
+                protected Iterator<String> getChoices(String string) {
+                    return modelsList.iterator();
+                }
+            };
+            season = new DropDownChoice<String>("season", Constants.seasons) {
+                @Override
+                protected boolean localizeDisplayValues() {
+                    return true;
+                }
+            };
+            type = new DropDownChoice<TireType>("type", typesList == null ? new ArrayList<TireType>() : typesList);
+            price = new TextField<BigDecimal>("price");
+            quantity = new TextField<Long>("quantity");
+            
+            saveButton = new AjaxButton("save") {
+                @Override
+                protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                    Tire tire = (Tire) this.getForm().getModelObject();
+                    if(tire == null) {
+                        error(new StringResourceModel("error.modelObjectNull", CatalogEditorPanel.this, null).getString());
+                        return;
+                    }
+                    //save non-persistent entities
+                    if(tire.getCountry().getId() == null) {
+                        tireService.save(tire.getCountry());
+                    }
+                    if(tire.getManufacturer().getId() == null) {
+                        tireService.save(tire.getManufacturer());
+                    }
+                    if(tire.getSize().getId() == null) {
+                        tireService.save(tire.getSize());
+                    }
+                    //save or update tire
+                    if(tire.getId() == null) {
+                        tireService.save(tire);
+                    } else {
+                        tireService.update(tire);
+                    }
+                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(tire));
+                    target.add(editor);
+                }
+            };
+            clearButton = new AjaxButton("clear") {
+                @Override
+                protected void onSubmit(AjaxRequestTarget target, Form<?> form) {                    
+                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(new Tire()));
+                    target.add(editor);
+                }
+            };
+            feedback = new FeedbackPanel("feedback");
+
+            add(manufacturer.setOutputMarkupId(true));
+            add(country.setOutputMarkupId(true));
+            add(size.setOutputMarkupId(true));
+            add(modelName.setOutputMarkupId(true));
+            add(season.setOutputMarkupId(true));
+            add(type.setOutputMarkupId(true));
+            add(price.setOutputMarkupId(true));
+            add(quantity.setOutputMarkupId(true));
+            add(saveButton);
+            add(clearButton);
+            add(feedback.setOutputMarkupId(true));
+        }
+
+        @Override
+        protected void onValidate() {
+            super.onValidate(); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        protected void onSubmit() {
+            System.out.println("Form's onSubmit fired!");
+            setResponsePage(HomePage.class);
+        }
+    }
+}

@@ -10,9 +10,9 @@ import org.apache.wicket.markup.html.panel.Panel;
  *
  * @author kilrwhle
  */
-public final class ContentPanel extends Panel {
+public final class DefaultContentPanel extends Panel {
 
-    public ContentPanel(String id) {
+    public DefaultContentPanel(String id) {
         super(id);
     }
 }

@@ -6,7 +6,8 @@
 
 package kz.supershiny.web.wicket.pages;
 
-import kz.supershiny.web.wicket.panels.ContentPanel;
+import kz.supershiny.web.wicket.panels.CatalogEditorPanel;
+import kz.supershiny.web.wicket.panels.DefaultContentPanel;
 import kz.supershiny.web.wicket.panels.TopPanel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.StringResourceModel;
@@ -24,7 +25,12 @@ public class HomePage extends BasePage {
         add(title);
         
         add(new TopPanel("topPanel"));
-        add(new ContentPanel("contentPanel"));
+        
+        if(getUser() != null) {
+            add(new CatalogEditorPanel("contentPanel"));
+        } else {
+            add(new DefaultContentPanel("contentPanel"));
+        }
     }
     
 }

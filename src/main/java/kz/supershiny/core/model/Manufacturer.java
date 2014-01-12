@@ -30,6 +30,10 @@ public class Manufacturer implements Serializable {
     
     public Manufacturer() {
     }
+    
+    public Manufacturer(String companyName) {
+        this(companyName, null);
+    }
 
     public Manufacturer(String companyName, String description) {
         this.companyName = companyName;
@@ -53,7 +57,7 @@ public class Manufacturer implements Serializable {
             return false;
         }
         final Manufacturer other = (Manufacturer) obj;
-        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+        if ((this.companyName == null) ? (other.companyName != null) : !this.companyName.equals(other.companyName)) {
             return false;
         }
         return true;
@@ -61,7 +65,7 @@ public class Manufacturer implements Serializable {
 
     @Override
     public String toString() {
-        return "Manufacturer{" + "companyName=" + companyName + '}';
+        return companyName;
     }
 
     public Long getId() {

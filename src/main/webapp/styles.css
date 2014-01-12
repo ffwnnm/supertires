@@ -30,3 +30,13 @@ root {
     text-decoration: none;
     cursor: pointer;
 }
+
+.form-component {
+    width: 400px;
+    height: 30px;
+}
+
+.btn-submit {
+    width: 100px;
+    height: 30px;
+}
