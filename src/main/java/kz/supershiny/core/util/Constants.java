@@ -19,4 +19,8 @@ public class Constants {
     
     public static final List<String> seasons = Arrays.asList(SUMMER, WINTER, ALL_SEASONS);
     
+    public static final int MAX_IMAGES_PER_ITEM = 5;
+    
+    public static final String Y = "Y";
+    public static final String N = "N";
 }

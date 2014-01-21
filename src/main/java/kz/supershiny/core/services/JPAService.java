@@ -9,6 +9,8 @@ package kz.supershiny.core.services;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -19,6 +21,8 @@ public abstract class JPAService {
     
     @PersistenceContext
     protected EntityManager em;
+    
+    private static final Logger LOG = LoggerFactory.getLogger(JPAService.class);
 
     @Transactional
     public void save(Object object) {
@@ -26,7 +30,7 @@ public abstract class JPAService {
             em.persist(object);
             em.flush();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("Failed to save object: " + object.toString(), ex);
         }
     }
 
@@ -36,7 +40,7 @@ public abstract class JPAService {
             em.merge(object);
             em.flush();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("Failed to update object: " + object.toString(), ex);
         }
     }
 
@@ -46,7 +50,7 @@ public abstract class JPAService {
             em.remove(em.merge(object));
             em.flush();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("Failed to delete object: " + object.toString(), ex);
         }
     }
 
@@ -55,7 +59,7 @@ public abstract class JPAService {
             object = em.merge(object);
             em.flush();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.error("Failed to refresh object: " + object.toString(), ex);
         }
     }
 

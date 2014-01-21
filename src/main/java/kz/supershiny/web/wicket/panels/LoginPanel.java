@@ -8,22 +8,29 @@ package kz.supershiny.web.wicket.panels;
 
 import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.UserService;
+import kz.supershiny.core.exceptions.TiresAuthenticationException;
 import kz.supershiny.web.wicket.TiresApplication;
-import kz.supershiny.web.wicket.pages.HomePage;
+import kz.supershiny.web.wicket.pages.catalogue.HomePage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author kilrwhle
  */
 public final class LoginPanel extends Panel {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(LoginPanel.class);
     
     @SpringBean
     private UserService userService;
@@ -35,7 +42,8 @@ public final class LoginPanel extends Panel {
         
         user = ((TiresApplication) getApplication()).getTiresSession().getUser();
         
-        add(new LoginForm("loginForm").setVisible(user == null));
+        add(new FeedbackPanel("loginFeedback").setOutputMarkupId(true));
+        add(new LoginPanel.LoginForm("loginForm").setVisible(user == null));
         
         add(new Label("username", user == null ? "" : user.getUsername()));
         add(new Link("logout") {
@@ -55,17 +63,23 @@ public final class LoginPanel extends Panel {
         public LoginForm(String id) {
             super(id);
             
-            add(new TextField("login", new PropertyModel(LoginForm.this, "login")));
-            add(new PasswordTextField("password", new PropertyModel(LoginForm.this, "password")));
+            add(new TextField("login", new PropertyModel(LoginPanel.LoginForm.this, "login")));
+            add(new PasswordTextField("password", new PropertyModel(LoginPanel.LoginForm.this, "password")));
         }
 
         @Override
         protected void onSubmit() {
-            ((TiresApplication) getApplication())
-                    .getTiresSession()
-                    .setUser(userService.authenticate(login, password));
-            setResponsePage(HomePage.class);
+            User user;
+            try {
+                user = userService.authenticate(login, password);
+                ((TiresApplication) getApplication())
+                        .getTiresSession()
+                        .setUser(user);
+                setResponsePage(HomePage.class);
+            } catch (TiresAuthenticationException ex) {
+                user = null;
+                LoginPanel.this.error(new StringResourceModel("error.authentication", LoginPanel.this, null).getString());
+            }
         }
-        
     }
 }

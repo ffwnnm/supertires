@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package kz.supershiny.web.wicket.panels;
+package kz.supershiny.web.wicket.panels.admin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,25 +12,37 @@ import java.util.Locale;
 import kz.supershiny.core.model.Country;
 import kz.supershiny.core.model.Manufacturer;
 import kz.supershiny.core.model.Tire;
+import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.model.TireSize;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.services.TireService;
+import kz.supershiny.core.util.Base64Coder;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.pages.HomePage;
+import kz.supershiny.web.wicket.pages.catalogue.HomePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.upload.FileUpload;
+import org.apache.wicket.markup.html.form.upload.MultiFileUploadField;
+import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.resource.DynamicImageResource;
+import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.convert.ConversionException;
 import org.apache.wicket.util.convert.IConverter;
+import org.apache.wicket.util.lang.Bytes;
 
 /**
  *
@@ -46,11 +58,18 @@ public final class CatalogEditorPanel extends Panel {
     private List<Country> countriesList;
     private List<Manufacturer> manufacturersList;
     private List<String> modelsList;
+    private List<TireImage> imagesList;
+    private Tire currentTire;
     
-    private EditTireForm editor;
-    private SearchTireForm searcher;
-
+    private CatalogEditorPanel.EditTireForm editor;
+    private List<FileUpload> imagesForUpload;
+    private MultiFileUploadField fileUpload;
+    
     public CatalogEditorPanel(String id) {
+        this(id, null);
+    }
+
+    public CatalogEditorPanel(String id, Tire tire) {
         super(id);
         
         //init dictionaries
@@ -65,23 +84,19 @@ public final class CatalogEditorPanel extends Panel {
         if(manufacturersList == null) manufacturersList = new ArrayList<Manufacturer>();
         if(modelsList == null) modelsList = new ArrayList<String>();
         
-        editor = new EditTireForm("editTireForm", new Tire());
-        searcher = new SearchTireForm("searchTireForm");
+        if(tire == null) {
+            currentTire = new Tire();
+        } else {
+            currentTire = tire;
+            imagesList = tireService.getImagesForTire(tire);
+        }
+        if(imagesList == null) imagesList = new ArrayList<TireImage>();
+        
+        editor = new CatalogEditorPanel.EditTireForm("editTireForm", currentTire);
+        editor.setMultiPart(true);
+        editor.setMaxSize(Bytes.kilobytes(2048));
         
         add(editor.setOutputMarkupId(true));
-        add(searcher.setOutputMarkupId(true));
-    }
-    
-    private class SearchTireForm extends Form<Tire> {
-
-        public SearchTireForm(String id) {
-            super(id);
-        }
-
-        public SearchTireForm(String id, IModel<Tire> model) {
-            super(id, model);
-        }
-        
     }
     
     private class EditTireForm extends Form<Tire> {
@@ -100,6 +115,12 @@ public final class CatalogEditorPanel extends Panel {
 
         public EditTireForm(String id, Tire tire) {
             super(id, new CompoundPropertyModel<Tire>(tire));
+            
+            //Images upload form
+            add(new CatalogEditorPanel.UploadForm("uploadForm"));
+            
+            //Images view and edit form
+            add(new CatalogEditorPanel.ViewForm("viewForm"));
 
             manufacturer = new AutoCompleteTextField<Manufacturer>("manufacturer") {
                 @Override
@@ -236,15 +257,30 @@ public final class CatalogEditorPanel extends Panel {
                     } else {
                         tireService.update(tire);
                     }
-                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(tire));
-                    target.add(editor);
+                    //save images for this tire
+                    if(imagesForUpload != null && !imagesForUpload.isEmpty()) {
+                        for(FileUpload item : imagesForUpload) {
+                            TireImage ti = new TireImage(
+                                    item.getClientFileName(),
+                                    Base64Coder.encodeLines(item.getBytes())
+                                );
+                            ti.setTire(tire);
+                            tireService.save(ti);
+                        }
+                    }
+//                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(tire));
+//                    target.add(editor);
+                    
+                    setResponsePage(new HomePage(tire));
                 }
             };
             clearButton = new AjaxButton("clear") {
                 @Override
-                protected void onSubmit(AjaxRequestTarget target, Form<?> form) {                    
-                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(new Tire()));
-                    target.add(editor);
+                protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+//                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(currentTire = new Tire()));
+//                    target.add(editor);
+                    
+                    setResponsePage(new HomePage(new Tire()));
                 }
             };
             feedback = new FeedbackPanel("feedback");
@@ -261,16 +297,63 @@ public final class CatalogEditorPanel extends Panel {
             add(clearButton);
             add(feedback.setOutputMarkupId(true));
         }
+    }
+    
+    //Upload images
+    private class UploadForm extends Form {
 
-        @Override
-        protected void onValidate() {
-            super.onValidate(); //To change body of generated methods, choose Tools | Templates.
-        }
+        public UploadForm(String id) {
+            super(id);
+            
+            imagesForUpload = new ArrayList<FileUpload>();
+            fileUpload = new MultiFileUploadField(
+                    "fileUpload", 
+                    new PropertyModel<List<FileUpload>>(CatalogEditorPanel.this, "imagesForUpload"),
+                    Constants.MAX_IMAGES_PER_ITEM
+                ) {
+                @Override
+                public boolean isMultiPart() {
+                    return true;
+                }
+            };
+            add(fileUpload);
+        }       
+    }
+    
+    //Display images
+    private class ViewForm extends Form {
+        
+        private ListView imagesView;
+        private WebMarkupContainer viewContainer;
 
-        @Override
-        protected void onSubmit() {
-            System.out.println("Form's onSubmit fired!");
-            setResponsePage(HomePage.class);
+        public ViewForm(String id) {
+            super(id);
+            viewContainer = new WebMarkupContainer("viewContainer");
+            imagesView = new ListView("imagesView", new PropertyModel(CatalogEditorPanel.this, "imagesList")) {
+                @Override
+                protected void populateItem(ListItem li) {
+                    final TireImage ti = (TireImage) li.getModelObject();
+                    Image image = new Image("image", new DynamicImageResource() {
+                        @Override
+                        protected byte[] getImageData(IResource.Attributes atrbts) {
+                            return Base64Coder.decodeLines(ti.getEncodedImage());
+                        }
+                    });
+                    AjaxLink removeLink = new AjaxLink("removeImage") {
+                        @Override
+                        public void onClick(AjaxRequestTarget art) {
+                            tireService.delete(ti);
+                            imagesList.remove(ti);
+                            art.add(viewContainer);
+                        }
+                    };
+                    li.add(image);
+                    li.add(removeLink);
+                }
+            };
+            viewContainer.add(imagesView.setOutputMarkupId(true));
+            add(viewContainer.setOutputMarkupId(true));
         }
+        
     }
 }

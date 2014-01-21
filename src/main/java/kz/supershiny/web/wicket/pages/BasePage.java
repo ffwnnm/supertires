@@ -8,6 +8,8 @@ package kz.supershiny.web.wicket.pages;
 
 import kz.supershiny.core.model.User;
 import kz.supershiny.web.wicket.TiresSession;
+import kz.supershiny.web.wicket.panels.DefaultContentPanel;
+import kz.supershiny.web.wicket.panels.TopPanel;
 import org.apache.wicket.markup.html.WebPage;
 
 /**
@@ -18,6 +20,10 @@ public class BasePage extends WebPage {
 
     public BasePage() {
         super();
+        
+        add(new TopPanel("topPanel"));
+        
+        add(new DefaultContentPanel("contentPanel"));
     }
     
     protected User getUser() {

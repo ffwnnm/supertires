@@ -8,6 +8,7 @@
     <class>kz.supershiny.core.model.TireSize</class>
     <class>kz.supershiny.core.model.TireType</class>
     <class>kz.supershiny.core.model.User</class>
+    <class>kz.supershiny.core.model.TireImage</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.show_sql" value="true"/>  

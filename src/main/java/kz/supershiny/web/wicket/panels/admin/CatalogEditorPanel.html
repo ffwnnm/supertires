@@ -9,47 +9,6 @@
     </head>
     <body>
         <wicket:panel>
-            <div id="searchForm">
-                <span><wicket:message key="searchDisclaimer"/></span>
-                <form wicket:id="searchTireForm">
-<!--                    <table>
-                        <thead>
-                            <tr>
-                                <th><wicket:message key="manufacturer"/></th>
-                                <th><wicket:message key="modelName"/></th>
-                                <th><wicket:message key="size"/></th>
-                                <th><wicket:message key="season"/></th>
-                                <th><wicket:message key="tireType"/></th>
-                                <th><wicket:message key="country"/></th>
-                                <th><wicket:message key="priceFrom"/></th>
-                                <th><wicket:message key="priceTo"/></th>
-                                <th><wicket:message key="quantityFrom"/></th>
-                                <th><wicket:message key="quantityTo"/></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="text" wicket:id="manufacturer"/></td>
-                                <td><input type="text" wicket:id="modelName"/></td>
-                                <td><input type="text" wicket:id="size"/></td>
-                                <td><select wicket:id="season"/></td>
-                                <td><select wicket:id="type"/></td>
-                                <td><input type="text" wicket:id="country"/></td>
-                                <td><input type="text" wicket:id="priceFrom"/></td>
-                                <td><input type="text" wicket:id="priceTo"/></td>
-                                <td><input type="text" wicket:id="quantityFrom"/></td>
-                                <td><input type="text" wicket:id="quantityTo"/></td>
-                            </tr>
-                            <tr>
-                                <td colspan="8"><input type="submit" wicket:id="save" wicket:message="value:save" style="float: right;"/></td>
-                            </tr>
-                        </tbody>
-                    </table>-->
-                </form>
-            </div>
-            
-            <br/>
-            
             <div id="editForm">
                 <span><wicket:message key="editDisclaimer"/></span>
                 <form wicket:id="editTireForm">
@@ -89,8 +48,31 @@
                                 <td><input type="text" wicket:id="quantity" class="form-component"/></td>
                             </tr>
                             <tr>
+                                <td><wicket:message key="images"/></td>
+                                <td>
+                                    <!--<div wicket:id="imagesContainer">-->
+                                        <form wicket:id="uploadForm">
+                                            <div wicket:id="fileUpload"/>
+                                        </form>
+                                        <form wicket:id="viewForm">
+                                            <div wicket:id="viewContainer">
+                                                <div wicket:id="imagesView" class="adminImagePreview">
+                                                    <p>
+                                                        <img wicket:id = "image" width="150px"/>
+                                                    </p>
+                                                    <p class="removeLink">
+                                                        <a href="#" wicket:id="removeImage" style="color: white; text-decoration: none;">
+                                                            <wicket:message key="remove"/>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    <!--</div>-->
+                                </td>
+                            </tr>
+                            <tr>
                                 <td colspan="2">
-                                    <input type="submit" value="Test Submit" class="btn-submit"/>
                                     <input type="button" wicket:id="clear" wicket:message="value:clear" class="btn-submit"/>
                                     <input type="button" wicket:id="save" wicket:message="value:save" class="btn-submit"/>
                                 </td>

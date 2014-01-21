@@ -13,13 +13,18 @@ import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.services.UserService;
-import kz.supershiny.web.wicket.pages.HomePage;
+import kz.supershiny.core.exceptions.TiresPersistException;
+import kz.supershiny.web.wicket.pages.admin.AdminPage;
+import kz.supershiny.web.wicket.pages.catalogue.HomePage;
+import kz.supershiny.web.wicket.pages.catalogue.ProposalPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -28,6 +33,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * @author kilrwhle
  */
 public class TiresApplication extends WebApplication {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(TiresApplication.class);
 
     @Override
     protected void init() {
@@ -38,7 +45,7 @@ public class TiresApplication extends WebApplication {
         initDictData();
         
         //mount pages
-        mountPage("/home", HomePage.class);
+        mountPages();
     }
     
     public TiresSession getTiresSession() {
@@ -54,6 +61,12 @@ public class TiresApplication extends WebApplication {
     public Class<? extends Page> getHomePage() {
         return HomePage.class;
     }
+    
+    private void mountPages() {
+        mountPage("/home", HomePage.class);
+        mountPage("/control", AdminPage.class);
+        mountPage("/propose", ProposalPage.class);
+    }
 
     private void createInitialUser() {
         User user = new User();
@@ -68,8 +81,12 @@ public class TiresApplication extends WebApplication {
         
         ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         UserService us = applicationContext.getBean(UserService.class);
-        us.save(user);
-        us.save(user1);
+        try {
+            us.saveUser(user);
+            us.saveUser(user1);
+        } catch (TiresPersistException ex) {
+            LOG.error("Failed to save initial users from TiresApplication");
+        }
     }
     
     /**

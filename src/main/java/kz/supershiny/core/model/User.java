@@ -41,6 +41,11 @@ public class User implements Serializable {
         this.phone = phone;
         this.password = password;
     }
+    
+    @Override
+    public String toString() {
+        return "User{" + "username=" + username + ", phone=" + phone + ", password=" + password + '}';
+    }
 
     public Long getId() {
         return id;

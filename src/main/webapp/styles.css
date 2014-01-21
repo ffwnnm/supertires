@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
 */
 
-root { 
+root {
     display: block;
 }
 
@@ -39,4 +39,18 @@ root {
 .btn-submit {
     width: 100px;
     height: 30px;
+}
+
+.adminImagePreview {
+    display: inline-block;
+    position: inherit;
+    width: 152px;
+}
+
+.removeLink {
+    background-color: red;
+    text-decoration: none;
+    color: white;
+    width: 150px;
+    text-align: center;
 }
