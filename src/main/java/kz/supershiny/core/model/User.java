@@ -28,10 +28,12 @@ public class User implements Serializable {
     private Long id;
     @Column
     private String username;
-    @Column
+    @Column(unique = true, nullable = false)
     private String phone;
     @Column
     private String password;
+//    @Column
+//    private String userName;
     
     public User() {
     }

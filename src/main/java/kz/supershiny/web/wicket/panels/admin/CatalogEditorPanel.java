@@ -18,7 +18,7 @@ import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Base64Coder;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.pages.catalogue.HomePage;
+import kz.supershiny.web.wicket.pages.HomePage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -271,7 +271,7 @@ public final class CatalogEditorPanel extends Panel {
 //                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(tire));
 //                    target.add(editor);
                     
-                    setResponsePage(new HomePage(tire));
+//                    setResponsePage(new HomePage(tire));
                 }
             };
             clearButton = new AjaxButton("clear") {
@@ -280,7 +280,7 @@ public final class CatalogEditorPanel extends Panel {
 //                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(currentTire = new Tire()));
 //                    target.add(editor);
                     
-                    setResponsePage(new HomePage(new Tire()));
+//                    setResponsePage(new HomePage(new Tire()));
                 }
             };
             feedback = new FeedbackPanel("feedback");

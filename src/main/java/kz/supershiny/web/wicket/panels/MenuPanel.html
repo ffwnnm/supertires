@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" 
+      xml:lang="en" 
+      lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>MenuPanel</title>
+    </head>
+    <body>
+        <wicket:panel>
+            <div class="pad">
+                <div id="search">
+                    <form action="http://www.free-css.com/" method="get">
+                        <p>
+                            <input type="text" name="search" size="20" maxlength="250" class="text" value="" />
+                            <input type="submit" value="Go" class="txt" />
+                        </p>
+                    </form>
+                </div>
+                <div class="submit">
+                    <ul>
+                        <li><a href="#" wicket:id="homeLink"><span><wicket:message key="home"/></span></a></li>
+                        <li><a href="#" wicket:id="catalogueLink"><span><wicket:message key="catalogue"/></span></a></li>
+                        <li><a href="#" wicket:id="contactsLink"><span><wicket:message key="contacts"/></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </wicket:panel>
+    </body>
+</html>

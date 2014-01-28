@@ -14,8 +14,9 @@ import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.services.UserService;
 import kz.supershiny.core.exceptions.TiresPersistException;
+import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.pages.admin.AdminPage;
-import kz.supershiny.web.wicket.pages.catalogue.HomePage;
+import kz.supershiny.web.wicket.pages.HomePage;
 import kz.supershiny.web.wicket.pages.catalogue.ProposalPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
@@ -40,9 +41,10 @@ public class TiresApplication extends WebApplication {
     protected void init() {
         super.init();
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
+        getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
         
         createInitialUser();
-        initDictData();
+//        initDictData();
         
         //mount pages
         mountPages();
@@ -70,22 +72,16 @@ public class TiresApplication extends WebApplication {
 
     private void createInitialUser() {
         User user = new User();
-        user.setPhone("7774137482");
-        user.setPassword("qwpo4294");
-        user.setUsername("admin");
-        
-        User user1 = new User();
-        user1.setPhone("123");
-        user1.setPassword("qwe");
-        user1.setUsername("admin");
+        user.setPhone(Constants.ADMIN_PHONE);
+        user.setPassword(Constants.ADMIN_PASS);
+        user.setUsername(Constants.ADMIN_UNAME);
         
         ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         UserService us = applicationContext.getBean(UserService.class);
         try {
             us.saveUser(user);
-            us.saveUser(user1);
         } catch (TiresPersistException ex) {
-            LOG.error("Failed to save initial users from TiresApplication");
+            LOG.error("Failed to save initial user from TiresApplication");
         }
     }
     

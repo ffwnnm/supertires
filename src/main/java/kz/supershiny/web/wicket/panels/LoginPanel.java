@@ -6,16 +6,14 @@
 
 package kz.supershiny.web.wicket.panels;
 
+import kz.supershiny.core.exceptions.TiresAuthenticationException;
 import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.UserService;
-import kz.supershiny.core.exceptions.TiresAuthenticationException;
 import kz.supershiny.web.wicket.TiresApplication;
-import kz.supershiny.web.wicket.pages.catalogue.HomePage;
-import org.apache.wicket.markup.html.basic.Label;
+import kz.supershiny.web.wicket.pages.admin.AdminPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.PropertyModel;
@@ -45,14 +43,14 @@ public final class LoginPanel extends Panel {
         add(new FeedbackPanel("loginFeedback").setOutputMarkupId(true));
         add(new LoginPanel.LoginForm("loginForm").setVisible(user == null));
         
-        add(new Label("username", user == null ? "" : user.getUsername()));
-        add(new Link("logout") {
-            @Override
-            public void onClick() {
-                ((TiresApplication) getApplication()).getTiresSession().invalidate();
-                setResponsePage(HomePage.class);
-            }
-        }.setVisible(user != null));
+//        add(new Label("username", user == null ? "" : user.getUsername()));
+//        add(new Link("logout") {
+//            @Override
+//            public void onClick() {
+//                ((TiresApplication) getApplication()).getTiresSession().invalidate();
+//                setResponsePage(HomePage.class);
+//            }
+//        }.setVisible(user != null));
     }
     
     private class LoginForm extends Form {
@@ -75,7 +73,7 @@ public final class LoginPanel extends Panel {
                 ((TiresApplication) getApplication())
                         .getTiresSession()
                         .setUser(user);
-                setResponsePage(HomePage.class);
+                setResponsePage(AdminPage.class);
             } catch (TiresAuthenticationException ex) {
                 user = null;
                 LoginPanel.this.error(new StringResourceModel("error.authentication", LoginPanel.this, null).getString());

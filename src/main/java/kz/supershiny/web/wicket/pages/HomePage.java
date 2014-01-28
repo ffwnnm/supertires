@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package kz.supershiny.web.wicket.pages.catalogue;
+package kz.supershiny.web.wicket.pages;
 
 import kz.supershiny.core.model.Tire;
 import kz.supershiny.web.wicket.pages.BasePage;
@@ -16,11 +16,6 @@ import kz.supershiny.web.wicket.pages.BasePage;
 public class HomePage extends BasePage {
 
     public HomePage() {
-        this(null);
-    }
-    
-    //Костыль
-    public HomePage(Tire tire) {
         super();
     }
 }

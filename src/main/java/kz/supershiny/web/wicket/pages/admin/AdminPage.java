@@ -4,9 +4,13 @@
  */
 package kz.supershiny.web.wicket.pages.admin;
 
-import kz.supershiny.core.model.Tire;
+import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.pages.BasePage;
+import kz.supershiny.web.wicket.pages.HomePage;
+import kz.supershiny.web.wicket.panels.DefaultContentPanel;
+import kz.supershiny.web.wicket.panels.LoginPanel;
 import kz.supershiny.web.wicket.panels.admin.CatalogEditorPanel;
+import org.apache.wicket.markup.html.panel.Panel;
 
 /**
  *
@@ -14,17 +18,26 @@ import kz.supershiny.web.wicket.panels.admin.CatalogEditorPanel;
  */
 public class AdminPage extends BasePage {
     
-    private Tire currentTire;
-    
-    private CatalogEditorPanel itemEditor;
+    private LoginPanel loginPanel;
+    private Panel itemEditor;
 
     public AdminPage() {
         super();
         
-        currentTire = new Tire();
+        loginPanel = new LoginPanel("loginPanel");
+        add(loginPanel.setOutputMarkupId(true));
         
-        itemEditor = new CatalogEditorPanel("contentPanel");
-        
+        if(getUser() == null) {
+            loginPanel.setVisible(true);
+            itemEditor = new DefaultContentPanel("editorPanel");
+        } else {
+            if(getUser().getPhone().equals(Constants.ADMIN_PHONE)) {
+                loginPanel.setVisible(false);
+                itemEditor = new CatalogEditorPanel("editorPanel");
+            } else {
+                setResponsePage(HomePage.class);
+            }
+        }
         add(itemEditor.setOutputMarkupId(true));
     }
     

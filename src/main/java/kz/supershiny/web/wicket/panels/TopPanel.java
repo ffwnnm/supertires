@@ -4,6 +4,8 @@
  */
 package kz.supershiny.web.wicket.panels;
 
+import kz.supershiny.web.wicket.pages.HomePage;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 
 /**
@@ -15,6 +17,11 @@ public final class TopPanel extends Panel {
     public TopPanel(String id) {
         super(id);
         
-        add(new LoginPanel("loginPanel"));
+        add(new Link("logoLink") {
+            @Override
+            public void onClick() {
+                setResponsePage(HomePage.class);
+            }
+        });
     }
 }

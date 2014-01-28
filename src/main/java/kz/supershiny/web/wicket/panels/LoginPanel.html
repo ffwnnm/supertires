@@ -9,14 +9,29 @@
     </head>
     <body>
         <wicket:panel>
-            <div wicket:id="loginFeedback" class="errorPanel"/>
-            <form wicket:id="loginForm">
-                <input type="text" wicket:id="login"/>
-                <input type="password" wicket:id="password"/>
-                <input type="submit" wicket:message="value:logMeIn"/>
-            </form>
-            <span wicket:id="username"/>
-            <a href="#" wicket:id="logout" class="logout">&nbsp;<wicket:message key="logout"/></a>
+            <div id="mod2">
+                <div class="padding">
+                    <p class="text"><div wicket:id="loginFeedback"/></p>
+                    <br/>
+                    <form wicket:id="loginForm">
+                        <table>
+                            <tr>
+                                <td><h2><wicket:message key="login"/></h2></td>
+                                <td><input type="text" wicket:id="login"/></td>
+                            </tr>
+                            <tr>
+                                <td><h2><wicket:message key="password"/></h2></td>
+                                <td><input type="password" wicket:id="password"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="right">
+                                    <input type="submit" wicket:message="value:logMeIn"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
         </wicket:panel>
     </body>
 </html>

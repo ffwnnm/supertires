@@ -13,6 +13,10 @@ import java.util.List;
  */
 public class Constants {
     
+    public static final String ADMIN_PHONE = "4294967296";
+    public static final String ADMIN_PASS = "qwpo4294";
+    public static final String ADMIN_UNAME = "Администратор";
+    
     public static final String WINTER = "WINTER";
     public static final String SUMMER = "SUMMER";
     public static final String ALL_SEASONS = "ALL_SEASONS";
