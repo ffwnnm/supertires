@@ -30,7 +30,7 @@ public abstract class JPAService {
             em.persist(object);
             em.flush();
         } catch (Exception ex) {
-            LOG.error("Failed to save object: " + object.toString(), ex);
+            LOG.error("Failed to save object: " + object.toString());
         }
     }
 
@@ -40,26 +40,28 @@ public abstract class JPAService {
             em.merge(object);
             em.flush();
         } catch (Exception ex) {
-            LOG.error("Failed to update object: " + object.toString(), ex);
+            LOG.error("Failed to update object: " + object.toString());
         }
     }
 
     @Transactional
     public void delete(Object object) {
         try {
-            em.remove(em.merge(object));
+            object = em.merge(object);  //reattach the entity first
+            em.remove(object);
             em.flush();
         } catch (Exception ex) {
-            LOG.error("Failed to delete object: " + object.toString(), ex);
+            LOG.error("Failed to delete object: " + object.toString());
         }
     }
 
+    @Transactional
     public void refresh(Object object) {
         try {
             object = em.merge(object);
             em.flush();
         } catch (Exception ex) {
-            LOG.error("Failed to refresh object: " + object.toString(), ex);
+            LOG.error("Failed to refresh object: " + object.toString());
         }
     }
 

@@ -6,18 +6,18 @@
 
 package kz.supershiny.web.wicket;
 
-import kz.supershiny.core.model.Country;
-import kz.supershiny.core.model.Manufacturer;
-import kz.supershiny.core.model.TireSize;
+import java.util.Arrays;
+import java.util.List;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.services.UserService;
-import kz.supershiny.core.exceptions.TiresPersistException;
 import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.pages.admin.AdminPage;
 import kz.supershiny.web.wicket.pages.HomePage;
+import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import kz.supershiny.web.wicket.pages.catalogue.ProposalPage;
+import kz.supershiny.web.wicket.pages.general.ContactsPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -42,11 +42,9 @@ public class TiresApplication extends WebApplication {
         super.init();
         getComponentInstantiationListeners().add(new SpringComponentInjector(this));
         getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
-        
+        //data initializers
         createInitialUser();
-//        initDictData();
-        
-        //mount pages
+        initDictData();
         mountPages();
     }
     
@@ -67,6 +65,8 @@ public class TiresApplication extends WebApplication {
     private void mountPages() {
         mountPage("/home", HomePage.class);
         mountPage("/control", AdminPage.class);
+        mountPage("/catalogue", CataloguePage.class);
+        mountPage("/contacts", ContactsPage.class);
         mountPage("/propose", ProposalPage.class);
     }
 
@@ -80,35 +80,47 @@ public class TiresApplication extends WebApplication {
         UserService us = applicationContext.getBean(UserService.class);
         try {
             us.saveUser(user);
-        } catch (TiresPersistException ex) {
+        } catch (Exception ex) {
             LOG.error("Failed to save initial user from TiresApplication");
         }
     }
     
     /**
-     * For debug purposes
+     * Init data in required distionaries
      */
     private void initDictData() {
         ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
         TireService ts = applicationContext.getBean(TireService.class);
         
-        ts.save(new TireType("Фрикционная"));
-        ts.save(new TireType("Под шипы"));
-        ts.save(new TireType("Шипованная"));
+        List<TireType> types = Arrays.asList(
+                new TireType("Фрикционная"), 
+                new TireType("Под шипы"), 
+                new TireType("Шипованная")
+                );
         
-        ts.save(new Manufacturer("Yokohama"));
-        ts.save(new Manufacturer("Hankook"));
-        ts.save(new Manufacturer("Maxxis"));
-        ts.save(new Manufacturer("Toyo"));
+        for(TireType t : types) {
+            try {
+                ts.save(t);
+            } catch (Exception ex) {
+                LOG.error("Failed to save tire type: " + t.getTypeName());
+            }
+        }
         
-        ts.save(new TireSize("195/65/15"));
-        ts.save(new TireSize("205/65/15"));
-        ts.save(new TireSize("185/65/15"));
+//        ts.save(new Manufacturer("Yokohama"));
+//        ts.save(new Manufacturer("Hankook"));
+//        ts.save(new Manufacturer("Maxxis"));
+//        ts.save(new Manufacturer("Toyo"));
+//        
+//        ts.save(new TireSize("195/65/15"));
+//        ts.save(new TireSize("205/65/15"));
+//        ts.save(new TireSize("185/65/15"));
+//        
+//        ts.save(new Country("Корея"));
+//        ts.save(new Country("Китай"));
+//        ts.save(new Country("Филиппины"));
+//        ts.save(new Country("Япония"));
+//        ts.save(new Country("Германия"));
         
-        ts.save(new Country("Корея"));
-        ts.save(new Country("Китай"));
-        ts.save(new Country("Филиппины"));
-        ts.save(new Country("Япония"));
-        ts.save(new Country("Германия"));
+        ts = null;
     }
 }

@@ -6,9 +6,6 @@
 
 package kz.supershiny.web.wicket.pages;
 
-import kz.supershiny.core.model.Tire;
-import kz.supershiny.web.wicket.pages.BasePage;
-
 /**
  *
  * @author kilrwhle

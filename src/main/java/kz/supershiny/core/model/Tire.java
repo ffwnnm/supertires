@@ -6,6 +6,9 @@ package kz.supershiny.core.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,7 +17,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.Cascade;
 
 /**
  *
@@ -47,6 +52,9 @@ public class Tire implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "MANUFACTURER_ID")
     private Manufacturer manufacturer;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tire", fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<TireImage> images;
 
     public Tire() {
         this.quantity = 0L;
@@ -95,7 +103,28 @@ public class Tire implements Serializable {
     public String toString() {
         return "Tire{" + "modelName=" + modelName + ", season=" + season + ", size=" + size + ", type=" + type + ", country=" + country + ", manufacturer=" + manufacturer + '}';
     }
+    
+    public void addImage(TireImage image) {
+        if(images == null) images = new ArrayList<TireImage>();
+        image.setTire(this);
+        images.add(image);
+    }
+    
+    public void removeImage(TireImage image) {
+        if(images == null) images = new ArrayList<TireImage>();
+        if(image != null && images.contains(image)) {
+            images.remove(image);
+        }
+    }
 
+    public List<TireImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<TireImage> images) {
+        this.images = images;
+    }
+ 
     public Long getId() {
         return id;
     }

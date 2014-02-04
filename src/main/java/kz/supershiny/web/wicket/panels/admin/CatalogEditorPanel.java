@@ -18,7 +18,7 @@ import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Base64Coder;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.pages.HomePage;
+import kz.supershiny.web.wicket.pages.admin.AdminPage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -58,7 +58,6 @@ public final class CatalogEditorPanel extends Panel {
     private List<Country> countriesList;
     private List<Manufacturer> manufacturersList;
     private List<String> modelsList;
-    private List<TireImage> imagesList;
     private Tire currentTire;
     
     private CatalogEditorPanel.EditTireForm editor;
@@ -72,31 +71,40 @@ public final class CatalogEditorPanel extends Panel {
     public CatalogEditorPanel(String id, Tire tire) {
         super(id);
         
-        //init dictionaries
-        typesList = tireService.getTypes();
-        sizesList = tireService.getUniqueSizes();
-        countriesList = tireService.getUniqueCountries();
-        manufacturersList = tireService.getUniqueManufacturers();
-        modelsList = tireService.getUniqueModels();
-        if(typesList == null) typesList = new ArrayList<TireType>();
-        if(sizesList == null) sizesList = new ArrayList<TireSize>();
-        if(countriesList == null) countriesList = new ArrayList<Country>();
-        if(manufacturersList == null) manufacturersList = new ArrayList<Manufacturer>();
-        if(modelsList == null) modelsList = new ArrayList<String>();
-        
-        if(tire == null) {
-            currentTire = new Tire();
-        } else {
-            currentTire = tire;
-            imagesList = tireService.getImagesForTire(tire);
-        }
-        if(imagesList == null) imagesList = new ArrayList<TireImage>();
+        initDictData(tire);
         
         editor = new CatalogEditorPanel.EditTireForm("editTireForm", currentTire);
         editor.setMultiPart(true);
         editor.setMaxSize(Bytes.kilobytes(2048));
         
         add(editor.setOutputMarkupId(true));
+    }
+    
+    /**
+     * The Grand initializer
+     * 
+     * @param tire 
+     */
+    private void initDictData(Tire tire) {
+        //dicts
+        typesList = tireService.getTypes();
+        sizesList = tireService.getUniqueSizes();
+        countriesList = tireService.getUniqueCountries();
+        manufacturersList = tireService.getUniqueManufacturers();
+        modelsList = tireService.getUniqueModels();
+        
+        if(typesList == null) typesList = new ArrayList<TireType>();
+        if(sizesList == null) sizesList = new ArrayList<TireSize>();
+        if(countriesList == null) countriesList = new ArrayList<Country>();
+        if(manufacturersList == null) manufacturersList = new ArrayList<Manufacturer>();
+        if(modelsList == null) modelsList = new ArrayList<String>();
+        
+        //selected tire
+        if(tire == null) {
+            currentTire = new Tire();
+        } else {
+            currentTire = tireService.getTireWithImages(tire.getId());
+        }
     }
     
     private class EditTireForm extends Form<Tire> {
@@ -112,15 +120,19 @@ public final class CatalogEditorPanel extends Panel {
         private AjaxButton saveButton;
         private AjaxButton clearButton;
         private FeedbackPanel feedback;
+        private UploadForm uploadForm;
+        private ViewForm viewForm;
 
         public EditTireForm(String id, Tire tire) {
             super(id, new CompoundPropertyModel<Tire>(tire));
             
             //Images upload form
-            add(new CatalogEditorPanel.UploadForm("uploadForm"));
+            uploadForm = new CatalogEditorPanel.UploadForm("uploadForm");
+            add(uploadForm.setOutputMarkupId(true));
             
             //Images view and edit form
-            add(new CatalogEditorPanel.ViewForm("viewForm"));
+            viewForm = new CatalogEditorPanel.ViewForm("viewForm");
+            add(viewForm.setOutputMarkupId(true));
 
             manufacturer = new AutoCompleteTextField<Manufacturer>("manufacturer") {
                 @Override
@@ -241,7 +253,7 @@ public final class CatalogEditorPanel extends Panel {
                         error(new StringResourceModel("error.modelObjectNull", CatalogEditorPanel.this, null).getString());
                         return;
                     }
-                    //save non-persistent entities
+                    //save non-persistent entities (new manufacturers, countries, etc)
                     if(tire.getCountry().getId() == null) {
                         tireService.save(tire.getCountry());
                     }
@@ -251,36 +263,44 @@ public final class CatalogEditorPanel extends Panel {
                     if(tire.getSize().getId() == null) {
                         tireService.save(tire.getSize());
                     }
-                    //save or update tire
-                    if(tire.getId() == null) {
-                        tireService.save(tire);
-                    } else {
-                        tireService.update(tire);
-                    }
-                    //save images for this tire
+                    //set images for this tire
                     if(imagesForUpload != null && !imagesForUpload.isEmpty()) {
                         for(FileUpload item : imagesForUpload) {
                             TireImage ti = new TireImage(
                                     item.getClientFileName(),
                                     Base64Coder.encodeLines(item.getBytes())
                                 );
-                            ti.setTire(tire);
-                            tireService.save(ti);
+                            tire.addImage(ti);
                         }
                     }
+                    
+                    //save or update tire
+                    if(tire.getId() == null) {
+                        tireService.save(tire);
+                    } else {
+                        tireService.update(tire);
+                    }
+                    
+                    initDictData(tire);
+                    
 //                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(tire));
 //                    target.add(editor);
+//                    target.add(viewForm);
+//                    target.add(uploadForm);
+//                    target.add(getPage());
                     
-//                    setResponsePage(new HomePage(tire));
+                    //TODO: use AJAX instead ^
+                    setResponsePage(AdminPage.class);
                 }
             };
             clearButton = new AjaxButton("clear") {
                 @Override
                 protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-//                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(currentTire = new Tire()));
-//                    target.add(editor);
-                    
-//                    setResponsePage(new HomePage(new Tire()));
+                    editor.setDefaultModel(new CompoundPropertyModel<Tire>(currentTire = new Tire()));
+                    viewForm.imagesView.setList(currentTire.getImages());
+                    target.add(editor);
+                    target.add(viewForm);
+                    target.add(uploadForm);
                 }
             };
             feedback = new FeedbackPanel("feedback");
@@ -329,7 +349,7 @@ public final class CatalogEditorPanel extends Panel {
         public ViewForm(String id) {
             super(id);
             viewContainer = new WebMarkupContainer("viewContainer");
-            imagesView = new ListView("imagesView", new PropertyModel(CatalogEditorPanel.this, "imagesList")) {
+            imagesView = new ListView("imagesView", new PropertyModel(currentTire, "images")) {
                 @Override
                 protected void populateItem(ListItem li) {
                     final TireImage ti = (TireImage) li.getModelObject();
@@ -342,8 +362,7 @@ public final class CatalogEditorPanel extends Panel {
                     AjaxLink removeLink = new AjaxLink("removeImage") {
                         @Override
                         public void onClick(AjaxRequestTarget art) {
-                            tireService.delete(ti);
-                            imagesList.remove(ti);
+                            tireService.removeImage(ti);
                             art.add(viewContainer);
                         }
                     };

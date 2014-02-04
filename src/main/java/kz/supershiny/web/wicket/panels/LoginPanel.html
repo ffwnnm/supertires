@@ -9,23 +9,23 @@
     </head>
     <body>
         <wicket:panel>
-            <div id="mod2">
+            <div id="mod1">
                 <div class="padding">
                     <p class="text"><div wicket:id="loginFeedback"/></p>
                     <br/>
-                    <form wicket:id="loginForm">
+                    <form wicket:id="loginForm" id="loginForm">
                         <table>
                             <tr>
                                 <td><h2><wicket:message key="login"/></h2></td>
-                                <td><input type="text" wicket:id="login"/></td>
+                                <td><input type="text" wicket:id="login" class="form-component-login"/></td>
                             </tr>
                             <tr>
                                 <td><h2><wicket:message key="password"/></h2></td>
-                                <td><input type="password" wicket:id="password"/></td>
+                                <td><input type="password" wicket:id="password" class="form-component-login"/></td>
                             </tr>
                             <tr>
                                 <td colspan="2" align="right">
-                                    <input type="submit" wicket:message="value:logMeIn"/>
+                                    <input type="submit" wicket:message="value:logMeIn" class="btn-submit"/>
                                 </td>
                             </tr>
                         </table>

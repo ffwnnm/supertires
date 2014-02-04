@@ -40,7 +40,7 @@ public class UserService extends JPAService {
 //            user.setUsername(Base64Coder.encodeString(rawName));
             jpa.save(user);
         } catch (Exception ex) {
-            LOG.error("Unable to save User: " + user, ex);
+            LOG.error("Unable to save User: " + user);
             throw new TiresPersistException();
         }
     }
@@ -53,7 +53,7 @@ public class UserService extends JPAService {
                 .getSingleResult();
         } catch (Exception ex) {
             user = null;
-            LOG.error("Authentication error: Unable to get User by phone: " + phone, ex);
+            LOG.error("Authentication error: Unable to get User by phone: " + phone);
         }
         if(user != null) {
             if(Crypter.checkString(password, user.getPassword())) {

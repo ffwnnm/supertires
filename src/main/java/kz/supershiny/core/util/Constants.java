@@ -12,9 +12,9 @@ import java.util.List;
  * @author kilrwhle
  */
 public class Constants {
-    
-    public static final String ADMIN_PHONE = "4294967296";
-    public static final String ADMIN_PASS = "qwpo4294";
+    //Initial user data
+    public static final String ADMIN_PHONE = "123";
+    public static final String ADMIN_PASS = "asd";
     public static final String ADMIN_UNAME = "Администратор";
     
     public static final String WINTER = "WINTER";
@@ -24,6 +24,7 @@ public class Constants {
     public static final List<String> seasons = Arrays.asList(SUMMER, WINTER, ALL_SEASONS);
     
     public static final int MAX_IMAGES_PER_ITEM = 5;
+    public static final int ITEMS_PER_PAGE_SIMPLE = 20;
     
     public static final String Y = "Y";
     public static final String N = "N";

@@ -9,17 +9,11 @@
     </head>
     <body>
         <wicket:panel>
-            <div class="topong">
-                <div class="pad"> <img src="images/cart.gif" alt="My Cart" />
-                    <h4><a href="http://www.free-css.com/">VIEW CART</a></h4>
-                    <br />
-                    <span class="txt">Lorem Ipsum Dolore</span> </div>
-            </div>
-            <div class="topong">
+            <div class="topong" wicket:id="userAccountContainer">
                 <div class="pad"> <img src="images/account.gif" alt="Account" />
-                    <h4><a href="http://www.free-css.com/">MY ACCOUNT</a></h4>
+                    <h4><a href="#" wicket:id="logoutLink"><wicket:message key="logout"/></a></h4>
                     <br />
-                    <span class="txt">Lorem Ipsum Dolore</span> </div>
+                    <span class="txt" wicket:id="username"></span> </div>
             </div>
             <h1>
                 <a href="#" wicket:id="logoLink">

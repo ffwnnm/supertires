@@ -12,9 +12,11 @@ import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.model.TireSize;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.util.Constants;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -25,6 +27,48 @@ public class TireService extends JPAService {
     
     private static final Logger LOG = LoggerFactory.getLogger(TireService.class);
     
+    @Transactional(readOnly = true)
+    public List<Tire> getAllTires() {
+        List<Tire> result = null;
+        try {
+            result = em.createQuery("SELECT T FROM Tire T ORDER BY T.id DESC")
+                    .getResultList();
+        } catch (Exception ex) {
+            result = null;
+            LOG.error("Unable to load all tires!");
+        }
+        return result;
+    }
+    
+    @Transactional(readOnly = true)
+    public Tire getTireWithImages(Long id) {
+        Tire result = null;
+        try {
+            result = (Tire) em.createQuery("SELECT T FROM Tire T WHERE T.id = :id")
+                    .setParameter("id", id)
+                    .getSingleResult();
+            Hibernate.initialize(result.getImages());
+        } catch (Exception ex) {
+            result = null;
+            LOG.error("Unable to load tire with images!");
+        }
+        return result;
+    }
+    
+    @Transactional(readOnly = false)
+    public void removeImage(TireImage image) {
+        if(image == null) return;
+        Tire tire = image.getTire();
+        tire.removeImage(image);
+        try {
+            super.delete(image);
+            super.refresh(tire);
+        } catch (Exception ex) {
+            LOG.error("Unable to delete image!");
+        }
+    }
+    
+    @Transactional(readOnly = true)
     public List<TireType> getTypes() {
         List<TireType> result = null;
         try {
@@ -32,11 +76,12 @@ public class TireService extends JPAService {
                     .getResultList();
         } catch (Exception ex) {
             result = null;
-            LOG.error("Unable to load tire types!", ex);
+            LOG.error("Unable to load tire types!");
         }
         return result;
     }
     
+    @Transactional(readOnly = true)
     public List<String> getUniqueModels() {
         List<String> result = null;
         try {
@@ -44,11 +89,12 @@ public class TireService extends JPAService {
                     .getResultList();
         } catch (Exception ex) {
             result = null;
-            LOG.error("Unable to load unique models!", ex);
+            LOG.error("Unable to load unique models!");
         }
         return result;
     }
     
+    @Transactional(readOnly = true)
     public List<Country> getUniqueCountries() {
         List<Country> result = null;
         try {
@@ -56,11 +102,12 @@ public class TireService extends JPAService {
                     .getResultList();
         } catch (Exception ex) {
             result = null;
-            LOG.error("Unable to load unique countries!", ex);
+            LOG.error("Unable to load unique countries!");
         }
         return result;
     }
     
+    @Transactional(readOnly = true)
     public List<Manufacturer> getUniqueManufacturers() {
         List<Manufacturer> result = null;
         try {
@@ -68,11 +115,12 @@ public class TireService extends JPAService {
                     .getResultList();
         } catch (Exception ex) {
             result = null;
-            LOG.error("Unable to load unique manufacturers!", ex);
+            LOG.error("Unable to load unique manufacturers!");
         }
         return result;
     }
     
+    @Transactional(readOnly = true)
     public List<TireSize> getUniqueSizes() {
         List<TireSize> result = null;
         try {
@@ -80,11 +128,12 @@ public class TireService extends JPAService {
                     .getResultList();
         } catch (Exception ex) {
             result = null;
-            LOG.error("Unable to load unique sizes!", ex);
+            LOG.error("Unable to load unique sizes!");
         }
         return result;
     }
     
+    @Transactional(readOnly = true)
     public List<TireImage> getImagesForTire(Tire tire) {
         List<TireImage> result = null;
         try {
@@ -98,10 +147,9 @@ public class TireService extends JPAService {
         return result;
     }
     
+    @Transactional(readOnly = true)
     public TireImage getPreviewForTire(Tire tire) {
         TireImage result = null;
-        String filename = null;
-        
         if(tire == null) return null;
         
         try {
@@ -112,7 +160,6 @@ public class TireService extends JPAService {
                     .setParameter("preview", Constants.Y)
                     .getResultList();
         } catch (Exception ex) {
-            filename = null;
             LOG.error("Unable to get preview by filename for tire: " + tire, ex);
         }
         return result;

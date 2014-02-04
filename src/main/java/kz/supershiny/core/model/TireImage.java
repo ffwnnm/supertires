@@ -5,6 +5,7 @@
 package kz.supershiny.core.model;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -73,7 +74,7 @@ public class TireImage implements Serializable {
             return false;
         }
         final TireImage other = (TireImage) obj;
-        if ((this.encodedImage == null) ? (other.encodedImage != null) : !this.encodedImage.equals(other.encodedImage)) {
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
         return true;
