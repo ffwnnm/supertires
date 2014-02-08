@@ -143,22 +143,22 @@ form {
     margin : 0;
     padding : 0;
     width : 100%;
-    background : inherit;
+    background : #fafafa url(../images/header-bg.png) repeat bottom;
     color : #585858;
     height : 66px;
 }
 #header .slogan {
-    color : #868686;
+    color : white;
     margin : 0;
     padding : 0;
-    background : #fafafa;
-    font : bold 1em "Tahoma", Verdana, Arial, sans-serif;
+    font : bold 1.3em "Tahoma", Verdana, Arial, sans-serif;
     padding-left : 2px;
 }
 #header .topong {
-    background : #fafafa url(../images/topaff.jpg) no-repeat bottom;
-    height : 66px;
-    width : 159px;
+    background : url(../images/topaff.png) no-repeat bottom;
+    margin-top: 10px;
+    height : 56px;
+    width : 160px;
     float : right;
 }
 #header .topong .pad {
@@ -180,7 +180,7 @@ form {
 #menu {
     margin : 0 0;
     padding : 0;
-    background : #4b7da7 url(../images/menubg.gif) repeat-x top;
+    background : #4b7da7 url(../images/menubg.png) repeat-x top;
     color : #fff;
     width : 100%;
     height : 40px;
@@ -215,7 +215,7 @@ form {
 }
 #menu .submit a span {
     float : left;
-    background : url(../images/menusep.gif) no-repeat left;
+    background : url(../images/menubg.png) no-repeat left;
     color : #fff;
     font-weight : bold;
     display : block;
@@ -272,6 +272,72 @@ form {
     float : left;
     margin-top : 5px;
 }
+#catalog {
+    margin-top: 10px;
+}
+#catalog #modTire {
+    background-color : #ffffff;
+    height : 110px;
+    width : 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top : 10px;
+    border: #5f7580 thin solid;
+    border-radius: 4px;
+}
+#catalog #modTire:hover {
+    background-color: #c6ffbc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+#tireCaption {
+    margin-left: 60px;
+}
+#tireInfo {
+    margin-top: 5px;
+    width: 510px;
+    height: 72px;
+    display: inline-block;
+}
+#tireInfo .infoBlock {
+    width: 160px;
+    float: left;
+    text-align: center;
+}
+.infoBlock p {
+    color: #757575;
+}
+.tire-size {
+    color: #070075;
+    font-size: 172%;
+}
+.tire-type {
+    /*text-align: left;*/
+    color: #001867;
+    font-size: 160%;
+}
+.tire-country {
+    text-align: center;
+    color: #001867;
+    font-size: 140%;
+}
+.tire-id {
+    color: #001867;
+    font-size: 180%;
+    border: #ff8b9c thin solid;
+    border-radius: 4px;
+}
+.tire-preview img {
+    width: 90px;
+    height: 90px;
+    margin: 8px;
+    border: black thin solid;
+    position: relative;
+}
+#catalog .price {
+    float: right;
+    margin: 30px 10px auto auto;
+    color: #ffa214;
+}
 #modules .padding {
     padding : 13px 20px 10px 20px;
 }
@@ -281,7 +347,7 @@ form {
     margin-bottom : 15px !important;
     margin-bottom : 5px;
 }
-#modules .price {
+#modules .contactName {
     color : #36be00;
     font : bold 2em "Tahoma", verdana, Arial;
     padding : 10px 10px 0 0;
