@@ -154,6 +154,13 @@ form {
     font : bold 1.3em "Tahoma", Verdana, Arial, sans-serif;
     padding-left : 2px;
 }
+.topInfo {
+    margin: 20px 400px auto 30px;
+    font-family: Helvetica, sans-serif;
+    font-weight: normal;
+    font-size: larger;
+    color: white;
+}
 #header .topong {
     background : url(../images/topaff.png) no-repeat bottom;
     margin-top: 10px;
@@ -272,10 +279,25 @@ form {
     float : left;
     margin-top : 5px;
 }
+#blogBody {
+    font-size: larger;
+    font-family: Helvetica, sans-serif;
+}
+#blogDate {
+    float: right;
+    font-size: smaller;
+    font-weight: lighter;
+}
+#blogHeader {
+    
+}
+.blogEntry {
+    margin: 30px 40px 30px 40px;
+}
 #catalog {
     margin-top: 10px;
 }
-#catalog #modTire {
+#modTire {
     background-color : #ffffff;
     height : 110px;
     width : 720px;
@@ -285,7 +307,7 @@ form {
     border: #5f7580 thin solid;
     border-radius: 4px;
 }
-#catalog #modTire:hover {
+#modTire:hover {
     background-color: #c6ffbc;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
@@ -307,6 +329,7 @@ form {
     color: #757575;
 }
 .tire-size {
+    text-align: left;
     color: #070075;
     font-size: 172%;
 }
@@ -327,8 +350,10 @@ form {
     border-radius: 4px;
 }
 .tire-preview img {
-    width: 90px;
-    height: 90px;
+    width: auto;
+    height: auto;
+    max-height: 90px;
+    max-width: 90px;
     margin: 8px;
     border: black thin solid;
     position: relative;

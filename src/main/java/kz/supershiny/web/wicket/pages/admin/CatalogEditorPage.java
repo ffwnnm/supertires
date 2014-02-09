@@ -18,17 +18,17 @@ import org.apache.wicket.markup.html.panel.Panel;
  *
  * @author aishmanov
  */
-public class AdminPage extends BasePage {
+public class CatalogEditorPage extends BasePage {
     
     private LoginPanel loginPanel;
     private Panel itemEditor;
     private Panel listPanel;
     
-    public AdminPage() {
+    public CatalogEditorPage() {
         this(null);
     }
 
-    public AdminPage(Tire tire) {
+    public CatalogEditorPage(Tire tire) {
         super();
         
         loginPanel = new LoginPanel("loginPanel");

@@ -9,8 +9,16 @@
     </head>
     <body>
         <wicket:extend>
-            <div id="modules">
-                HomePage
+            <div id="maincontent">
+                <div wicket:id="listContainer">
+                    <div wicket:id="entriesList" class="blogEntry">
+                        <h2>
+                            <span wicket:id="entryHeader" id="blogHeader"></span>
+                            <span wicket:id="entryDate" id="blogDate"></span>
+                        </h2>
+                        <p wicket:id="entryBody" id="blogBody"></p>
+                    </div>
+                </div>
             </div>
         </wicket:extend>
     </body>

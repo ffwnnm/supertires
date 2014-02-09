@@ -5,7 +5,8 @@
 package kz.supershiny.web.wicket.panels;
 
 import kz.supershiny.web.wicket.pages.HomePage;
-import kz.supershiny.web.wicket.pages.admin.AdminPage;
+import kz.supershiny.web.wicket.pages.admin.BlogEntryPage;
+import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import kz.supershiny.web.wicket.pages.general.ContactsPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -23,7 +24,7 @@ public class MenuPanel extends Panel {
         add(new BookmarkablePageLink("homeLink", HomePage.class));
         add(new BookmarkablePageLink("catalogueLink", CataloguePage.class));
         add(new BookmarkablePageLink("contactsLink", ContactsPage.class));
-        add(new BookmarkablePageLink("adminLink", AdminPage.class));
+        add(new BookmarkablePageLink("adminLink", CatalogEditorPage.class));
     }
     
 }

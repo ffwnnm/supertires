@@ -9,7 +9,7 @@ import java.util.List;
 import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.pages.admin.AdminPage;
+import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
@@ -104,7 +104,7 @@ public class SimpleTiresListPanel extends Panel {
                     final Link modelLink = new Link("modelLink") {
                         @Override
                         public void onClick() {
-                            setResponsePage(new AdminPage(tire));
+                            setResponsePage(new CatalogEditorPage(tire));
                         }
                     };
                     modelLink.add(new Label("model", tire.getModelName()));

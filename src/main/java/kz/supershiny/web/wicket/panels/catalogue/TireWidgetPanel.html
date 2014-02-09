@@ -5,19 +5,67 @@
       lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>ContentPanel</title>
+        <title>TireWidgetPanel</title>
     </head>
     <body>
         <wicket:panel>
-            <div class="tire-widget">
-                <div id="tire-preview">
-                    <img wicket:id="preview"/>
+            <div class="padding">
+                <div class="tire-preview">
+                    <img wicket:id="preview" alt="Preview"/>
                 </div>
-                <div id="tire-desc">
-                    
+                <div id="tireCaption">
+                    <div class="price">
+                        <h2 wicket:id="price"></h2>
+                    </div>
+                    <div id="tireCaption">
+                        <h2>
+                            <a href="#" wicket:id="manufacturerLink">
+                                <span wicket:id="manufacturer"></span>
+                            </a>
+                            <span wicket:id="modelName"></span>
+                            <a href="#" style="
+                               margin-left: 10px;
+                               font-size: smaller;
+                               font-weight: normal;
+                               border-bottom: blue 1px dashed;
+                               "><wicket:message key="details"/></a>
+                        </h2>
+                    </div>
                 </div>
-                <div id="tire-price">
-                    <span wicket:id="price">[price]</span>
+                <div id="tireInfo">
+                    <div class="infoBlock">
+                        <p><wicket:message key="size"/></p>
+                        <div class="tire-size">
+                            <span wicket:id="sizeCentimeters"></span>
+                            <span style="font-size: xx-small;"><wicket:message key="cm"/></span>
+                        </div>
+                        <p><wicket:message key="or"/></p>
+                        <div class="tire-size">
+                            <span wicket:id="sizeInches"></span>
+                            <span style="font-size: xx-small;"><wicket:message key="inches"/></span>
+                        </div>
+                    </div>
+                    <div class="infoBlock">
+                        <p><wicket:message key="season"/></p>
+                        <div class="tire-type">
+                            <span wicket:id="season"></span>
+                            <img wicket:id="seasonIcon" style="float: none; margin: 0px 0px 0px 5px;"/>
+                        </div>
+                        <p><wicket:message key="type"/></p>
+                        <div class="tire-type">
+                            <span wicket:id="type"></span>
+                        </div>
+                    </div>
+                    <div class="infoBlock">
+                        <p><wicket:message key="country"/></p>
+                        <div class="tire-country">
+                            <span wicket:id="country"></span>
+                        </div>
+                        <p><wicket:message key="tireId"/></p>
+                        <div class="tire-id">
+                            <span wicket:id="tireId"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </wicket:panel>

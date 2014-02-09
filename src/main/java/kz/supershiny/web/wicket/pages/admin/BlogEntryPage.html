@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" 
+      xml:lang="en" 
+      lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>BlogEditPage</title>
+    </head>
+    <body>
+        <wicket:extend>
+            <div id="maincontent">
+                <div style="width: 100%; margin: 5px;">
+                    <h2 style="text-align: center;">
+                        <a href="#" wicket:id="adminLink" style="border: #ff3333 thin solid; padding: 2px;">
+                            <span><wicket:message key="catalogEditor"/></span>
+                        </a>
+                    </h2>
+                </div>
+                <form wicket:id="blogEditor">
+                    <h2><wicket:message key="header"/></h2>
+                    <input type="text" wicket:id="header" class="form-component"/>
+                    <h2><wicket:message key="body"/></h2>
+                    <textarea wicket:id="body" cols="80" rows="5"></textarea>
+                    <input type="submit" class="btn-submit" wicket:id="save" wicket:message="value:save"/>
+                    <input type="reset" class="btn-submit" wicket:id="clear" wicket:message="value:clear"/>
+                </form>
+                <div wicket:id="listContainer">
+                    <div wicket:id="entriesList">
+                        <h3><span wicket:id="entryDate"></span></h3>
+                        <a href="#" wicket:id="removeLink">
+                            <wicket:message key="remove"/>
+                        </a>
+                        <h2><span wicket:id="entryHeader"></span></h2>
+                        <p wicket:id="entryBody"></p>
+                    </div>
+                </div>
+            </div>
+        </wicket:extend>
+    </body>
+</html>

@@ -10,7 +10,7 @@ import kz.supershiny.core.exceptions.TiresAuthenticationException;
 import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.UserService;
 import kz.supershiny.web.wicket.TiresApplication;
-import kz.supershiny.web.wicket.pages.admin.AdminPage;
+import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
@@ -73,7 +73,7 @@ public final class LoginPanel extends Panel {
                 ((TiresApplication) getApplication())
                         .getTiresSession()
                         .setUser(user);
-                setResponsePage(AdminPage.class);
+                setResponsePage(CatalogEditorPage.class);
             } catch (TiresAuthenticationException ex) {
                 user = null;
                 LoginPanel.this.error(new StringResourceModel("error.authentication", LoginPanel.this, null).getString());

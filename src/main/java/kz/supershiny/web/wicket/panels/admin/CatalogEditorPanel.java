@@ -18,7 +18,8 @@ import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Base64Coder;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.pages.admin.AdminPage;
+import kz.supershiny.web.wicket.pages.admin.BlogEntryPage;
+import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -30,6 +31,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.MultiFileUploadField;
 import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -72,6 +74,8 @@ public final class CatalogEditorPanel extends Panel {
         super(id);
         
         initDictData(tire);
+        
+        add(new BookmarkablePageLink("blogEditorLink", BlogEntryPage.class));
         
         editor = new CatalogEditorPanel.EditTireForm("editTireForm", currentTire);
         editor.setMultiPart(true);
@@ -290,7 +294,7 @@ public final class CatalogEditorPanel extends Panel {
 //                    target.add(getPage());
                     
                     //TODO: use AJAX instead ^
-                    setResponsePage(AdminPage.class);
+                    setResponsePage(CatalogEditorPage.class);
                 }
             };
             clearButton = new AjaxButton("clear") {

@@ -153,13 +153,17 @@ public class TireService extends JPAService {
         if(tire == null) return null;
         
         try {
-            result = (TireImage) em.createQuery(
+            List results = em.createQuery(
                     "SELECT i FROM TireImage i WHERE i.tire = :tire AND i.preview = :preview"
                     )
                     .setParameter("tire", tire)
-                    .setParameter("preview", Constants.Y)
-                    .getResultList();
+//                    .setParameter("preview", Constants.Y)
+                    .setParameter("preview", Constants.N)
+                    //TODO: implement preview photo!
+                    .setMaxResults(1).getResultList();
+            result = (TireImage) results.get(0);
         } catch (Exception ex) {
+            result = null;
             LOG.error("Unable to get preview by filename for tire: " + tire, ex);
         }
         return result;

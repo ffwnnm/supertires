@@ -13,6 +13,7 @@ import kz.supershiny.core.util.Base64Coder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -20,9 +21,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserService extends JPAService {
-
-    @Resource
-    JPAService jpa;
     
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
@@ -30,6 +28,7 @@ public class UserService extends JPAService {
         System.out.println("\t\t\tThis is a service test");
     }
 
+    @Transactional(readOnly = false)
     public void saveUser(User user) throws TiresPersistException {
         try {
             //turn plain password into hash
@@ -38,7 +37,7 @@ public class UserService extends JPAService {
             //turn username in base64
 //            String rawName = user.getUsername();
 //            user.setUsername(Base64Coder.encodeString(rawName));
-            jpa.save(user);
+            save(user);
         } catch (Exception ex) {
             LOG.error("Unable to save User: " + user);
             throw new TiresPersistException();
