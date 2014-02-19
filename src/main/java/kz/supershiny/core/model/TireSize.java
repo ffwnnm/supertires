@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @Table(name = "TIRESIZES")
 public class TireSize implements Serializable {
     
-    public final static String SIZE_REGEXP = "\\d{1,}/\\d{1,}/\\d{1,}";
+    public final static String SIZE_REGEXP = "(\\d+(\\.\\d{0,1})?)/(\\d+(\\.\\d{0,1})?)/(\\d+(\\.\\d{0,1})?)";
     public final static Pattern TIRE_SIZE_PATTERN = Pattern.compile(SIZE_REGEXP);
     
     @Id
@@ -30,17 +30,17 @@ public class TireSize implements Serializable {
     private Long id;
     @Column(name = "VERBAL_SIZE", unique = true)
     private String sizeVerbal;
-    @Column
-    private Integer width;
-    @Column
-    private Integer height;
-    @Column
-    private Integer radius;
+    @Column(precision = 1)
+    private Float width;
+    @Column(precision = 1)
+    private Float height;
+    @Column(precision = 1)
+    private Float radius;
 
     public TireSize() {
     }
 
-    public TireSize(Integer width, Integer height, Integer radius) {
+    public TireSize(Float width, Float height, Float radius) {
         convert(null, width, height, radius);
     }
 
@@ -56,18 +56,18 @@ public class TireSize implements Serializable {
      * @param height
      * @param radius 
      */
-    private void convert(String verbal, Integer width, Integer height, Integer radius) {
+    private void convert(String verbal, Float width, Float height, Float radius) {
         if(verbal != null && !verbal.isEmpty()) {
             this.sizeVerbal = verbal;
             StringTokenizer st = new StringTokenizer(this.sizeVerbal, "/");
-            this.width = Integer.valueOf(st.nextToken());
-            this.height = Integer.valueOf(st.nextToken());
-            this.radius = Integer.valueOf(st.nextToken());
+            this.width = Float.valueOf(st.nextToken());
+            this.height = Float.valueOf(st.nextToken());
+            this.radius = Float.valueOf(st.nextToken());
         } else if(width != null && height != null && radius != null) {
             this.width = width;
             this.height = height;
             this.radius = radius;
-            this.sizeVerbal = this.width.intValue() + "/" + this.height.intValue() + "/" + this.radius.intValue();
+            this.sizeVerbal = this.width.floatValue() + "/" + this.height.floatValue() + "/" + this.radius.floatValue();
         }
     }
 
@@ -97,6 +97,18 @@ public class TireSize implements Serializable {
     public String toString() {
         return sizeVerbal;
     }
+    
+    public String getWidthAsString() {
+        return width == null ? "" : width.toString();
+    }
+    
+    public String getHeightAsString() {
+        return height == null ? "" : height.toString();
+    }
+    
+    public String getRadiusAsString() {
+        return radius == null ? "" : radius.toString();
+    }
 
     public Long getId() {
         return id;
@@ -114,27 +126,27 @@ public class TireSize implements Serializable {
         this.sizeVerbal = sizeVerbal;
     }
 
-    public Integer getWidth() {
+    public Float getWidth() {
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public void setWidth(Float width) {
         this.width = width;
     }
 
-    public Integer getHeight() {
+    public Float getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(Float height) {
         this.height = height;
     }
 
-    public Integer getRadius() {
+    public Float getRadius() {
         return radius;
     }
 
-    public void setRadius(Integer radius) {
+    public void setRadius(Float radius) {
         this.radius = radius;
     }
 }

@@ -23,6 +23,8 @@ public class Constants {
     
     public static final List<String> seasons = Arrays.asList(SUMMER, WINTER, ALL_SEASONS);
     
+    public static final String IMAGE_PREVIEW_PREFIX = "main";
+    public static final int MAX_IMAGES_UPLOAD_SIZE_KB = 2048;
     public static final int MAX_IMAGES_PER_ITEM = 5;
     public static final int ITEMS_PER_PAGE_SIMPLE = 20;
     

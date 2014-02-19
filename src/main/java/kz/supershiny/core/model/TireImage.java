@@ -5,7 +5,6 @@
 package kz.supershiny.core.model;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,7 +46,6 @@ public class TireImage implements Serializable {
         this.tire = tire;
         this.fileName = fileName;
         this.encodedImage = encodedImage;
-        this.preview = Constants.N;
     }
 
     public TireImage(String fileName, String encodedImage) {

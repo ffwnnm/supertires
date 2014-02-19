@@ -6,6 +6,7 @@ package kz.supershiny.web.wicket.panels.admin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +21,7 @@ import kz.supershiny.core.util.Base64Coder;
 import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.pages.admin.BlogEntryPage;
 import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
+import kz.supershiny.web.wicket.pages.admin.ManufacturersEditorPage;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -75,11 +77,13 @@ public final class CatalogEditorPanel extends Panel {
         
         initDictData(tire);
         
-        add(new BookmarkablePageLink("blogEditorLink", BlogEntryPage.class));
+        add(new BookmarkablePageLink("catalogLink", CatalogEditorPage.class));
+        add(new BookmarkablePageLink("blogLink", BlogEntryPage.class));
+        add(new BookmarkablePageLink("companyLink", ManufacturersEditorPage.class));
         
         editor = new CatalogEditorPanel.EditTireForm("editTireForm", currentTire);
         editor.setMultiPart(true);
-        editor.setMaxSize(Bytes.kilobytes(2048));
+        editor.setMaxSize(Bytes.kilobytes(Constants.MAX_IMAGES_UPLOAD_SIZE_KB));
         
         add(editor.setOutputMarkupId(true));
     }
@@ -138,10 +142,18 @@ public final class CatalogEditorPanel extends Panel {
             viewForm = new CatalogEditorPanel.ViewForm("viewForm");
             add(viewForm.setOutputMarkupId(true));
 
-            manufacturer = new AutoCompleteTextField<Manufacturer>("manufacturer") {
+            manufacturer = new AutoCompleteTextField<Manufacturer>("manufacturer"){
                 @Override
                 protected Iterator<Manufacturer> getChoices(String string) {
-                    return manufacturersList.iterator();
+                    if(string.isEmpty()) return Collections.emptyListIterator();
+                    if(string.trim().isEmpty()) return manufacturersList.iterator();
+                    ArrayList<Manufacturer> choices = new ArrayList<Manufacturer>();
+                    for(Manufacturer man : manufacturersList) {
+                        if(man.getCompanyName().toUpperCase().startsWith(string.toUpperCase())) {
+                            choices.add(man);
+                        }
+                    }
+                    return choices.iterator();
                 }
 
                 @Override
@@ -173,7 +185,15 @@ public final class CatalogEditorPanel extends Panel {
             country = new AutoCompleteTextField<Country>("country") {
                 @Override
                 protected Iterator<Country> getChoices(String string) {
-                    return countriesList.iterator();
+                    if(string.isEmpty()) return Collections.emptyListIterator();
+                    if(string.trim().isEmpty()) return countriesList.iterator();
+                    ArrayList<Country> choices = new ArrayList<Country>();
+                    for(Country country : countriesList) {
+                        if(country.getName().toUpperCase().startsWith(string.toUpperCase())) {
+                            choices.add(country);
+                        }
+                    }
+                    return choices.iterator();
                 }
 
                 @Override
@@ -205,7 +225,15 @@ public final class CatalogEditorPanel extends Panel {
             size = new AutoCompleteTextField<TireSize>("size") {
                 @Override
                 protected Iterator<TireSize> getChoices(String string) {
-                    return sizesList.iterator();
+                    if(string.isEmpty()) return Collections.emptyListIterator();
+                    if(string.trim().isEmpty()) return sizesList.iterator();
+                    ArrayList<TireSize> choices = new ArrayList<TireSize>();
+                    for(TireSize size : sizesList) {
+                        if(size.getSizeVerbal().toUpperCase().startsWith(string.toUpperCase())) {
+                            choices.add(size);
+                        }
+                    }
+                    return choices.iterator();
                 }
                 @Override
                 public <C> IConverter<C> getConverter(Class<C> type) {
@@ -214,9 +242,12 @@ public final class CatalogEditorPanel extends Panel {
                         @Override
                         public C convertToObject(String string, Locale locale) throws ConversionException {
                             TireSize result = null;
-                            if(TireSize.TIRE_SIZE_PATTERN.matcher(string).matches()) {
-                                int pos = sizesList.indexOf(new TireSize(string));
-                                result = pos > -1 ? sizesList.get(pos) : new TireSize(string);
+                            if(string != null) {
+                                string = string.replace(" ", "").replace(",", ".").replace("./", "/");
+                                if(TireSize.TIRE_SIZE_PATTERN.matcher(string).matches()) {
+                                    int pos = sizesList.indexOf(new TireSize(string));
+                                    result = pos > -1 ? sizesList.get(pos) : new TireSize(string);
+                                }
                             } else {
                                 editor.error(new StringResourceModel("error.invalidSize", CatalogEditorPanel.this, null).getString());
                             }
@@ -236,7 +267,15 @@ public final class CatalogEditorPanel extends Panel {
             modelName = new AutoCompleteTextField<String>("modelName") {
                 @Override
                 protected Iterator<String> getChoices(String string) {
-                    return modelsList.iterator();
+                    if(string.isEmpty()) return Collections.emptyListIterator();
+                    if(string.trim().isEmpty()) return modelsList.iterator();
+                    ArrayList<String> choices = new ArrayList<String>();
+                    for(String modelName : modelsList) {
+                        if(modelName.toUpperCase().startsWith(string.toUpperCase())) {
+                            choices.add(modelName);
+                        }
+                    }
+                    return choices.iterator();
                 }
             };
             season = new DropDownChoice<String>("season", Constants.seasons) {
@@ -274,6 +313,9 @@ public final class CatalogEditorPanel extends Panel {
                                     item.getClientFileName(),
                                     Base64Coder.encodeLines(item.getBytes())
                                 );
+                            if(ti.getFileName().startsWith(Constants.IMAGE_PREVIEW_PREFIX)) {
+                                ti.setPreview(Constants.Y);
+                            }
                             tire.addImage(ti);
                         }
                     }

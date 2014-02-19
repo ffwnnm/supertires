@@ -5,9 +5,34 @@
       lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>ContentPanel</title>
+        <title>SearchPanel</title>
     </head>
     <body>
-        <div>TODO write content</div>
+        <wicket:panel>
+            <div id="searchPanel">
+                <h2 style="text-align: center;"><wicket:message key="searchDisclaimer"/></h2>
+                <br/>
+                <form wicket:id="searchForm">
+                    <div id="searchCriteria1">
+                        <div class="search-left">
+                            <p></p>
+                            <div class="info"><wicket:message key="sizeInfo"/></div>
+                            <p><wicket:message key="size"/></p>
+                            <input type="text" wicket:id="size" class="form-input-size"/>
+                            <p><wicket:message key="season"/></p>
+                            <select wicket:id="season" class="form-input-select"/>
+                            <p><wicket:message key="manufacturer"/></p>
+                            <select wicket:id="manufacturer" class="form-input-select"/>
+                            <div>
+                                <input type="submit" wicket:id="search" wicket:message="value:search" class="btn-search"/>
+                            </div>
+                            <div>
+                                <input type="submit" wicket:id="clear" wicket:message="value:clear" class="btn-clear"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </wicket:panel>
     </body>
 </html>

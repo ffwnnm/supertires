@@ -14,21 +14,18 @@
                     <img wicket:id="preview" alt="Preview"/>
                 </div>
                 <div id="tireCaption">
-                    <div class="price">
-                        <h2 wicket:id="price"></h2>
-                    </div>
                     <div id="tireCaption">
                         <h2>
                             <a href="#" wicket:id="manufacturerLink">
                                 <span wicket:id="manufacturer"></span>
                             </a>
                             <span wicket:id="modelName"></span>
-                            <a href="#" style="
+<!--                            <a href="#" style="
                                margin-left: 10px;
                                font-size: smaller;
                                font-weight: normal;
                                border-bottom: blue 1px dashed;
-                               "><wicket:message key="details"/></a>
+                               "><wicket:message key="details"/></a>-->
                         </h2>
                     </div>
                 </div>
@@ -37,12 +34,6 @@
                         <p><wicket:message key="size"/></p>
                         <div class="tire-size">
                             <span wicket:id="sizeCentimeters"></span>
-                            <span style="font-size: xx-small;"><wicket:message key="cm"/></span>
-                        </div>
-                        <p><wicket:message key="or"/></p>
-                        <div class="tire-size">
-                            <span wicket:id="sizeInches"></span>
-                            <span style="font-size: xx-small;"><wicket:message key="inches"/></span>
                         </div>
                     </div>
                     <div class="infoBlock">
@@ -65,6 +56,10 @@
                         <div class="tire-id">
                             <span wicket:id="tireId"></span>
                         </div>
+                    </div>
+                    <div class="infoBlock price">
+                        <h2 wicket:id="price"></h2>
+                        <h2 style="font-size: smaller;"><wicket:message key="KZT"/></h2>
                     </div>
                 </div>
             </div>

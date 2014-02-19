@@ -16,9 +16,11 @@ import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.pages.HomePage;
 import kz.supershiny.web.wicket.pages.admin.BlogEntryPage;
 import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
+import kz.supershiny.web.wicket.pages.admin.ManufacturersEditorPage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import kz.supershiny.web.wicket.pages.catalogue.ProposalPage;
 import kz.supershiny.web.wicket.pages.general.ContactsPage;
+import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -67,9 +69,11 @@ public class TiresApplication extends WebApplication {
         mountPage("/home", HomePage.class);
         mountPage("/admin-catalog", CatalogEditorPage.class);
         mountPage("/admin-blog", BlogEntryPage.class);
+        mountPage("/admin-company", ManufacturersEditorPage.class);
         mountPage("/catalogue", CataloguePage.class);
         mountPage("/contacts", ContactsPage.class);
         mountPage("/propose", ProposalPage.class);
+        mountPage("/company", ManufacturerPage.class);
     }
 
     private void createInitialUser() {

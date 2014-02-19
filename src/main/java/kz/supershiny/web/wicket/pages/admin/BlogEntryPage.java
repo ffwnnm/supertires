@@ -24,6 +24,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PageableListView;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -51,7 +52,9 @@ public class BlogEntryPage extends BasePage {
         if(entries == null) entries = new ArrayList<BlogEntry>();
         currentEntry = new BlogEntry();
         
-        add(new BookmarkablePageLink("adminLink", CatalogEditorPage.class));
+        add(new BookmarkablePageLink("catalogLink", CatalogEditorPage.class));
+        add(new BookmarkablePageLink("blogLink", BlogEntryPage.class));
+        add(new BookmarkablePageLink("companyLink", ManufacturersEditorPage.class));
         
         add(editor = new EditorForm("blogEditor"));
         editor.setOutputMarkupId(true);
@@ -66,8 +69,8 @@ public class BlogEntryPage extends BasePage {
             protected void populateItem(ListItem li) {
                 final BlogEntry entry = (BlogEntry) li.getModelObject();
                 li.add(new Label("entryDate", new PropertyModel(entry, "date")));
-                li.add(new Label("entryHeader", new PropertyModel(entry, "header")));
-                li.add(new Label("entryBody", new PropertyModel(entry, "body")));
+                li.add(new Label("entryHeader", new PropertyModel(entry, "header")).setEscapeModelStrings(false));
+                li.add(new Label("entryBody", new PropertyModel(entry, "body")).setEscapeModelStrings(false));
                 li.add(new AjaxLink("removeLink") {
                     @Override
                     public void onClick(AjaxRequestTarget art) {
@@ -98,17 +101,18 @@ public class BlogEntryPage extends BasePage {
         private TextArea body;
 
         public EditorForm(String id) {
-            super(id);
+            super(id, new CompoundPropertyModel<BlogEntry>(currentEntry));
             
-            add(header = new TextField("header", new PropertyModel(currentEntry, "header")));
-            header.setOutputMarkupId(true);
-            add(body = new TextArea("body", new PropertyModel(currentEntry, "body")));
-            body.setOutputMarkupId(true);
+            header = new TextField("header");
+            add(header.setOutputMarkupId(true));
+            body = new TextArea("body");
+            add(body.setOutputMarkupId(true));
             
             add(new AjaxButton("clear") {
                 @Override
                 protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                     currentEntry = new BlogEntry();
+                    EditorForm.this.setDefaultModelObject(currentEntry);
                     target.add(header);
                     target.add(body);
                 }

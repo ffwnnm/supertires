@@ -24,7 +24,7 @@ public class InfoService extends JPAService {
     public List<BlogEntry> getAllEntries() {
         List<BlogEntry> result;
         try {
-            result = (List<BlogEntry>) em.createQuery("SELECT b FROM BlogEntry b")
+            result = (List<BlogEntry>) em.createQuery("SELECT b FROM BlogEntry b ORDER BY b.date DESC")
                     .getResultList();
         } catch (Exception ex) {
             result = null;

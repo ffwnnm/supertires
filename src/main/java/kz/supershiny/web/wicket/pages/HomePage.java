@@ -11,7 +11,6 @@ import java.util.List;
 import kz.supershiny.core.model.BlogEntry;
 import kz.supershiny.core.services.InfoService;
 import kz.supershiny.core.util.Constants;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -49,8 +48,8 @@ public class HomePage extends BasePage {
             protected void populateItem(ListItem li) {
                 final BlogEntry entry = (BlogEntry) li.getModelObject();
                 li.add(new Label("entryDate", new PropertyModel(entry, "date")));
-                li.add(new Label("entryHeader", new PropertyModel(entry, "header")));
-                li.add(new Label("entryBody", new PropertyModel(entry, "body")));
+                li.add(new Label("entryHeader", new PropertyModel(entry, "header")).setEscapeModelStrings(false));
+                li.add(new Label("entryBody", new PropertyModel(entry, "body")).setEscapeModelStrings(false));
             }
         };
         listContainer.add(listView);

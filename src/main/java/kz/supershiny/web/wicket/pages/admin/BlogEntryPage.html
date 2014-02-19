@@ -9,29 +9,42 @@
     </head>
     <body>
         <wicket:extend>
-            <div id="maincontent">
-                <div style="width: 100%; margin: 5px;">
-                    <h2 style="text-align: center;">
-                        <a href="#" wicket:id="adminLink" style="border: #ff3333 thin solid; padding: 2px;">
-                            <span><wicket:message key="catalogEditor"/></span>
-                        </a>
-                    </h2>
-                </div>
+            <div style="width: 100%; margin: 5px;">
+                <h2 style="text-align: center;">
+                    <a href="#" wicket:id="catalogLink" style="border: #ff3333 thin solid; padding: 2px;">
+                        <span><wicket:message key="catalogEditor"/></span>
+                    </a>
+                    <a href="#" wicket:id="blogLink" style="border: #ff3333 thin solid; padding: 2px;">
+                        <span><wicket:message key="blogEditor"/></span>
+                    </a>
+                    <a href="#" wicket:id="companyLink" style="border: #ff3333 thin solid; padding: 2px;">
+                        <span><wicket:message key="companyEditor"/></span>
+                    </a>
+                </h2>
+            </div>
+            <div id="blogEditorForm">
                 <form wicket:id="blogEditor">
-                    <h2><wicket:message key="header"/></h2>
-                    <input type="text" wicket:id="header" class="form-component"/>
-                    <h2><wicket:message key="body"/></h2>
-                    <textarea wicket:id="body" cols="80" rows="5"></textarea>
+                    <h3><wicket:message key="header"/></h3>
+                    <input type="text" wicket:id="header" class="blog-header-input"/>
+                    <br/>
+                    <br/>
+                    <h3><wicket:message key="body"/></h3>
+                    <textarea wicket:id="body" cols="80" rows="5" class="blog-body-input"></textarea>
                     <input type="submit" class="btn-submit" wicket:id="save" wicket:message="value:save"/>
                     <input type="reset" class="btn-submit" wicket:id="clear" wicket:message="value:clear"/>
                 </form>
-                <div wicket:id="listContainer">
-                    <div wicket:id="entriesList">
-                        <h3><span wicket:id="entryDate"></span></h3>
-                        <a href="#" wicket:id="removeLink">
-                            <wicket:message key="remove"/>
-                        </a>
-                        <h2><span wicket:id="entryHeader"></span></h2>
+            </div>
+            <br/>
+            <br/>
+            <div wicket:id="listContainer">
+                <div wicket:id="entriesList" class="blogEntry">
+                    <h2><span id="blogDate" wicket:id="entryDate"></span></h2>
+                    <a href="#" wicket:id="removeLink" class="blogRemoveLink">
+                        <wicket:message key="remove"/>
+                    </a>
+                    <h2 id="blogHeader"><span wicket:id="entryHeader"></span></h2>
+                    <hr/>
+                    <div id="blogBody">
                         <p wicket:id="entryBody"></p>
                     </div>
                 </div>

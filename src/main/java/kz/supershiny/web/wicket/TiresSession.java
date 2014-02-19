@@ -7,6 +7,7 @@
 package kz.supershiny.web.wicket;
 
 import kz.supershiny.core.model.User;
+import kz.supershiny.core.pojo.TireSearchCriteria;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.Request;
 
@@ -17,9 +18,11 @@ import org.apache.wicket.request.Request;
 public class TiresSession extends WebSession {
     
     private User user;
+    private TireSearchCriteria tireSearchCriteria;
 
     public TiresSession(Request request) {
         super(request);
+        tireSearchCriteria = new TireSearchCriteria();
     }
 
     public User getUser() {
@@ -29,5 +32,12 @@ public class TiresSession extends WebSession {
     public void setUser(User user) {
         this.user = user;
     }
-    
+
+    public TireSearchCriteria getTireSearchCriteria() {
+        return tireSearchCriteria;
+    }
+
+    public void setTireSearchCriteria(TireSearchCriteria tireSearchCriteria) {
+        this.tireSearchCriteria = tireSearchCriteria;
+    }
 }

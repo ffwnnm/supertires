@@ -42,15 +42,6 @@ public final class LoginPanel extends Panel {
         
         add(new FeedbackPanel("loginFeedback").setOutputMarkupId(true));
         add(new LoginPanel.LoginForm("loginForm").setVisible(user == null));
-        
-//        add(new Label("username", user == null ? "" : user.getUsername()));
-//        add(new Link("logout") {
-//            @Override
-//            public void onClick() {
-//                ((TiresApplication) getApplication()).getTiresSession().invalidate();
-//                setResponsePage(HomePage.class);
-//            }
-//        }.setVisible(user != null));
     }
     
     private class LoginForm extends Form {
