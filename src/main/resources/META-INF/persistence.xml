@@ -13,13 +13,13 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.show_sql" value="false"/>
-      <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tires"/>-->
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://107.170.22.91:5656/tires"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tires"/>
+      <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://107.170.22.91:5656/tires"/>-->
       <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://postgres-env-4910938.j.dnr.kz/tires"/>-->
       
       <property name="javax.persistence.jdbc.user" value="postgres"/>
-      <!--<property name="javax.persistence.jdbc.password" value="admin"/>-->
-      <property name="javax.persistence.jdbc.password" value="adwt74Gdp98m"/>
+      <property name="javax.persistence.jdbc.password" value="admin"/>
+      <!--<property name="javax.persistence.jdbc.password" value="adwt74Gdp98m"/>-->
       
       <!--<property name="javax.persistence.jdbc.user" value="webadmin"/>-->
       <!--<property name="javax.persistence.jdbc.password" value="7mssvZ6z9z"/>-->

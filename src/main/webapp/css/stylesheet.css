@@ -591,20 +591,19 @@ div.wicket-aa ul li.selected { background-color: #FFFF00; padding: 2px; margin:0
     float : right;
 }
 #manufacturer-info {
-    width: 800px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
 #manufacturer-general-info {
     float: left;
-    width: 80%;
-    height: 200px;
-    padding: 20px;
-    position: absolute;
+    width: 70%;
+    padding: 10px;
+    text-wrap: normal;
 }
 #manufacturer-logo {
     float: right;
-    width: 30%;
+    width: 20%;
     height: 200px;
 }
 #manufacturer-general-info p {

@@ -101,7 +101,9 @@ public class TiresApplication extends WebApplication {
         List<TireType> types = Arrays.asList(
                 new TireType("Фрикционная"), 
                 new TireType("Под шипы"), 
-                new TireType("Шипованная")
+                new TireType("Шипованная"),
+                new TireType("Симметричная"),
+                new TireType("Асимметричная")
                 );
         
         for(TireType t : types) {
