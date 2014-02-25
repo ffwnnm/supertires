@@ -27,6 +27,7 @@ public class Constants {
     public static final int MAX_IMAGES_UPLOAD_SIZE_KB = 2048;
     public static final int MAX_IMAGES_PER_ITEM = 5;
     public static final int ITEMS_PER_PAGE_SIMPLE = 20;
+    public static final int ITEMS_PER_PAGE = 15;
     
     public static final String Y = "Y";
     public static final String N = "N";

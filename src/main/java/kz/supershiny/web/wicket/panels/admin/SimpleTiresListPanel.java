@@ -114,6 +114,7 @@ public class SimpleTiresListPanel extends Panel {
                     li.add(modelLink);
                     li.add(new Label("size", tire.getSize().getSizeVerbal()));
                     li.add(new Label("season", new StringResourceModel(tire.getSeason(), SimpleTiresListPanel.this, null).getString()));
+                    li.add(new Label("price", tire.getPrice()));
                     li.add(removeLink);
                 }
             };

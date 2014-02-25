@@ -44,20 +44,19 @@ public class TireService extends JPAService {
     }
     
     @Transactional(readOnly = true)
-    public List<Tire> getTiresByCriteria(TireSearchCriteria criteria) {
-        List<Tire> result = null;
+    public long countTiresByCriteria(TireSearchCriteria criteria) {
+        Long result;
         if(criteria == null || criteria.isEmpty()) {
             try {
-                result = em.createQuery("SELECT T FROM Tire T ORDER BY T.id DESC")
-                        .getResultList();
+                result = (Long) em.createQuery("SELECT COUNT(T.id) FROM Tire T")
+                        .getSingleResult();
             } catch (Exception ex) {
-                result = null;
-                LOG.error("Unable to load all tires!");
+                result = 0L;
+                LOG.error("Unable to count all tires!");
             }
         } else {    
-            String header = "SELECT T FROM Tire T";
-            String footer = "ORDER BY T.id DESC";
-            String conditions = "WHERE 1=1 ";
+            String header = "SELECT COUNT(T.id) FROM Tire T";
+            String conditions = " WHERE 1=1 ";
             HashMap<String, Object> predicates = new HashMap<String, Object>();
             
             if(criteria.getSize() != null && !criteria.getSize().isEmpty()) {
@@ -69,21 +68,60 @@ public class TireService extends JPAService {
                 conditions += "AND T.season = :season ";
                 predicates.put("season", criteria.getSeason());
             }
-//            if(criteria.getType() != null) {
-//                header += " JOIN T.type TP ";
-//                conditions += "AND TP.typeName = :type ";
-//                predicates.put("type", criteria.getType().getTypeName());
-//            }
             if(criteria.getManufacturer() != null) {
                 header += " JOIN T.manufacturer M ";
                 conditions += "AND M.companyName = :manufacturer ";
                 predicates.put("manufacturer", criteria.getManufacturer().getCompanyName());
             }
-//            if(criteria.getCountry() != null) {
-//                header += " JOIN T.country C ";
-//                conditions += "AND C.name = :country ";
-//                predicates.put("country", criteria.getCountry().getName());
-//            }
+            
+            Query query = em.createQuery(header + conditions);
+            for(String key : predicates.keySet()) {
+                query.setParameter(key, predicates.get(key));
+            }
+            
+            try {
+                result = (Long) query.getSingleResult();
+            } catch (Exception ex) {
+                result = 0L;
+                LOG.error("Unable to count tires by criteria!");
+            }
+        }
+        return result.longValue();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Tire> getTiresByCriteria(TireSearchCriteria criteria) {
+        List<Tire> result = null;
+        if(criteria == null || criteria.isEmpty()) {
+            try {
+                result = em.createQuery("SELECT T FROM Tire T ORDER BY T.id DESC")
+                        .setMaxResults((int) criteria.getItemsPerPage())
+                        .setFirstResult((int) criteria.getFirstOffset())
+                        .getResultList();
+            } catch (Exception ex) {
+                result = null;
+                LOG.error("Unable to load all tires!");
+            }
+        } else {    
+            String header = "SELECT T FROM Tire T";
+            String footer = " ORDER BY T.id DESC";
+            String conditions = " WHERE 1=1 ";
+            HashMap<String, Object> predicates = new HashMap<String, Object>();
+            
+            if(criteria.getSize() != null && !criteria.getSize().isEmpty()) {
+                header += " JOIN T.size S ";
+                conditions += "AND S.sizeVerbal = :size ";
+                predicates.put("size", criteria.getSize());
+            }
+            if(criteria.getSeason() != null && !criteria.getSeason().isEmpty()) {
+                conditions += "AND T.season = :season ";
+                predicates.put("season", criteria.getSeason());
+            }
+            if(criteria.getManufacturer() != null) {
+                header += " JOIN T.manufacturer M ";
+                conditions += "AND M.companyName = :manufacturer ";
+                predicates.put("manufacturer", criteria.getManufacturer().getCompanyName());
+            }
             
             Query query = em.createQuery(header + conditions + footer);
             for(String key : predicates.keySet()) {
@@ -91,7 +129,10 @@ public class TireService extends JPAService {
             }
             
             try {
-                result = query.getResultList();
+                result = query
+                        .setMaxResults((int) criteria.getItemsPerPage())
+                        .setFirstResult((int) criteria.getFirstOffset())
+                        .getResultList();
             } catch (Exception ex) {
                 result = null;
                 LOG.error("Unable to get tires by criteria!");

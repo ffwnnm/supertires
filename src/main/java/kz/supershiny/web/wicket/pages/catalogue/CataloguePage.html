@@ -13,8 +13,12 @@
             <br/>
             <h2><wicket:message key="catalogueDisclaimer"/></h2>
             <br/>
-            <div id="catalog" wicket:id="widgetsList">
-                <div id="modTire" wicket:id="widget"></div>
+            <div wicket:id="tiresContainer">
+                <div class="catalog-paging" wicket:id="navigator1"></div>
+                <div id="catalog" wicket:id="widgetsList">
+                    <div id="modTire" wicket:id="widget"></div>
+                </div>
+                <div class="catalog-paging" wicket:id="navigator2"></div>
             </div>
         </wicket:extend>
     </body>

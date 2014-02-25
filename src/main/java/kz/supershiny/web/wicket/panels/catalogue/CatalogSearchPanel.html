@@ -10,19 +10,27 @@
     <body>
         <wicket:panel>
             <div id="searchPanel">
-                <h2 style="text-align: center;"><wicket:message key="searchDisclaimer"/></h2>
+                <h2><wicket:message key="searchDisclaimer"/></h2>
                 <br/>
                 <form wicket:id="searchForm">
                     <div id="searchCriteria1">
                         <div class="search-left">
                             <p></p>
                             <div class="info"><wicket:message key="sizeInfo"/></div>
+                        </div>
+                        <div class="search-left">
                             <p><wicket:message key="size"/></p>
                             <input type="text" wicket:id="size" class="form-input-size"/>
+                        </div>
+                        <div class="search-left">
                             <p><wicket:message key="season"/></p>
                             <select wicket:id="season" class="form-input-select"/>
+                        </div>
+                        <div class="search-left">
                             <p><wicket:message key="manufacturer"/></p>
                             <select wicket:id="manufacturer" class="form-input-select"/>
+                        </div>
+                        <div class="search-left">
                             <div>
                                 <input type="submit" wicket:id="search" wicket:message="value:search" class="btn-search"/>
                             </div>
