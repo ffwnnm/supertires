@@ -17,6 +17,10 @@
         <hibernate.version>3.6.10.Final</hibernate.version>
         <slf4j.version>1.5.8</slf4j.version>
         <spring.version>3.0.5.RELEASE</spring.version>
+        <skipTests>true</skipTests>
+        <!--<war-output-dir>C:\Users\kilrwhle\Desktop\test</war-output-dir>-->
+        <war-output-dir>/opt/apache-tomcat-7.0.50/webapps</war-output-dir>
+        <war-name>ROOT</war-name>
     </properties>
 
     <dependencies>
@@ -144,6 +148,8 @@
                 <version>2.1.1</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <outputDirectory>${war-output-dir}</outputDirectory>
+                    <warName>${war-name}</warName>
                 </configuration>
             </plugin>
             <plugin>
