@@ -22,7 +22,7 @@
       <property name="javax.persistence.jdbc.password" value="adwt74Gdp98m"/>
       
       <!--<property name="javax.persistence.jdbc.user" value="webadmin"/>-->
-      <!--<property name="javax.persistence.jdbc.password" value="7mssvZ6z9z"/>-->
+      <!--<property name="javax.persistence.jdbc.password" value="BZtZV3sm5D"/>-->
       
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>

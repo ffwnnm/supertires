@@ -19,6 +19,7 @@ import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
 import kz.supershiny.web.wicket.pages.admin.ManufacturersEditorPage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import kz.supershiny.web.wicket.pages.catalogue.ProposalPage;
+import kz.supershiny.web.wicket.pages.error.ErrorPage;
 import kz.supershiny.web.wicket.pages.general.ContactsPage;
 import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
 import org.apache.wicket.Page;
@@ -26,6 +27,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
+import org.apache.wicket.settings.IExceptionSettings;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +76,10 @@ public class TiresApplication extends WebApplication {
         mountPage("/contacts", ContactsPage.class);
         mountPage("/propose", ProposalPage.class);
         mountPage("/company", ManufacturerPage.class);
+        mountPage("/error", ErrorPage.class);
+        getApplicationSettings().setAccessDeniedPage(ErrorPage.class);
+        getApplicationSettings().setInternalErrorPage(ErrorPage.class);
+        getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
     }
 
     private void createInitialUser() {
@@ -105,7 +111,6 @@ public class TiresApplication extends WebApplication {
                 new TireType("Симметричная"),
                 new TireType("Асимметричная")
                 );
-        
         for(TireType t : types) {
             try {
                 ts.save(t);
@@ -113,22 +118,6 @@ public class TiresApplication extends WebApplication {
                 LOG.error("Failed to save tire type: " + t.getTypeName());
             }
         }
-        
-//        ts.save(new Manufacturer("Yokohama"));
-//        ts.save(new Manufacturer("Hankook"));
-//        ts.save(new Manufacturer("Maxxis"));
-//        ts.save(new Manufacturer("Toyo"));
-//        
-//        ts.save(new TireSize("195/65/15"));
-//        ts.save(new TireSize("205/65/15"));
-//        ts.save(new TireSize("185/65/15"));
-//        
-//        ts.save(new Country("Корея"));
-//        ts.save(new Country("Китай"));
-//        ts.save(new Country("Филиппины"));
-//        ts.save(new Country("Япония"));
-//        ts.save(new Country("Германия"));
-        
         ts = null;
     }
 }

@@ -640,3 +640,12 @@ div.catalog-paging a {
     width: 80px;
     font-weight: bold;
 }
+.error-message {
+    background-color: #ffcccc;
+    border: #ff6666 thin solid;
+    border-radius: 5px;
+    width: 80%;
+    height: 30px;
+    text-align: center;
+    margin-left: auto; margin-right: auto;
+}

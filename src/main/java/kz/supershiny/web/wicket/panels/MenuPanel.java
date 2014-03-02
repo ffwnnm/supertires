@@ -23,7 +23,7 @@ public class MenuPanel extends Panel {
         add(new BookmarkablePageLink("homeLink", HomePage.class));
         add(new BookmarkablePageLink("catalogueLink", CataloguePage.class));
 //        add(new BookmarkablePageLink("contactsLink", ContactsPage.class));
-        add(new BookmarkablePageLink("adminLink", CatalogEditorPage.class));
+//        add(new BookmarkablePageLink("adminLink", CatalogEditorPage.class));
     }
     
 }
