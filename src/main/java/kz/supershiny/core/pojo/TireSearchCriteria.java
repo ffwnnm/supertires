@@ -17,9 +17,9 @@ import kz.supershiny.core.util.Constants;
 public class TireSearchCriteria implements Serializable {
     
     //size
-    private Integer width;
-    private Integer height;
-    private Integer radius;
+    private Float width;
+    private Float height;
+    private Float radius;
     private String size;
     
     private String season;
@@ -40,7 +40,9 @@ public class TireSearchCriteria implements Serializable {
                 &&
                 season == null && type == null
                 &&
-                manufacturer == null && country == null;
+                manufacturer == null && country == null
+                &&
+                height == null && width == null && radius == null;
     }
 
     public long getCurrentPage() {
@@ -83,27 +85,27 @@ public class TireSearchCriteria implements Serializable {
         this.size = size;
     }
 
-    public Integer getWidth() {
+    public Float getWidth() {
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public void setWidth(Float width) {
         this.width = width;
     }
 
-    public Integer getHeight() {
+    public Float getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(Float height) {
         this.height = height;
     }
 
-    public Integer getRadius() {
+    public Float getRadius() {
         return radius;
     }
 
-    public void setRadius(Integer radius) {
+    public void setRadius(Float radius) {
         this.radius = radius;
     }
 

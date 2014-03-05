@@ -15,12 +15,12 @@
                 <form wicket:id="searchForm">
                     <div id="searchCriteria1">
                         <div class="search-left">
-                            <p></p>
-                            <div class="info"><wicket:message key="sizeInfo"/></div>
-                        </div>
-                        <div class="search-left">
                             <p><wicket:message key="size"/></p>
-                            <input type="text" wicket:id="size" class="form-input-size"/>
+                            <select wicket:id="width" class="form-input-select" style="width: 60px;"/>
+                            /
+                            <select wicket:id="height" class="form-input-select" style="width: 60px;"/>
+                            /
+                            <select wicket:id="radius" class="form-input-select" style="width: 60px;"/>
                         </div>
                         <div class="search-left">
                             <p><wicket:message key="season"/></p>
@@ -31,11 +31,11 @@
                             <select wicket:id="manufacturer" class="form-input-select"/>
                         </div>
                         <div class="search-left">
-                            <div>
-                                <input type="submit" wicket:id="search" wicket:message="value:search" class="btn-search"/>
-                            </div>
-                            <div>
-                                <input type="submit" wicket:id="clear" wicket:message="value:clear" class="btn-clear"/>
+                            <input type="submit" wicket:id="search" wicket:message="value:search" class="btn-search"/>
+                        </div>
+                        <div class="search-left">
+                            <div class="btn-clear">
+                                <a href="#" wicket:id="clear"><wicket:message key="clear"/></a>
                             </div>
                         </div>
                     </div>

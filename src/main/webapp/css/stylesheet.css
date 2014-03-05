@@ -408,7 +408,7 @@ div.wicket-aa ul { list-style:none; padding: 2px; margin:0; }
 div.wicket-aa ul li.selected { background-color: #FFFF00; padding: 2px; margin:0; }
 
 #searchPanel {
-    width: 770px;
+    width: 800px;
     margin: 10px auto 10px auto;
 }
 .search-left {
@@ -421,13 +421,13 @@ div.wicket-aa ul li.selected { background-color: #FFFF00; padding: 2px; margin:0
 #searchCriteria1 {
     border: #001867 thin solid;
     border-radius: 5px;
-    height: 110px;
+    height: 70px;
 }
 
 #searchCriteria1 p {
     text-decoration-color: #cccccc;
     padding: 5px;
-    text-align: left;
+    text-align: center;
 }
 .form-input-size {
     margin: 3px;
@@ -446,32 +446,30 @@ div.wicket-aa ul li.selected { background-color: #FFFF00; padding: 2px; margin:0
     font-size: 80%;
     padding: 5px;
     text-align: left;
-    height: 60px;
+    height: 30px;
 }
 .btn-clear {
-    float: bottom;
-    margin: 10px;
-    width: 100px;
-    height: 28px;
-    background-color: #637a82;
-    color: white;
-    border-radius: 5px;
-    font-size: 150%;
+    width: 90px;
+    height: 40px;
+    margin: 10px 5px 10px 5px;
+    padding-top: 10px;
 }
-.btn-clear:hover {
-    background-color: #c6ffbc;
-    color: #232579;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+.btn-clear a {
+    color: #c20000;
+    font-size: 150%;
+    border-bottom: #c20000 thin dashed;
+}
+.btn-clear a:hover {
+    background-color: #ff9d9d;
 }
 .btn-search {
     font-size: 180%;
-    float: bottom;
-    margin: 10px;
-    width: 100px;
+    width: 120px;
     height: 40px;
     background-color: #637a82;
     color: white;
     border-radius: 5px;
+    margin: 10px 5px 10px 5px;
 }
 .btn-search:hover {
     background-color: #c6ffbc;

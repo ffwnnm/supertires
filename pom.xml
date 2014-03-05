@@ -20,6 +20,7 @@
         <skipTests>true</skipTests>
         <!--<war-output-dir>C:\Users\kilrwhle\Desktop\test</war-output-dir>-->
         <war-output-dir>/opt/apache-tomcat-7.0.50/webapps</war-output-dir>
+        <!--<war-output-dir>${project.build.directory}</war-output-dir>-->
         <war-name>ROOT</war-name>
     </properties>
 

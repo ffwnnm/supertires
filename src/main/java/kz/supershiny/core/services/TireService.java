@@ -59,10 +59,25 @@ public class TireService extends JPAService {
             String conditions = " WHERE 1=1 ";
             HashMap<String, Object> predicates = new HashMap<String, Object>();
             
-            if(criteria.getSize() != null && !criteria.getSize().isEmpty()) {
+//            if(criteria.getSize() != null && !criteria.getSize().isEmpty()) {
+//                header += " JOIN T.size S ";
+//                conditions += "AND S.sizeVerbal = :size ";
+//                predicates.put("size", criteria.getSize());
+//            }
+            if(criteria.getHeight() != null || criteria.getWidth() != null || criteria.getRadius() != null) {
                 header += " JOIN T.size S ";
-                conditions += "AND S.sizeVerbal = :size ";
-                predicates.put("size", criteria.getSize());
+                if(criteria.getHeight() != null) {
+                    conditions += "AND S.height = :height ";
+                    predicates.put("height", criteria.getHeight());
+                }
+                if(criteria.getWidth()!= null) {
+                    conditions += "AND S.width = :width ";
+                    predicates.put("width", criteria.getWidth());
+                }
+                if(criteria.getRadius()!= null) {
+                    conditions += "AND S.radius = :radius ";
+                    predicates.put("radius", criteria.getRadius());
+                }
             }
             if(criteria.getSeason() != null && !criteria.getSeason().isEmpty()) {
                 conditions += "AND T.season = :season ";
@@ -108,10 +123,25 @@ public class TireService extends JPAService {
             String conditions = " WHERE 1=1 ";
             HashMap<String, Object> predicates = new HashMap<String, Object>();
             
-            if(criteria.getSize() != null && !criteria.getSize().isEmpty()) {
+//            if(criteria.getSize() != null && !criteria.getSize().isEmpty()) {
+//                header += " JOIN T.size S ";
+//                conditions += "AND S.sizeVerbal = :size ";
+//                predicates.put("size", criteria.getSize());
+//            }
+            if(criteria.getHeight() != null || criteria.getWidth() != null || criteria.getRadius() != null) {
                 header += " JOIN T.size S ";
-                conditions += "AND S.sizeVerbal = :size ";
-                predicates.put("size", criteria.getSize());
+                if(criteria.getHeight() != null) {
+                    conditions += "AND S.height = :height ";
+                    predicates.put("height", criteria.getHeight());
+                }
+                if(criteria.getWidth()!= null) {
+                    conditions += "AND S.width = :width ";
+                    predicates.put("width", criteria.getWidth());
+                }
+                if(criteria.getRadius()!= null) {
+                    conditions += "AND S.radius = :radius ";
+                    predicates.put("radius", criteria.getRadius());
+                }
             }
             if(criteria.getSeason() != null && !criteria.getSeason().isEmpty()) {
                 conditions += "AND T.season = :season ";
@@ -277,6 +307,45 @@ public class TireService extends JPAService {
         } catch (Exception ex) {
             result = null;
             LOG.error("Unable to get preview by filename for tire: " + tire);
+        }
+        return result;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Float> getUniqueWidth() {
+        List<Float> result = null;
+        try {
+            result = em.createQuery("SELECT DISTINCT S.width FROM TireSize S ORDER BY S.width ASC")
+                    .getResultList();
+        } catch (Exception ex) {
+            result = null;
+            LOG.error("Unable to load unique width!");
+        }
+        return result;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Float> getUniqueRadius() {
+        List<Float> result = null;
+        try {
+            result = em.createQuery("SELECT DISTINCT S.radius FROM TireSize S ORDER BY S.radius ASC")
+                    .getResultList();
+        } catch (Exception ex) {
+            result = null;
+            LOG.error("Unable to load unique radius!");
+        }
+        return result;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Float> getUniqueHeight() {
+        List<Float> result = null;
+        try {
+            result = em.createQuery("SELECT DISTINCT S.height FROM TireSize S ORDER BY S.height ASC")
+                    .getResultList();
+        } catch (Exception ex) {
+            result = null;
+            LOG.error("Unable to load unique height!");
         }
         return result;
     }

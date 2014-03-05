@@ -77,6 +77,7 @@ public class TiresApplication extends WebApplication {
         mountPage("/propose", ProposalPage.class);
         mountPage("/company", ManufacturerPage.class);
         mountPage("/error", ErrorPage.class);
+        getApplicationSettings().setPageExpiredErrorPage(ErrorPage.class);
         getApplicationSettings().setAccessDeniedPage(ErrorPage.class);
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
         getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
