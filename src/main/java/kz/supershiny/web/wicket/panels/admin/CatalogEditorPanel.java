@@ -77,10 +77,6 @@ public final class CatalogEditorPanel extends Panel {
         
         initDictData(tire);
         
-        add(new BookmarkablePageLink("catalogLink", CatalogEditorPage.class));
-        add(new BookmarkablePageLink("blogLink", BlogEntryPage.class));
-        add(new BookmarkablePageLink("companyLink", ManufacturersEditorPage.class));
-        
         editor = new CatalogEditorPanel.EditTireForm("editTireForm", currentTire);
         editor.setMultiPart(true);
         editor.setMaxSize(Bytes.kilobytes(Constants.MAX_IMAGES_UPLOAD_SIZE_KB));

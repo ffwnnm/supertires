@@ -22,11 +22,11 @@ public class User implements Serializable {
     @Column
     private String username;
     @Column(unique = true, nullable = false)
-    private String phone;
+    private String phone;   //phone is a login
     @Column
     private String password;
-//    @Column
-//    private String userName;
+    @Column
+    private Integer loginHash;
     
     public User() {
     }
@@ -35,6 +35,39 @@ public class User implements Serializable {
         this.username = username;
         this.phone = phone;
         this.password = password;
+        this.loginHash = Integer.valueOf(hashLogin(phone));
+    }
+    
+    public static int hashLogin(String value) {
+        int hash = 3;
+        hash = 677 * hash + (value != null ? value.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 41 * hash + (this.username != null ? this.username.hashCode() : 0);
+        hash = 41 * hash + (this.phone != null ? this.phone.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        if ((this.phone == null) ? (other.phone != null) : !this.phone.equals(other.phone)) {
+            return false;
+        }
+        return true;
     }
     
     @Override
@@ -48,6 +81,10 @@ public class User implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getLoginHash() {
+        return loginHash;
     }
 
     public String getUsername() {
@@ -64,6 +101,7 @@ public class User implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+        this.loginHash = Integer.valueOf(hashLogin(phone));
     }
 
     public String getPassword() {

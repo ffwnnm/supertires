@@ -220,64 +220,25 @@ form {
     padding : 0 0 0 0;
     text-decoration : none;
 }
-#menu .submit a span {
+#menu .submit a h2 {
     float : left;
     background : url(../images/menubg.png) no-repeat left;
     color : #fff;
-    font-weight : bold;
     display : block;
     padding : 0 15px 0 15px;
     margin-right : 2px;
-}
-#menu .submit a span {
-    float : none;
-}
-#menu #search {
-    float : right;
-    background : inherit;
-    margin-top : 0;
-    padding : 0;
-    margin-right : 10px;
-    margin-top : -4px;
-}
-#menu #search input.text {
-    background : url(../images/input.gif) no-repeat top;
-    width : 110px;
-    border : 0;
-    padding : 2px 0 0 3px;
-}
-#menu #search input.txt {
-    color : #fff;
-    font-weight : bold;
-    border : 0;
-    background : transparent;
-    cursor : pointer;
 }
 #modules {
     margin-top : 10px;
     height : 190px;
 }
-#modules #mod3 {
-    background : #fafafa url(../images/topgreybox.jpg) no-repeat top;
-    height : 185px;
-    width : 258px;
-    float : right;
-    margin-top : 5px;
-}
-#modules #mod2 {
-    background : #fafafa url(../images/topgreybox.jpg) no-repeat top;
-    height : 185px;
-    width : 258px;
-    float : right;
-    margin-right : 3px;
-    margin-top : 5px;
-}
-#modules #mod1 {
-    background : #fafafa url(../images/topgreybox.jpg) no-repeat top;
-    height : 185px;
-    width : 258px;
-    float : left;
-    margin-top : 5px;
+#mod1 {
+    background : #fafafa url(../images/topgreybox.jpg);
+    background-size: 100% auto;
+    height : 180px;
+    width : 260px;
+    padding: 15px;
+    margin : 5px auto auto auto;
 }
 #blogBody {
     font-size: larger;

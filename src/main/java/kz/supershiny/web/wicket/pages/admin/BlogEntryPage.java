@@ -11,6 +11,8 @@ import kz.supershiny.core.model.BlogEntry;
 import kz.supershiny.core.services.InfoService;
 import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.pages.BasePage;
+import kz.supershiny.web.wicket.pages.LoginPage;
+import kz.supershiny.web.wicket.panels.admin.AdminMenuPanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
@@ -21,7 +23,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PageableListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -48,13 +49,15 @@ public class BlogEntryPage extends BasePage {
     public BlogEntryPage() {
         super();
         
+        if(getUser() == null) {
+            setResponsePage(LoginPage.class);
+        }
+        
+        add(new AdminMenuPanel("adminMenu"));
+        
         entries = infoService.getAllEntries();
         if(entries == null) entries = new ArrayList<BlogEntry>();
         currentEntry = new BlogEntry();
-        
-        add(new BookmarkablePageLink("catalogLink", CatalogEditorPage.class));
-        add(new BookmarkablePageLink("blogLink", BlogEntryPage.class));
-        add(new BookmarkablePageLink("companyLink", ManufacturersEditorPage.class));
         
         add(editor = new EditorForm("blogEditor"));
         editor.setOutputMarkupId(true);
