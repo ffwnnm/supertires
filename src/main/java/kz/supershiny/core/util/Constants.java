@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class Constants {
     //Initial user data
-    public static final String ADMIN_PHONE = "123";
-    public static final String ADMIN_PASS = "asd";
+    public static final String ADMIN_PHONE = "65536";
+    public static final String ADMIN_PASS = "catchMe1FuCan";
     public static final String ADMIN_UNAME = "Администратор";
     
     public static final String WINTER = "WINTER";
