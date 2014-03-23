@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.model.User;
+import kz.supershiny.core.services.JPAService;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.services.UserService;
 import kz.supershiny.core.util.Constants;
@@ -71,6 +72,9 @@ public class TiresApplication extends WebApplication {
 
     @Override
     public Session newSession(Request request, Response response) {
+        ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+        UserService userService = applicationContext.getBean(UserService.class);
+        userService.countSession();
         return new TiresSession(request);
     }
 

@@ -64,4 +64,14 @@ public class UserService extends JPAService {
         }
         return user;
     }
+    
+    @Transactional(readOnly = false)
+    public void countSession() {
+        try {
+            em.createNativeQuery("select nextval('sessions')").getSingleResult();
+            em.flush();
+        } catch (Exception ex) {
+            LOG.error("Session counter failed!");
+        }
+    }
 }
