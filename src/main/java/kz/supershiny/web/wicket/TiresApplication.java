@@ -8,6 +8,7 @@ package kz.supershiny.web.wicket;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.TireService;
@@ -27,13 +28,18 @@ import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
+import org.apache.wicket.protocol.http.servlet.ServletWebResponse;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
+import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.settings.IExceptionSettings;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.apache.wicket.util.time.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
@@ -43,6 +49,10 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 public class TiresApplication extends WebApplication {
     
     private static final Logger LOG = LoggerFactory.getLogger(TiresApplication.class);
+    private static final List<String> botAgents = Arrays.asList(
+        //Only LOWER CASE!
+        "googlebot", "msnbot", "slurp", "yandex", "stackrambler", "bingbot"
+    );
 
     @Override
     protected void init() {
@@ -70,23 +80,24 @@ public class TiresApplication extends WebApplication {
     }
     
     private void mountPages() {
-        mountPage("/home", HomePage.class);
-        mountPage("/login", LoginPage.class);
-        mountPage("/admin-catalog", CatalogEditorPage.class);
-        mountPage("/admin-blog", BlogEntryPage.class);
-        mountPage("/admin-company", ManufacturersEditorPage.class);
-        mountPage("/admin-proposal", ProposalsViewPage.class);
-        mountPage("/catalogue", CataloguePage.class);
-        mountPage("/contacts", ContactsPage.class);
-        mountPage("/propose", ProposalPage.class);
-        mountPage("/company", ManufacturerPage.class);
-        mountPage("/error", ErrorPage.class);
+        mount(new TiresPageMapper("/home", HomePage.class));
+        mount(new TiresPageMapper("/login", LoginPage.class));
+        mount(new TiresPageMapper("/admin-catalog", CatalogEditorPage.class));
+        mount(new TiresPageMapper("/admin-blog", BlogEntryPage.class));
+        mount(new TiresPageMapper("/admin-company", ManufacturersEditorPage.class));
+        mount(new TiresPageMapper("/admin-proposal", ProposalsViewPage.class));
+        mount(new TiresPageMapper("/catalogue", CataloguePage.class));
+        mount(new TiresPageMapper("/contacts", ContactsPage.class));
+        mount(new TiresPageMapper("/propose", ProposalPage.class));
+        mount(new TiresPageMapper("/company", ManufacturerPage.class));
+        mount(new TiresPageMapper("/error", ErrorPage.class));
         getApplicationSettings().setPageExpiredErrorPage(ErrorPage.class);
         getApplicationSettings().setAccessDeniedPage(ErrorPage.class);
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
+        getRequestCycleSettings().setTimeout(Duration.seconds(40));  //set request timeout (if backend is slow)
         getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
     }
-
+    
     private void createInitialUser() {
         User user = new User();
         user.setPhone(Constants.ADMIN_PHONE);
@@ -124,5 +135,35 @@ public class TiresApplication extends WebApplication {
             }
         }
         ts = null;
+    }
+ 
+    //decide whether the client is a bot
+    public static boolean isAgent(final String agent) {
+        if(agent != null) {
+            LOG.error("User-agent is: " + agent);
+            return botAgents.contains(agent.toLowerCase());
+        }
+        return false;
+    }
+    
+    //Remove jsessionid for bots
+    protected WebResponse newWebResponse(final WebRequest webRequest, final HttpServletResponse httpServletResponse){
+        return new ServletWebResponse((ServletWebRequest)webRequest, httpServletResponse) {
+
+          @Override
+          public String encodeURL(CharSequence url) {
+              return isRobot(webRequest) ? url.toString() : super.encodeURL(url);
+          }
+
+          @Override
+          public String encodeRedirectURL(CharSequence url) {
+              return isRobot(webRequest) ? url.toString() : super.encodeRedirectURL(url);
+          }
+
+          private boolean isRobot(WebRequest request) {
+              final String agent = webRequest.getHeader("User-Agent");
+              return isAgent(agent);
+          }
+      };
     }
 }

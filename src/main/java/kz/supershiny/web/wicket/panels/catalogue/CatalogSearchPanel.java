@@ -11,8 +11,6 @@ import kz.supershiny.core.pojo.TireSearchCriteria;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.TiresApplication;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
