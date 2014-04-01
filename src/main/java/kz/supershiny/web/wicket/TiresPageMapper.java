@@ -15,6 +15,7 @@ import org.apache.wicket.request.mapper.info.PageComponentInfo;
 import org.apache.wicket.request.mapper.parameter.PageParametersEncoder;
 
 /**
+ * Mapper for URLs without version number
  *
  * @author kilrwhle
  */

@@ -11,11 +11,14 @@ import java.util.List;
 import kz.supershiny.core.model.BlogEntry;
 import kz.supershiny.core.services.InfoService;
 import kz.supershiny.core.util.Constants;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.PageableListView;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
@@ -27,8 +30,8 @@ public class HomePage extends BasePage {
     @SpringBean
     private InfoService infoService;
     
-    private PageableListView listView;
-    private WebMarkupContainer listContainer;
+    private  final PageableListView listView;
+    private final WebMarkupContainer listContainer;
     
     private List<BlogEntry> entries;
 
@@ -54,5 +57,36 @@ public class HomePage extends BasePage {
         };
         listContainer.add(listView);
         add(listContainer);
+    }
+
+    @Override
+    protected void onBeforeRender() {
+        //SEO
+        addOrReplace(new Label("title", getPageTitle()));
+        
+        Label desc = new Label("description", "");
+        desc.add(new AttributeAppender("CONTENT", getDescription(), " "));
+        addOrReplace(desc);
+        
+        Label keywords = new Label("keywords","");
+        keywords.add(new AttributeAppender("CONTENT", getKeywords(), " "));
+        addOrReplace(keywords);
+        
+        super.onBeforeRender();
+    }
+
+    @Override
+    public IModel getKeywords() {
+        return new StringResourceModel("keywords", HomePage.this, null);
+    }
+
+    @Override
+    public IModel getDescription() {
+        return new StringResourceModel("description", HomePage.this, null);
+    }
+
+    @Override
+    public IModel getPageTitle() {
+        return new StringResourceModel("title", HomePage.this, null);
     }
 }

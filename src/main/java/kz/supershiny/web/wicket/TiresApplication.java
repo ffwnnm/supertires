@@ -11,7 +11,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.model.User;
-import kz.supershiny.core.services.JPAService;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.services.UserService;
 import kz.supershiny.core.util.Constants;

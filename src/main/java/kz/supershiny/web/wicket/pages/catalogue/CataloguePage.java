@@ -16,12 +16,15 @@ import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.panels.catalogue.CatalogSearchPanel;
 import kz.supershiny.web.wicket.panels.catalogue.TireWidgetPanel;
 import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
@@ -93,5 +96,36 @@ public class CataloguePage extends BasePage {
     private TireSearchCriteria getCriteria() {
         return ((TiresApplication) getApplication())
                             .getTiresSession().getTireSearchCriteria();
+    }
+    
+    @Override
+    protected void onBeforeRender() {
+        //SEO
+        addOrReplace(new Label("title", getPageTitle()));
+        
+        Label desc = new Label("description", "");
+        desc.add(new AttributeAppender("CONTENT", getDescription(), " "));
+        addOrReplace(desc);
+        
+        Label keywords = new Label("keywords","");
+        keywords.add(new AttributeAppender("CONTENT", getKeywords(), " "));
+        addOrReplace(keywords);
+        
+        super.onBeforeRender();
+    }
+
+    @Override
+    public IModel getKeywords() {
+        return new StringResourceModel("keywords", CataloguePage.this, null);
+    }
+
+    @Override
+    public IModel getDescription() {
+        return new StringResourceModel("description", CataloguePage.this, null);
+    }
+
+    @Override
+    public IModel getPageTitle() {
+        return new StringResourceModel("title", CataloguePage.this, null);
     }
 }
