@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" 
+      xml:lang="en" 
+      lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>ImageUploadPanel</title>
+    </head>
+    <body>
+        <wicket:panel>
+            <h4><wicket:message key="uploadCaption"/></h4>
+            
+            <div class="row">
+                <div class="form-group col-lg-6 col-md-8">
+                    <div class="input-group">
+                        <input type="file" multiple="multiple" wicket:id="fileUpload" class="form-control"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><wicket:message key="upload"/></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row" wicket:id="viewContainer">
+                <div class="col-sm-6 col-md-4" wicket:id="imagesView">
+                    <div class="thumbnail">
+                        <img wicket:id="image" style="height: 300px; width: 300px;" alt="..."/>
+                        <div class="caption">
+                            <p class="btn-group">
+                                <a wicket:id="defaultLink" class="btn btn-default"><span class="glyphicon glyphicon-check"/> <wicket:message key="default"/></a>
+                                <a wicket:id="removeLink" class="btn btn-danger"><span class="glyphicon glyphicon-remove"/></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <form wicket:id="uploadForm">
+                <div wicket:id="fileUpload"></div>
+                <a href="#" wicket:id="uploadButton" style="border: #6F6F6F solid thin; padding: 5px;">
+                    UPLOAD
+                </a>
+                <!--<input type="submit" value="Submit"/>-->
+            </form>
+            <hr/>
+        </wicket:panel>
+    </body> 
+</html>

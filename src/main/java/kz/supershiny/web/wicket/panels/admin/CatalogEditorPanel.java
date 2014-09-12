@@ -305,14 +305,14 @@ public final class CatalogEditorPanel extends Panel {
                     //set images for this tire
                     if(imagesForUpload != null && !imagesForUpload.isEmpty()) {
                         for(FileUpload item : imagesForUpload) {
-                            TireImage ti = new TireImage(
-                                    item.getClientFileName(),
-                                    Base64Coder.encodeLines(item.getBytes())
-                                );
-                            if(ti.getFileName().startsWith(Constants.IMAGE_PREVIEW_PREFIX)) {
-                                ti.setPreview(Constants.Y);
-                            }
-                            tire.addImage(ti);
+//                            TireImage ti = new TireImage(
+//                                    item.getClientFileName(),
+//                                    Base64Coder.encodeLines(item.getBytes())
+//                                );
+//                            if(ti.getFileName().startsWith(Constants.IMAGE_PREVIEW_PREFIX)) {
+//                                ti.setPreview(Constants.Y);
+//                            }
+//                            tire.addImage(ti);
                         }
                     }
                     
@@ -398,7 +398,8 @@ public final class CatalogEditorPanel extends Panel {
                     Image image = new Image("image", new DynamicImageResource() {
                         @Override
                         protected byte[] getImageData(IResource.Attributes atrbts) {
-                            return Base64Coder.decodeLines(ti.getEncodedImage());
+//                            return Base64Coder.decodeLines(ti.getEncodedImage());
+                            return null;
                         }
                     });
                     AjaxLink removeLink = new AjaxLink("removeImage") {

@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -31,36 +32,48 @@ public class Tire implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @Column(name = "MODEL_NAME")
     private String modelName;
+    
     @Column
     private String season;
+    
     @Column
     private BigDecimal price;
+    
     @Column
     private Long quantity;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "SIZE_ID")
     private TireSize size;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TYPE_ID")
     private TireType type;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "COUNTRY_ID")
     private Country country;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "MANUFACTURER_ID")
     private Manufacturer manufacturer;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tire", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<TireImage> images;
+    
+    @Transient
+    private TireImage preview;
 
     public Tire() {
         this.quantity = 0L;
         this.price = BigDecimal.ZERO;
     }
 
-    public Tire(TireSize size, String modelName, String season, BigDecimal price, Long quantity, TireType type, Country country, Manufacturer manufacturer) {
+    public Tire(TireSize size, String modelName, String season, BigDecimal price, 
+            Long quantity, TireType type, Country country, Manufacturer manufacturer) {
         this.size = size;
         this.modelName = modelName;
         this.season = season;
@@ -114,6 +127,14 @@ public class Tire implements Serializable {
         if(image != null && images.contains(image)) {
             images.remove(image);
         }
+    }
+    
+    public TireImage getPreview() {
+        return preview;
+    }
+
+    public void setPreview(TireImage preview) {
+        this.preview = preview;
     }
 
     public List<TireImage> getImages() {

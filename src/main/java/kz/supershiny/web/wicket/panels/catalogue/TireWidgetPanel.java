@@ -45,7 +45,8 @@ public class TireWidgetPanel extends Panel {
             mainImage = new Image("preview", new DynamicImageResource() {
                 @Override
                 protected byte[] getImageData(IResource.Attributes atrbts) {
-                    return Base64Coder.decodeLines(tireService.getPreviewForTire(tire).getEncodedImage());
+//                    return Base64Coder.decodeLines(tireService.getPreviewForTire(tire).getEncodedImage());
+                    return null;
                 }
             });
             add(mainImage);

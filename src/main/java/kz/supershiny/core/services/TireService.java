@@ -186,6 +186,20 @@ public class TireService extends JPAService {
         return result;
     }
     
+    @Transactional(readOnly = true)
+    public TireImage getTirePreview(Tire tire) {
+        TireImage result = null;
+        try {
+            result = (TireImage) em.createQuery("SELECT T FROM TireImage T WHERE T.tire = :tire AND T.isPreview = TRUE")
+                    .setParameter("tire", tire)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            result = null;
+            LOG.error("Unable to load preview for tire!");
+        }
+        return result;
+    }
+    
     @Transactional(readOnly = false)
     public void removeImage(TireImage image) {
         if(image == null) return;

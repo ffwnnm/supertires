@@ -7,6 +7,8 @@ package kz.supershiny.core.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import kz.supershiny.core.util.Constants;
+import kz.supershiny.core.services.ImageService.ImageSize;
 import org.hibernate.annotations.Type;
 
 /**
@@ -30,27 +32,31 @@ public class TireImage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TIRE_ID")
     private Tire tire;
-    @Column
+    
+    @Column(name = "filename")
     private String fileName;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "image_size")
+    private ImageSize imageSize;
+    
     @Lob
-    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "image_body")
-    private String encodedImage;
-    @Column(name = "is_preview")
-    private String preview = Constants.N;
+    private byte[] imageBody;
+    
+    @Column(name = "preview")
+    @Type(type = "yes_no")
+    private Boolean isPreview = Boolean.FALSE;
 
-    public TireImage(Tire tire, String fileName, String encodedImage) {
+    public TireImage(Tire tire, String fileName, ImageSize imageSize, byte[] imageBody) {
         this.tire = tire;
         this.fileName = fileName;
-        this.encodedImage = encodedImage;
-    }
-
-    public TireImage(String fileName, String encodedImage) {
-        this.fileName = fileName;
-        this.encodedImage = encodedImage;
+        this.imageSize = imageSize;
+        this.imageBody = imageBody;
     }
 
     public TireImage() {
@@ -59,7 +65,8 @@ public class TireImage implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + (this.encodedImage != null ? this.encodedImage.hashCode() : 0);
+        hash = 59 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 59 * hash + (this.fileName != null ? this.fileName.hashCode() : 0);
         return hash;
     }
 
@@ -75,23 +82,13 @@ public class TireImage implements Serializable {
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
+        if (this.tire != other.tire && (this.tire == null || !this.tire.equals(other.tire))) {
+            return false;
+        }
+        if ((this.fileName == null) ? (other.fileName != null) : !this.fileName.equals(other.fileName)) {
+            return false;
+        }
         return true;
-    }
-
-    public String getPreview() {
-        return preview;
-    }
-
-    public void setPreview(String preview) {
-        this.preview = preview;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
     }
 
     public Long getId() {
@@ -110,11 +107,35 @@ public class TireImage implements Serializable {
         this.tire = tire;
     }
 
-    public String getEncodedImage() {
-        return encodedImage;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setEncodedImage(String encodedImage) {
-        this.encodedImage = encodedImage;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public ImageSize getImageSize() {
+        return imageSize;
+    }
+
+    public void setImageSize(ImageSize imageSize) {
+        this.imageSize = imageSize;
+    }
+
+    public byte[] getImageBody() {
+        return imageBody;
+    }
+
+    public void setImageBody(byte[] imageBody) {
+        this.imageBody = imageBody;
+    }
+
+    public Boolean getIsPreview() {
+        return isPreview;
+    }
+
+    public void setIsPreview(Boolean isPreview) {
+        this.isPreview = isPreview;
     }
 }
