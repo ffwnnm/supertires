@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" 
+      xml:lang="en" 
+      lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>SearchPanel</title>
+    </head>
+    <body>
+        <wicket:panel>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel"><wicket:message key="photos"/> <span wicket:id="tireModel"/></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                    <center>
+                                        <a href="#" wicket:id="prev" style="font-size: x-large;">
+                                            <span class="glyphicon glyphicon-chevron-left"></span>
+                                        </a>
+                                    </center>
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <center>
+                                        <img wicket:id="image" style="height: 90%; width: 90%;"></img>
+                                    </center>
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                    <center>
+                                        <a href="#" wicket:id="next" style="font-size: x-large; padding: auto 0 auto 0;">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </a>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="btn-toolbar" role="toolbar">
+                                <div class="btn-group" wicket:id="numbers">
+                                    <a href="#" class="btn btn-default" wicket:id="numberLink"><span wicket:id="number"/></a>
+                                </div>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </wicket:panel>
+    </body>
+</html>

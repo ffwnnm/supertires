@@ -292,11 +292,12 @@ public class TireService extends JPAService {
     }
     
     @Transactional(readOnly = true)
-    public List<TireImage> getImagesForTire(Tire tire) {
+    public List<TireImage> getImagesForTire(Tire tire, ImageService.ImageSize size) {
         List<TireImage> result = null;
         try {
-            result = em.createQuery("SELECT i FROM TireImage i WHERE i.tire = :tire ORDER BY i.id ASC")
+            result = em.createQuery("SELECT i FROM TireImage i WHERE i.tire = :tire AND i.imageSize = :size ORDER BY i.id ASC")
                     .setParameter("tire", tire)
+                    .setParameter("size", size)
                     .getResultList();
         } catch (Exception ex) {
             result = null;
