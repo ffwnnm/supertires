@@ -14,17 +14,13 @@ import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.services.UserService;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.pages.HomePage;
 import kz.supershiny.web.wicket.pages.LoginPage;
-import kz.supershiny.web.wicket.pages.admin.BlogEntryPage;
-import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
-import kz.supershiny.web.wicket.pages.admin.ManufacturersEditorPage;
-import kz.supershiny.web.wicket.pages.admin.ProposalsViewPage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
-import kz.supershiny.web.wicket.pages.catalogue.ProposalPage;
+import kz.supershiny.web.wicket.pages.error.Error404Page;
 import kz.supershiny.web.wicket.pages.error.ErrorPage;
+import kz.supershiny.web.wicket.pages.general.BlogPage;
 import kz.supershiny.web.wicket.pages.general.ContactsPage;
-import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
+import kz.supershiny.web.wicket.pages.general.FAQPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -79,23 +75,19 @@ public class TiresApplication extends WebApplication {
 
     @Override
     public Class<? extends Page> getHomePage() {
-        return HomePage.class;
+        return CataloguePage.class;
     }
     
     private void mountPages() {
-        mount(new TiresPageMapper("/home", HomePage.class));
+        mount(new TiresPageMapper("/catalog", CataloguePage.class));
+        mount(new TiresPageMapper("/blog", BlogPage.class));
+        mount(new TiresPageMapper("/about", ContactsPage.class));
+        mount(new TiresPageMapper("/faq", FAQPage.class));
         mount(new TiresPageMapper("/login", LoginPage.class));
-        mount(new TiresPageMapper("/admin-catalog", CatalogEditorPage.class));
-        mount(new TiresPageMapper("/admin-blog", BlogEntryPage.class));
-        mount(new TiresPageMapper("/admin-company", ManufacturersEditorPage.class));
-        mount(new TiresPageMapper("/admin-proposal", ProposalsViewPage.class));
-        mount(new TiresPageMapper("/catalogue", CataloguePage.class));
-        mount(new TiresPageMapper("/contacts", ContactsPage.class));
-        mount(new TiresPageMapper("/propose", ProposalPage.class));
-        mount(new TiresPageMapper("/company", ManufacturerPage.class));
         mount(new TiresPageMapper("/error", ErrorPage.class));
+        mount(new TiresPageMapper("/404", Error404Page.class));
         getApplicationSettings().setPageExpiredErrorPage(ErrorPage.class);
-        getApplicationSettings().setAccessDeniedPage(ErrorPage.class);
+        getApplicationSettings().setAccessDeniedPage(Error404Page.class);
         getApplicationSettings().setInternalErrorPage(ErrorPage.class);
         getRequestCycleSettings().setTimeout(Duration.seconds(40));  //set request timeout (if backend is slow)
         getExceptionSettings().setUnexpectedExceptionDisplay(IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE);
@@ -137,7 +129,6 @@ public class TiresApplication extends WebApplication {
                 LOG.error("Failed to save tire type: " + t.getTypeName());
             }
         }
-        ts = null;
     }
  
     //decide whether the client is a bot

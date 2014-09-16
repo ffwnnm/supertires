@@ -11,6 +11,8 @@ import kz.supershiny.core.util.Base64Coder;
 import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.pages.HomePage;
 import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
@@ -45,8 +47,12 @@ public class TireWidgetPanel extends Panel {
             mainImage = new Image("preview", new DynamicImageResource() {
                 @Override
                 protected byte[] getImageData(IResource.Attributes atrbts) {
-//                    return Base64Coder.decodeLines(tireService.getPreviewForTire(tire).getEncodedImage());
-                    return null;
+                    TireImage preview = tireService.getPreviewForTire(tire);
+                    if (preview != null) {
+                        return preview.getImageBody();
+                    } else {
+                        return null;
+                    }
                 }
             });
             add(mainImage);
@@ -55,6 +61,7 @@ public class TireWidgetPanel extends Panel {
         }
         
         add(new Label("price", new PropertyModel(tire, "price")));
+        add(new Label("price2", new PropertyModel(tire, "price")));
         add(new Link("manufacturerLink") {
             @Override
             public void onClick() {
@@ -65,15 +72,25 @@ public class TireWidgetPanel extends Panel {
         add(new Label("sizeCentimeters", tire.getSize().getSizeVerbal()));
         add(new Label("season", new StringResourceModel(tire.getSeason(), TireWidgetPanel.this, null).getString()));
         
-        String iconURL = "images/";
-        if(Constants.SUMMER.equals(tire.getSeason())) iconURL += "summer.jpg";
-        if(Constants.WINTER.equals(tire.getSeason())) iconURL += "winter.jpg";
-        if(Constants.ALL_SEASONS.equals(tire.getSeason())) iconURL += "allseasons.jpg";
-        add(new ContextImage("seasonIcon", iconURL));
-        
         add(new Label("type", tire.getType().getTypeName()));
         add(new Label("country", tire.getCountry().getName()));
         add(new Label("tireId", tire.getId()));
+        
+        add(new AjaxLink("adminRemove") {
+            
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                //TODO: implement!
+            }
+        });
+        
+        add(new AjaxLink("adminEdit") {
+            
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                //TODO: implement!
+            }
+        });
     }
     
 }

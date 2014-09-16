@@ -9,37 +9,38 @@
     </head>
     <body>
         <wicket:panel>
-            <div id="searchPanel">
-                <h2><wicket:message key="searchDisclaimer"/></h2>
-                <br/>
-                <form wicket:id="searchForm">
-                    <div id="searchCriteria1">
-                        <div class="search-left">
-                            <p><wicket:message key="size"/></p>
-                            <select wicket:id="width" class="form-input-select" style="width: 60px;"/>
-                            /
-                            <select wicket:id="height" class="form-input-select" style="width: 60px;"/>
-                            /
-                            <select wicket:id="radius" class="form-input-select" style="width: 60px;"/>
+            <!-- /.navbar-collapse -->
+            <div class="nav nav-pills">
+                <div class="row">
+                    <form wicket:id="searchForm">
+                        <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                            <h5><wicket:message key="size"/></h5>
+                            <select class="big-select" wicket:id="width"></select>
+                            &nbsp;/&nbsp;
+                            <select class="big-select" wicket:id="height"></select>
+                            &nbsp;/&nbsp;
+                            <select class="big-select" wicket:id="radius"></select>
                         </div>
-                        <div class="search-left">
-                            <p><wicket:message key="season"/></p>
-                            <select wicket:id="season" class="form-input-select"/>
+                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                            <h5><wicket:message key="season"/></h5>
+                            <select class="big-select" style="width: 140px;" wicket:id="season"></select>
                         </div>
-                        <div class="search-left">
-                            <p><wicket:message key="manufacturer"/></p>
-                            <select wicket:id="manufacturer" class="form-input-select"/>
+                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                            <h5><wicket:message key="manufacturer"/></h5>
+                            <select class="big-select" style="width: 140px;" wicket:id="manufacturer"></select>
                         </div>
-                        <div class="search-left">
-                            <input type="submit" wicket:id="search" wicket:message="value:search" class="btn-search"/>
+                        <div class="col-lg-2 col-md-1 col-sm-6 col-xs-6">
+                            <a class="btn btn-sm btn-default" style="margin-top: 29px; float: right;" href="#" wicket:id="clear">
+                                <wicket:message key="clear"/>
+                            </a>
                         </div>
-                        <div class="search-left">
-                            <div class="btn-clear">
-                                <a href="#" wicket:id="clear"><wicket:message key="clear"/></a>
-                            </div>
+                        <div class="col-lg-2 col-md-1 col-sm-6 col-xs-6">
+                            <a class="btn btn-md btn-primary" style="margin-top: 27px; float: left;" href="#" wicket:id="search">
+                                <wicket:message key="search"/>
+                            </a>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </wicket:panel>
     </body>

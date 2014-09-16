@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class Constants {
     //Initial user data
-    public static final String ADMIN_PHONE = "65536";
-    public static final String ADMIN_PASS = "catchMe1FuCan";
+    public static final String ADMIN_PHONE = "7770123210";
+    public static final String ADMIN_PASS = "pAssworD";
     public static final String ADMIN_UNAME = "Администратор";
     
     public static final String WINTER = "WINTER";
@@ -24,8 +24,8 @@ public class Constants {
     public static final List<String> seasons = Arrays.asList(SUMMER, WINTER, ALL_SEASONS);
     
     public static final String IMAGE_PREVIEW_PREFIX = "main";
-    public static final int MAX_IMAGES_UPLOAD_SIZE_KB = 2048;
-    public static final int MAX_IMAGES_PER_ITEM = 5;
+    public static final int MAX_IMAGES_UPLOAD_SIZE_KB = 8072;
+    public static final int MAX_IMAGES_PER_ITEM = 10;
     public static final int ITEMS_PER_PAGE_SIMPLE = 20;
     public static final int ITEMS_PER_PAGE = 15;
     

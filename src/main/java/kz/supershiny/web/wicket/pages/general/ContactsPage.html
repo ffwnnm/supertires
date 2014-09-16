@@ -9,20 +9,51 @@
     </head>
     <body>
         <wicket:extend>
-            <h2><wicket:message key="disclaimer"/></h2>
-            <div id="modules">
-                <div id="mod1">
-                    <div class="padding"> <img src="images/ava1.jpg" alt="" />
-                        <div class="contactName"> <br />
-                            <wicket:message key="name1"/>
-                        </div>
-                        <div class="text">
-                            <h2><a href="#"><wicket:message key="phone1"/></a></h2>
-                            <p><wicket:message key="about1"/></p>
-                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="page-header">Все о нас
+                            <small>Добро пожаловать!</small>
+                        </h3>
+                        <ol class="breadcrumb">
+                            <li><a href="index.html">Домашняя страница</a>
+                            </li>
+                            <li class="active">Все о нас</li>
+                        </ol>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <img class="img-responsive" src="images/ss-logo.jpg">
+                    </div>
+                    <div class="col-md-6">
+                        <h2>Добро пожаловать на СуперШины.KZ</h2>
+                        <p>На нашем сайте представлен довольно широкий ассортимент автомобильных шин на все сезоны, разных размеров и под разные типы авто.</p>
+                        <p>Наша цель - обеспечить автолюбителей качественной резиной по скромной цене. Мы стремимся обрабатывать каждый заказ вовремя и отвечаем за качество товара.</p>
+                        <p>Если даже Вы не нашли в нашем каталоге того, что искали - не беда! Оставьте заявку на сайте или позвоните по указанному в шапке страницы телефону - мы постараемся найти нужный товар или оформим предзаказ.</p>
+                        <br/>
+                        <h3>Супер Шины</h3>
+                        <h4>Спецы по продаже шин</h4>
+                        <p>
+                            г. Алматы, бла-бла-бла<br/>
+                            Карсити, #123<br/>
+                        </p>
+                        <p><i class="fa fa-phone"></i> <abbr title="Phone">Телефон</abbr>: +7 (701) 124 4791</p>
+                        <p><i class="fa fa-envelope-o"></i> <abbr title="Email">Email</abbr>: <a href="mailto:supershiny@gmail.com">supershiny@gmail.com</a></p>
+                        <p><i class="fa fa-clock-o"></i> <abbr title="Hours">График работы</abbr>: Вторник - Воскресенье с 10-00 до 18-00</p>
+                        <ul class="list-unstyled list-inline list-social-icons">
+                            <li class="tooltip-social facebook-link"><a href="#facebook-page" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+                            <li class="tooltip-social linkedin-link"><a href="#linkedin-company-page" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="fa fa-linkedin-square fa-2x"></i></a></li>
+                            <li class="tooltip-social twitter-link"><a href="#twitter-profile" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li>
+                            <li class="tooltip-social google-plus-link"><a href="#google-plus-page" data-toggle="tooltip" data-placement="top" title="Google+"><i class="fa fa-google-plus-square fa-2x"></i></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
             </div>
+            <!-- /.container -->
         </wicket:extend>
     </body>
 </html>

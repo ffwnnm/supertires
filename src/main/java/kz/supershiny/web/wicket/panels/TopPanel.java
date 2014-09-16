@@ -4,22 +4,21 @@
  */
 package kz.supershiny.web.wicket.panels;
 
-import kz.supershiny.core.model.User;
-import kz.supershiny.web.wicket.TiresApplication;
 import kz.supershiny.web.wicket.pages.HomePage;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
+import kz.supershiny.web.wicket.pages.LoginPage;
+import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
+import kz.supershiny.web.wicket.pages.general.ContactsPage;
+import kz.supershiny.web.wicket.pages.general.FAQPage;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 
 /**
+ * Logo + main menu.
  *
  * @author kilrwhle
  */
 public final class TopPanel extends Panel {
-    
-    private WebMarkupContainer userAccountContainer;
-    private User user;
 
     public TopPanel(String id) {
         super(id);
@@ -31,22 +30,10 @@ public final class TopPanel extends Panel {
             }
         });
         
-        user = ((TiresApplication) getApplication()).getTiresSession().getUser();
-        
-        userAccountContainer = new WebMarkupContainer("userAccountContainer");
-        add(userAccountContainer.setVisible(user != null));
-        
-        userAccountContainer.add(new Link("logoutLink") {
-            @Override
-            public void onClick() {
-                user = null;
-                getSession().invalidateNow();
-                setResponsePage(HomePage.class);
-            }
-        });
-        userAccountContainer.add(new Label(
-                    "username", 
-                    user == null ? "" : user.getUsername()
-                ));
+        add(new BookmarkablePageLink("catalogueLink", CataloguePage.class));
+        add(new BookmarkablePageLink("blogLink", HomePage.class));
+        add(new BookmarkablePageLink("aboutLink", ContactsPage.class));
+        add(new BookmarkablePageLink("faqLink", FAQPage.class));
+        add(new BookmarkablePageLink("loginLink", LoginPage.class));
     }
 }

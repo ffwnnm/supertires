@@ -26,7 +26,7 @@
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/home</location>
+        <location>/404</location>
     </error-page>
     
     <!--Wicket deployment mode-->

@@ -8,14 +8,14 @@
     </wicket:head>
     <body>
         <wicket:extend>
-            <div id="searchPanel" wicket:id="searchPanel"></div>
-            <br/>
-            <h2><wicket:message key="catalogueDisclaimer"/></h2>
-            <br/>
-            <div wicket:id="tiresContainer">
+            <div class="container search-panel" wicket:id="searchPanel"></div>
+            
+            <hr/>
+            
+            <div class="container" wicket:id="tiresContainer">
                 <div class="catalog-paging" wicket:id="navigator1"></div>
-                <div id="catalog" wicket:id="widgetsList">
-                    <div id="modTire" wicket:id="widget"></div>
+                <div class="row tire" wicket:id="widget">
+                    Widget panel here
                 </div>
                 <div class="catalog-paging" wicket:id="navigator2"></div>
             </div>
