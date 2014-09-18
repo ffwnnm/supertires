@@ -76,15 +76,24 @@ public class CataloguePage extends BasePage {
         };
         
         tiresContainer = new WebMarkupContainer("tiresContainer");
-        tiresDataView = new DataView<Tire>("widgetsList", catalogProvider, Constants.ITEMS_PER_PAGE) {
-            @Override
-            protected void populateItem(Item<Tire> item) {
-                item.add(new TireWidgetPanel("widget", item.getModelObject()));
-            }
-        };
-        tiresContainer.add(tiresDataView.setOutputMarkupId(true));
-        tiresContainer.add(new AjaxPagingNavigator("navigator1", tiresDataView));
-        tiresContainer.add(new AjaxPagingNavigator("navigator2", tiresDataView));
+        if (catalogProvider.size() > 0) {
+            tiresContainer.add(new Label("empty").setVisible(false));
+            tiresDataView = new DataView<Tire>("widgetsList", catalogProvider, Constants.ITEMS_PER_PAGE) {
+                @Override
+                protected void populateItem(Item<Tire> item) {
+                    item.add(new TireWidgetPanel("widget", item.getModelObject()));
+                }
+            };
+            tiresContainer.add(tiresDataView.setOutputMarkupId(true));
+            tiresContainer.add(new AjaxPagingNavigator("navigator1", tiresDataView));
+            tiresContainer.add(new AjaxPagingNavigator("navigator2", tiresDataView));
+        } else {
+            tiresContainer.add(new Label("empty", new StringResourceModel("catalog.empty", CataloguePage.this, null).getString()).setVisible(true));
+            tiresContainer.add(new Label("widgetsList").setVisible(false));
+            tiresContainer.add(new Label("navigator1").setVisible(false));
+            tiresContainer.add(new Label("navigator2").setVisible(false));
+        }
+        
         add(tiresContainer.setOutputMarkupId(true));
     }
     
