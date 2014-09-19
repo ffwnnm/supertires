@@ -13,7 +13,7 @@
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <wicket.version>6.16.0</wicket.version>
-        <postgres.version>9.1-901.jdbc4</postgres.version>
+        <postgres.version>9.2-1000.jdbc4</postgres.version>
         <hibernate.version>3.6.10.Final</hibernate.version>
         <slf4j.version>1.5.8</slf4j.version>
         <spring.version>3.0.5.RELEASE</spring.version>
