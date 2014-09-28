@@ -8,10 +8,13 @@ import kz.supershiny.core.exceptions.TiresAuthenticationException;
 import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.UserService;
 import kz.supershiny.web.wicket.TiresApplication;
+import kz.supershiny.web.wicket.pages.admin.AdminBasePage;
 import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
+import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
@@ -36,8 +39,16 @@ public class LoginPage extends BasePage {
         super();
         
         if((user = getUser()) != null) {
-            setResponsePage(CatalogEditorPage.class);
+            setResponsePage(AdminBasePage.class);
+            return;
         }
+        
+        add(new Link("homepage") {
+            @Override
+            public void onClick() {
+                setResponsePage(CataloguePage.class);
+            }
+        });
         
         add(new FeedbackPanel("loginFeedback").setOutputMarkupId(true));
         add(new LoginForm("loginForm").setVisible(user == null));
@@ -63,7 +74,7 @@ public class LoginPage extends BasePage {
                 ((TiresApplication) getApplication())
                         .getTiresSession()
                         .setUser(user);
-                setResponsePage(CatalogEditorPage.class);
+                setResponsePage(AdminBasePage.class);
             } catch (TiresAuthenticationException ex) {
                 user = null;
                 LoginPage.this.error(new StringResourceModel("error.authentication", LoginPage.this, null).getString());

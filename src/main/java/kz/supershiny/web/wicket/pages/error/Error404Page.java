@@ -6,8 +6,8 @@
 package kz.supershiny.web.wicket.pages.error;
 
 import kz.supershiny.web.wicket.pages.BasePage;
-import kz.supershiny.web.wicket.pages.HomePage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
+import kz.supershiny.web.wicket.pages.general.BlogPage;
 import kz.supershiny.web.wicket.pages.general.ContactsPage;
 import kz.supershiny.web.wicket.pages.general.FAQPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -22,7 +22,7 @@ public class Error404Page extends BasePage {
         super();
         
         add(new BookmarkablePageLink("catalogueLink", CataloguePage.class));
-        add(new BookmarkablePageLink("blogLink", HomePage.class));
+        add(new BookmarkablePageLink("blogLink", BlogPage.class));
         add(new BookmarkablePageLink("aboutLink", ContactsPage.class));
         add(new BookmarkablePageLink("faqLink", FAQPage.class));
     }

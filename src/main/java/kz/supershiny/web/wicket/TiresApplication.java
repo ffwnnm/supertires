@@ -15,6 +15,7 @@ import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.services.UserService;
 import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.pages.LoginPage;
+import kz.supershiny.web.wicket.pages.admin.AdminBasePage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import kz.supershiny.web.wicket.pages.error.Error404Page;
 import kz.supershiny.web.wicket.pages.error.ErrorPage;
@@ -80,6 +81,7 @@ public class TiresApplication extends WebApplication {
     
     private void mountPages() {
         mount(new TiresPageMapper("/catalog", CataloguePage.class));
+        mount(new TiresPageMapper("/admin", AdminBasePage.class));
         mount(new TiresPageMapper("/blog", BlogPage.class));
         mount(new TiresPageMapper("/about", ContactsPage.class));
         mount(new TiresPageMapper("/faq", FAQPage.class));
