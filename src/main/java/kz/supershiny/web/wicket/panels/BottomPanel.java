@@ -5,13 +5,11 @@
  */
 package kz.supershiny.web.wicket.panels;
 
-import org.apache.wicket.markup.html.panel.Panel;
-
 /**
  *
  * @author kilrwhle
  */
-public class BottomPanel extends Panel {
+public class BottomPanel extends BasePanel {
 
     public BottomPanel(String id) {
         super(id);

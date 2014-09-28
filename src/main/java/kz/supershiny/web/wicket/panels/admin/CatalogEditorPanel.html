@@ -9,70 +9,72 @@
     </head>
     <body>
         <wicket:panel>
-            <div id="editForm">
-                <h2><wicket:message key="editDisclaimer"/></h2>
-                <form wicket:id="editTireForm">
-                    <div wicket:id="feedback"></div>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td><wicket:message key="manufacturer"/></td>
-                                <td><input type="text" wicket:id="manufacturer" class="form-component"/></td>
-                                <td><wicket:message key="tireType"/></td>
-                                <td><select wicket:id="type" class="form-component"/></td>
-                            </tr>
-                            <tr>
-                                <td><wicket:message key="modelName"/></td>
-                                <td><input type="text" wicket:id="modelName" class="form-component"/></td>
-                                <td><wicket:message key="season"/></td>
-                                <td><select wicket:id="season" class="form-component"/></td>
-                            </tr>
-                            <tr>
-                                <td><wicket:message key="size"/></td>
-                                <td><input type="text" wicket:id="size" class="form-component"/></td>
-                                <td><wicket:message key="price"/></td>
-                                <td><input type="text" wicket:id="price" class="form-component"/></td>
-                            </tr>
-                            <tr>
-                                <td><wicket:message key="country"/></td>
-                                <td><input type="text" wicket:id="country" class="form-component"/></td>
-                                <td><wicket:message key="quantity"/></td>
-                                <td><input type="text" wicket:id="quantity" class="form-component"/></td>
-                            </tr>
-                            <tr>
-                                <td valign="top"><wicket:message key="images"/></td>
-                                <td colspan="3" valign="top" class="form-component">
-                                    <!--<div wicket:id="imagesContainer">-->
-                                    <form wicket:id="uploadForm">
-                                        <div wicket:id="fileUpload"/>
-                                    </form>
-                                    <form wicket:id="viewForm">
-                                        <div wicket:id="viewContainer">
-                                            <div wicket:id="imagesView" class="adminImagePreview">
-                                                <p>
-                                                    <img wicket:id = "image" width="150px"/>
-                                                </p>
-                                                <p class="removeLink">
-                                                    <a href="#" wicket:id="removeImage">
-                                                        <wicket:message key="remove"/>
-                                                    </a>
-                                                </p>
+            <wicket:extend>
+                <div id="editForm">
+                    <h2><wicket:message key="editDisclaimer"/></h2>
+                    <form wicket:id="editTireForm">
+                        <div wicket:id="feedback"></div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><wicket:message key="manufacturer"/></td>
+                                    <td><input type="text" wicket:id="manufacturer" class="form-component"/></td>
+                                    <td><wicket:message key="tireType"/></td>
+                                    <td><select wicket:id="type" class="form-component"/></td>
+                                </tr>
+                                <tr>
+                                    <td><wicket:message key="modelName"/></td>
+                                    <td><input type="text" wicket:id="modelName" class="form-component"/></td>
+                                    <td><wicket:message key="season"/></td>
+                                    <td><select wicket:id="season" class="form-component"/></td>
+                                </tr>
+                                <tr>
+                                    <td><wicket:message key="size"/></td>
+                                    <td><input type="text" wicket:id="size" class="form-component"/></td>
+                                    <td><wicket:message key="price"/></td>
+                                    <td><input type="text" wicket:id="price" class="form-component"/></td>
+                                </tr>
+                                <tr>
+                                    <td><wicket:message key="country"/></td>
+                                    <td><input type="text" wicket:id="country" class="form-component"/></td>
+                                    <td><wicket:message key="quantity"/></td>
+                                    <td><input type="text" wicket:id="quantity" class="form-component"/></td>
+                                </tr>
+                                <tr>
+                                    <td valign="top"><wicket:message key="images"/></td>
+                                    <td colspan="3" valign="top" class="form-component">
+                                        <!--<div wicket:id="imagesContainer">-->
+                                        <form wicket:id="uploadForm">
+                                            <div wicket:id="fileUpload"/>
+                                        </form>
+                                        <form wicket:id="viewForm">
+                                            <div wicket:id="viewContainer">
+                                                <div wicket:id="imagesView" class="adminImagePreview">
+                                                    <p>
+                                                        <img wicket:id = "image" width="150px"/>
+                                                    </p>
+                                                    <p class="removeLink">
+                                                        <a href="#" wicket:id="removeImage">
+                                                            <wicket:message key="remove"/>
+                                                        </a>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
-                                    <!--</div>-->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="4">
-                                    <input type="button" wicket:id="save" wicket:message="value:save" class="btn-submit"/>
-                                    <input type="button" wicket:id="clear" wicket:message="value:clear" class="btn-submit"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
+                                        </form>
+                                        <!--</div>-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <input type="button" wicket:id="save" wicket:message="value:save" class="btn-submit"/>
+                                        <input type="button" wicket:id="clear" wicket:message="value:clear" class="btn-submit"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </wicket:extend>
         </wicket:panel>
     </body>
 </html>

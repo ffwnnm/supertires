@@ -6,6 +6,7 @@
 
 package kz.supershiny.web.wicket.components;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -14,7 +15,7 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
  *
  * @author kilrwhle
  */
-public abstract class ConfirmationLink<T> extends AjaxLink<T>
+public class ConfirmationLink<T> extends AjaxLink<T>
 {
     private static final long serialVersionUID = 1L;
     private final String text;
@@ -33,5 +34,10 @@ public abstract class ConfirmationLink<T> extends AjaxLink<T>
         AjaxCallListener ajaxCallListener = new AjaxCallListener();
         ajaxCallListener.onPrecondition( "return confirm('" + text + "');" );
         attributes.getAjaxCallListeners().add( ajaxCallListener );
+    }
+
+    @Override
+    public void onClick(AjaxRequestTarget target) {
+        
     }
 }

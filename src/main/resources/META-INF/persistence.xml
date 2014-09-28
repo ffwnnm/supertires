@@ -13,7 +13,7 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.show_sql" value="false"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tires"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tires2"/>
       <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://107.170.22.91:5656/tires"/>-->
       <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://postgres-env-4910938.j.dnr.kz/tires"/>-->
       
@@ -26,7 +26,7 @@
       
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      <property name="hibernate.hbm2ddl.auto" value="validate"/>
     </properties>
   </persistence-unit>
 </persistence>

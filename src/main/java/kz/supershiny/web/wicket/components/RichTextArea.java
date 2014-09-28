@@ -5,9 +5,9 @@
  */
 package kz.supershiny.web.wicket.components;
 
+import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
@@ -15,7 +15,7 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
  *
  * @author AIshmanov
  */
-public class RichTextArea extends Panel {
+public class RichTextArea extends BasePanel {
     
     private String content;
 

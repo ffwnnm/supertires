@@ -27,7 +27,7 @@ public class BlogEntry implements Serializable {
     private Long id;
     @Column(name = "HEADER", unique = true)
     private String header;
-    @Column(name = "BODY", length = 40000)
+    @Column(name = "BODY", columnDefinition = "TEXT")
     private String body;
     @Column(name = "BLOG_DATE")
     @Temporal(TemporalType.DATE)

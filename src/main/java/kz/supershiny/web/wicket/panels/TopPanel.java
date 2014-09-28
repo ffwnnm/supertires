@@ -11,14 +11,13 @@ import kz.supershiny.web.wicket.pages.general.ContactsPage;
 import kz.supershiny.web.wicket.pages.general.FAQPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.panel.Panel;
 
 /**
  * Logo + main menu.
  *
  * @author kilrwhle
  */
-public final class TopPanel extends Panel {
+public final class TopPanel extends BasePanel {
 
     public TopPanel(String id) {
         super(id);

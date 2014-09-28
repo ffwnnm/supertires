@@ -8,14 +8,14 @@ import kz.supershiny.web.wicket.pages.admin.BlogEntryPage;
 import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
 import kz.supershiny.web.wicket.pages.admin.ManufacturersEditorPage;
 import kz.supershiny.web.wicket.pages.admin.ProposalsViewPage;
+import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.panel.Panel;
 
 /**
  *
  * @author kilrwhle
  */
-public class AdminMenuPanel extends Panel {
+public class AdminMenuPanel extends BasePanel {
 
     public AdminMenuPanel(String id) {
         super(id);

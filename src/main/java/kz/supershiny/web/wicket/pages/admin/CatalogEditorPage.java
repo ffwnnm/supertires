@@ -9,7 +9,6 @@ import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.pages.LoginPage;
 import kz.supershiny.web.wicket.panels.admin.AdminMenuPanel;
 import kz.supershiny.web.wicket.panels.admin.CatalogEditorPanel;
-import kz.supershiny.web.wicket.panels.admin.SimpleTiresListPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 
 /**
@@ -28,14 +27,13 @@ public class CatalogEditorPage extends BasePage {
     public CatalogEditorPage(Tire tire) {
         super();
         
-        if(getUser() == null) {
+        if (!isLoggedIn()) {
             setResponsePage(LoginPage.class);
         }
         
         add(new AdminMenuPanel("adminMenu"));
         
         itemEditor = new CatalogEditorPanel("editorPanel", tire);
-        listPanel = new SimpleTiresListPanel("listPanel");
         add(itemEditor.setOutputMarkupId(true));
         add(listPanel.setOutputMarkupId(true));
     }

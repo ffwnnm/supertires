@@ -25,7 +25,7 @@ public class Manufacturer implements Serializable {
     private Long id;
     @Column(name = "COMPANY_NAME", unique = true)
     private String companyName;
-    @Column
+    @Column(name = "DESCRIPTION", columnDefinition = "TEXT")
     private String description;
     
     public Manufacturer() {

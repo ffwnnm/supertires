@@ -9,61 +9,63 @@
     </head>
     <body>
         <wicket:panel>
-            <div id="alerts"></div>
-            <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
-                <div class="btn-group">
-                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Font"><i class="freeicon-font"></i><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                    </ul>
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="freeicon-text-height"></i>&nbsp;<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a data-edit="fontSize 5"><font size="5">Большой</font></a></li>
-                        <li><a data-edit="fontSize 3"><font size="3">Нормальный</font></a></li>
-                        <li><a data-edit="fontSize 1"><font size="1">Мелкий</font></a></li>
-                    </ul>
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-default" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="freeicon-bold"></i></a>
-                    <a class="btn btn-default" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="freeicon-italic"></i></a>
-                    <a class="btn btn-default" data-edit="strikethrough" title="Strikethrough"><i class="freeicon-text-strike"></i></a>
-                    <a class="btn btn-default" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="freeicon-text-underline"></i></a>
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-default" data-edit="insertunorderedlist" title="Bullet list"><i class="freeicon-list"></i></a>
-                    <a class="btn btn-default" data-edit="insertorderedlist" title="Number list"><i class="freeicon-list"></i></a>
-                    <a class="btn btn-default" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="freeicon-right-indent"></i></a>
-                    <a class="btn btn-default" data-edit="indent" title="Indent (Tab)"><i class="freeicon-left-indent"></i></a>
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-default" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="freeicon-align-left"></i></a>
-                    <a class="btn btn-default" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="freeicon-align-center"></i></a>
-                    <a class="btn btn-default" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="freeicon-align-right"></i></a>
-                    <a class="btn btn-default" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="freeicon-justify"></i></a>
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="freeicon-link"></i></a>
-                    <div class="dropdown-menu input-append">
-                        <input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
-                        <button class="btn btn-default" type="button">Добавить</button>
+            <wicket:extend>
+                <div id="alerts"></div>
+                <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                    <div class="btn-group">
+                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Font"><i class="freeicon-font"></i><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        </ul>
                     </div>
-                    <a class="btn btn-default" data-edit="unlink" title="Remove Hyperlink"><i class="freeicon-ban"></i></a>
+                    <div class="btn-group">
+                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="freeicon-text-height"></i>&nbsp;<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a data-edit="fontSize 5"><font size="5">Большой</font></a></li>
+                            <li><a data-edit="fontSize 3"><font size="3">Нормальный</font></a></li>
+                            <li><a data-edit="fontSize 1"><font size="1">Мелкий</font></a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-default" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="freeicon-bold"></i></a>
+                        <a class="btn btn-default" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="freeicon-italic"></i></a>
+                        <a class="btn btn-default" data-edit="strikethrough" title="Strikethrough"><i class="freeicon-text-strike"></i></a>
+                        <a class="btn btn-default" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="freeicon-text-underline"></i></a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-default" data-edit="insertunorderedlist" title="Bullet list"><i class="freeicon-list"></i></a>
+                        <a class="btn btn-default" data-edit="insertorderedlist" title="Number list"><i class="freeicon-list"></i></a>
+                        <a class="btn btn-default" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="freeicon-right-indent"></i></a>
+                        <a class="btn btn-default" data-edit="indent" title="Indent (Tab)"><i class="freeicon-left-indent"></i></a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-default" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="freeicon-align-left"></i></a>
+                        <a class="btn btn-default" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="freeicon-align-center"></i></a>
+                        <a class="btn btn-default" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="freeicon-align-right"></i></a>
+                        <a class="btn btn-default" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="freeicon-justify"></i></a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="freeicon-link"></i></a>
+                        <div class="dropdown-menu input-append">
+                            <input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
+                            <button class="btn btn-default" type="button">Добавить</button>
+                        </div>
+                        <a class="btn btn-default" data-edit="unlink" title="Remove Hyperlink"><i class="freeicon-ban"></i></a>
+
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-default" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="freeicon-picture"></i></a>
+                        <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="freeicon-left-arrow"></i></a>
+                        <a class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="freeicon-right-arrow"></i></a>
+                    </div>
+                    <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
+                </div>
+                <div id="editor">
 
                 </div>
-                <div class="btn-group">
-                    <a class="btn btn-default" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="freeicon-picture"></i></a>
-                    <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="freeicon-left-arrow"></i></a>
-                    <a class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="freeicon-right-arrow"></i></a>
-                </div>
-                <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
-            </div>
-            <div id="editor">
-                
-            </div>
+            </wicket:extend>
         </wicket:panel>
     </body>
 </html>

@@ -11,7 +11,7 @@ import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.pojo.TireSearchCriteria;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.TiresApplication;
+import kz.supershiny.web.wicket.components.BootstrapPagingNavigator;
 import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.panels.catalogue.CatalogSearchPanel;
 import kz.supershiny.web.wicket.panels.catalogue.TireWidgetPanel;
@@ -32,21 +32,21 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * @author aishmanov
  */
 public class CataloguePage extends BasePage {
-    
+
     @SpringBean
     private TireService tireService;
-    
+
     private List<Tire> tires;
     private DataView<Tire> tiresDataView;
     private WebMarkupContainer tiresContainer;
 
     public CataloguePage() {
         super();
-        
+
         initData();
-        
+
         add(new CatalogSearchPanel("searchPanel"));
-        
+
         IDataProvider catalogProvider = new IDataProvider() {
 
             @Override
@@ -72,9 +72,10 @@ public class CataloguePage extends BasePage {
             }
 
             @Override
-            public void detach() {}
+            public void detach() {
+            }
         };
-        
+
         tiresContainer = new WebMarkupContainer("tiresContainer");
         if (catalogProvider.size() > 0) {
             tiresContainer.add(new Label("empty").setVisible(false));
@@ -85,41 +86,42 @@ public class CataloguePage extends BasePage {
                 }
             };
             tiresContainer.add(tiresDataView.setOutputMarkupId(true));
-            tiresContainer.add(new AjaxPagingNavigator("navigator1", tiresDataView));
-            tiresContainer.add(new AjaxPagingNavigator("navigator2", tiresDataView));
+            tiresContainer.add(new BootstrapPagingNavigator("navigator1", tiresDataView));
+            tiresContainer.add(new BootstrapPagingNavigator("navigator2", tiresDataView));
         } else {
             tiresContainer.add(new Label("empty", new StringResourceModel("catalog.empty", CataloguePage.this, null).getString()).setVisible(true));
             tiresContainer.add(new Label("widgetsList").setVisible(false));
             tiresContainer.add(new Label("navigator1").setVisible(false));
             tiresContainer.add(new Label("navigator2").setVisible(false));
         }
-        
+
         add(tiresContainer.setOutputMarkupId(true));
     }
-    
+
     private void initData() {
         tires = tireService.getTiresByCriteria(getCriteria());
-        if(tires == null) tires = new ArrayList<Tire>();
+        if (tires == null) {
+            tires = new ArrayList<Tire>();
+        }
     }
-    
+
     private TireSearchCriteria getCriteria() {
-        return ((TiresApplication) getApplication())
-                            .getTiresSession().getTireSearchCriteria();
+        return getTiresSession().getTireSearchCriteria();
     }
-    
+
     @Override
     protected void onBeforeRender() {
         //SEO
         addOrReplace(new Label("title", getPageTitle()));
-        
+
         Label desc = new Label("description", "");
         desc.add(new AttributeAppender("CONTENT", getDescription(), " "));
         addOrReplace(desc);
-        
-        Label keywords = new Label("keywords","");
+
+        Label keywords = new Label("keywords", "");
         keywords.add(new AttributeAppender("CONTENT", getKeywords(), " "));
         addOrReplace(keywords);
-        
+
         super.onBeforeRender();
     }
 

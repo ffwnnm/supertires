@@ -17,11 +17,9 @@ import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.model.TireSize;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.services.TireService;
-import kz.supershiny.core.util.Base64Coder;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.pages.admin.BlogEntryPage;
 import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
-import kz.supershiny.web.wicket.pages.admin.ManufacturersEditorPage;
+import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -33,11 +31,9 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.MultiFileUploadField;
 import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
@@ -52,7 +48,7 @@ import org.apache.wicket.util.lang.Bytes;
  *
  * @author kilrwhle
  */
-public final class CatalogEditorPanel extends Panel {
+public final class CatalogEditorPanel extends BasePanel {
     
     @SpringBean
     private TireService tireService;

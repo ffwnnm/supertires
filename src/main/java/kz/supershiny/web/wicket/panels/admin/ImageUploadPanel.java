@@ -11,6 +11,7 @@ import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.ImageService;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
+import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -22,7 +23,6 @@ import org.apache.wicket.markup.html.form.upload.MultiFileUploadField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
@@ -35,7 +35,7 @@ import org.apache.wicket.util.lang.Bytes;
  *
  * @author aishmanov
  */
-public class ImageUploadPanel extends Panel {
+public class ImageUploadPanel extends BasePanel {
 
     private UploadForm uploadForm;
     private List<TireImage> images = new ArrayList<TireImage>();

@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" 
+      xml:lang="en" 
+      lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Bootstrap paging navigator</title>
+    </head>
+    <body>
+        <wicket:panel>
+            <ul class="pagination pagination-sm">
+                <li wicket:id="firstCont" class="disabled">
+                    <a wicket:id="first" href="#">&lt;&lt;</a></li>
+                <li wicket:id="prevCont" class="disabled">
+                    <a wicket:id="prev" href="#">&lt;</a></li>
+                <li wicket:id="navigation">
+                    <a wicket:id="pageLink" href="#">
+                        <span wicket:id="pageNumber">1</span></a>
+                </li>
+                <li wicket:id="nextCont" class="disabled">
+                    <a wicket:id="next" href="#">&gt;</a></li>
+                <li wicket:id="lastCont" class="disabled">
+                    <a wicket:id="last" href="#">&gt;&gt;</a></li>
+            </ul>
+        </wicket:panel>
+    </body>
+</html>
