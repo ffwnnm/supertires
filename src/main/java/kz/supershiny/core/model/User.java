@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import kz.supershiny.core.util.Crypter;
 
 /**
  *
@@ -34,7 +35,7 @@ public class User implements Serializable {
     public User(String username, String phone, String password) {
         this.username = username;
         this.phone = phone;
-        this.password = password;
+        this.password = Crypter.encryptString(password);
         this.loginHash = Integer.valueOf(hashLogin(phone));
     }
     
@@ -109,6 +110,7 @@ public class User implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        //turn plain password into hash
+        this.password = Crypter.encryptString(password);
     }
 }
