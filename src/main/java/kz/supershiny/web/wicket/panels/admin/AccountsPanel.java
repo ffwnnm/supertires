@@ -44,13 +44,15 @@ public class AccountsPanel extends BasePanel {
     private User user;
     private List<User> users;
     private AccountsForm accountsForm;
+    private FeedbackPanel feed;
 
     public AccountsPanel(String id) {
         super(id);
         
         initData();
         
-        add(new FeedbackPanel("feedback"));
+        add(feed = new FeedbackPanel("feedback"));
+        feed.setVisible(false).setOutputMarkupId(true);
         
         add(accountsForm = new AccountsForm("accountsForm"));
         accountsForm.setOutputMarkupId(true);
@@ -124,54 +126,26 @@ public class AccountsPanel extends BasePanel {
             add(accounts.setOutputMarkupId(true));
         }
         
-        private void addControls() {
-            //top
-            add(new AjaxLink("clear") {
-                @Override
-                public void onClick(AjaxRequestTarget target) {
-                    initData();
-                    accountsForm.setModelObject(user);
-                    target.add(username);
-                    target.add(phone);
-                }
-            });
-            add(new ConfirmationLink("remove", new StringResourceModel("ask.deletion", AccountsPanel.this, null).getString()) {
-                @Override
-                public void onClick(AjaxRequestTarget target) {
-                    if (user != null && user.getId() != null && !getUser().equals(user)) {
-                        userService.delete(user);
-                        initData();
-                        accounts.setChoices(users);
-                        target.add(username);
-                        target.add(phone);
-                        target.add(accounts);
-                    }
-                }
-            });
-            
-            //bottom
-            add(new AjaxLink("clear2") {
-                @Override
-                public void onClick(AjaxRequestTarget target) {
-                    user = new User();
-                    accountsForm.setModelObject(user);
-                    target.add(username);
-                    target.add(phone);
-                }
-            });
-            add(new ConfirmationLink("remove2", new StringResourceModel("ask.deletion", AccountsPanel.this, null).getString()) {
-                @Override
-                public void onClick(AjaxRequestTarget target) {
-                    if (user != null && user.getId() != null && !getUser().equals(user)) {
-                        userService.delete(user);
-                        initData();
-                        accounts.setChoices(users);
-                        target.add(username);
-                        target.add(phone);
-                        target.add(accounts);
-                    }
-                }
-            });
+        private void clearForm(AjaxRequestTarget target) {
+            initData();
+            accountsForm.setModelObject(user);
+            target.add(username);
+            target.add(phone);
+        }
+        
+        private void removeUser(AjaxRequestTarget target) {
+            if (user != null && user.getId() != null && !getUser().equals(user)) {
+                userService.delete(user);
+                clearForm(target);
+                accounts.setChoices(users);
+                target.add(accounts);
+            } else {
+                target.appendJavaScript(
+                        "alert('"
+                        + new StringResourceModel("error.userCurrent", AccountsPanel.this, null).getString()
+                        + "');"
+                );
+            }
         }
 
         @Override
@@ -183,6 +157,7 @@ public class AccountsPanel extends BasePanel {
             ) {
                 error(new StringResourceModel("error.pass", AccountsPanel.this, null).getString());
             }
+            feed.setVisible(this.hasError());
         }
 
         @Override
@@ -198,8 +173,37 @@ public class AccountsPanel extends BasePanel {
                     return;
                 }
             }
-            setResponsePage(AdminBasePage.class);
+            setResponsePage(new AdminBasePage());
         }
         
+        private void addControls() {
+            //top
+            add(new AjaxLink("clear") {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    clearForm(target);
+                }
+            });
+            add(new ConfirmationLink("remove", new StringResourceModel("ask.deletion", AccountsPanel.this, null).getString()) {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    removeUser(target);
+                }
+            });
+            
+            //bottom
+            add(new AjaxLink("clear2") {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    clearForm(target);
+                }
+            });
+            add(new ConfirmationLink("remove2", new StringResourceModel("ask.deletion", AccountsPanel.this, null).getString()) {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    removeUser(target);
+                }
+            });
+        }
     }
 }

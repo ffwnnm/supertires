@@ -10,7 +10,6 @@ import kz.supershiny.core.model.Manufacturer;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.pages.LoginPage;
-import kz.supershiny.web.wicket.panels.admin.AdminMenuPanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -44,8 +43,6 @@ public class ManufacturersEditorPage extends BasePage {
         }
         
         initData();
-        
-        add(new AdminMenuPanel("adminMenu"));
         
         companySelect = new DropDownChoice<Manufacturer>(
                         "companySelect", 

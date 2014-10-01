@@ -6,7 +6,6 @@ package kz.supershiny.web.wicket.pages.admin;
 
 import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.pages.LoginPage;
-import kz.supershiny.web.wicket.panels.admin.AdminMenuPanel;
 
 /**
  *
@@ -20,8 +19,6 @@ public class ProposalsViewPage extends BasePage {
         if(getUser() == null) {
             setResponsePage(LoginPage.class);
         }
-        
-        add(new AdminMenuPanel("adminMenu"));
     }
     
 }

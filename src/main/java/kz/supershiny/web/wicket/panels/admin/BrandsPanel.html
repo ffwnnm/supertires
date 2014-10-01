@@ -1,0 +1,60 @@
+<wicket:panel>
+    <wicket:extend>
+        <h3><wicket:message key="caption.brands"/></h3>
+        <hr/>
+        <div>
+            <div wicket:id="feedback" class="alert alert-danger"></div>
+        </div>
+        <div>
+            <form role="form" wicket:id="brandsForm">
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-12">
+                        <a href="#" wicket:id="clear" class="btn btn-default">
+                            <span class="glyphicon glyphicon-refresh"/> <wicket:message key="btn.clear"/>
+                        </a>
+                        <a href="#" wicket:id="remove" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"/>  <wicket:message key="btn.remove"/>
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-floppy-saved"/> <wicket:message key="btn.save"/>
+                        </button>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="form-group col-lg-6 col-md-8">
+                        <label for="input2"><wicket:message key="selectManufacturer"/></label>
+                        <select wicket:id="manufacturers" class="form-control"></select>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-lg-6 col-md-8">
+                        <label for="input2"><wicket:message key="companyName"/></label>
+                        <input type="text" wicket:id="companyName" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="form-group col-lg-6 col-md-8">
+                        <label for="input2"><wicket:message key="description"/></label>
+                        <textarea wicket:id="description" class="form-control">
+                            
+                        </textarea>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-12">
+                        <a href="#" wicket:id="clear2" class="btn btn-default">
+                            <span class="glyphicon glyphicon-refresh"/> <wicket:message key="btn.clear"/>
+                        </a>
+                        <a href="#" wicket:id="remove2" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"/>  <wicket:message key="btn.remove"/>
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-floppy-saved"/> <wicket:message key="btn.save"/>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </wicket:extend>
+</wicket:panel>

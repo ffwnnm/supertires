@@ -6,22 +6,16 @@
 
 package kz.supershiny.web.wicket.pages;
 
-import java.util.Arrays;
-import java.util.List;
 import kz.supershiny.core.model.User;
 import kz.supershiny.web.wicket.TiresApplication;
 import kz.supershiny.web.wicket.TiresSession;
 import kz.supershiny.web.wicket.panels.BottomPanel;
 import kz.supershiny.web.wicket.panels.TopPanel;
 import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.request.resource.CssResourceReference;
-import org.apache.wicket.request.resource.JavaScriptResourceReference;
 
 /**
  *
@@ -69,15 +63,15 @@ public class BasePage extends WebPage {
     }
 
     public IModel getKeywords() {
-        return new StringResourceModel("keywords", BasePage.this, null);
+        return new StringResourceModel("base.keywords", BasePage.this, null);
     }
 
     public IModel getDescription() {
-        return new StringResourceModel("description", BasePage.this, null);
+        return new StringResourceModel("base.description", BasePage.this, null);
     }
 
     public IModel getPageTitle() {
-        return new StringResourceModel("title", BasePage.this, null);
+        return new StringResourceModel("base.title", BasePage.this, null);
     }
     
 //    @Override

@@ -12,7 +12,6 @@ import kz.supershiny.core.services.InfoService;
 import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.pages.LoginPage;
-import kz.supershiny.web.wicket.panels.admin.AdminMenuPanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxCallListener;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
@@ -52,8 +51,6 @@ public class BlogEntryPage extends BasePage {
         if(getUser() == null) {
             setResponsePage(LoginPage.class);
         }
-        
-        add(new AdminMenuPanel("adminMenu"));
         
         entries = infoService.getAllEntries();
         if(entries == null) entries = new ArrayList<BlogEntry>();

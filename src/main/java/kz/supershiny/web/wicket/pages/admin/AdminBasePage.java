@@ -12,12 +12,15 @@ import kz.supershiny.web.wicket.pages.LoginPage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import kz.supershiny.web.wicket.panels.BasePanel;
 import kz.supershiny.web.wicket.panels.admin.AccountsPanel;
+import kz.supershiny.web.wicket.panels.admin.BrandsPanel;
+import kz.supershiny.web.wicket.panels.admin.CataloguePanel;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  *
@@ -29,13 +32,17 @@ public class AdminBasePage extends BasePage {
     private WebMarkupContainer mainContainer;
     private AjaxLink accountsLink;
     private AjaxLink catalogueLink;
-    private AjaxLink proposalsLink;
+//    private AjaxLink proposalsLink;
     private AjaxLink manufacturersLink;
     private AjaxLink faqLink;
     private AjaxLink blogLink;
     private List<AjaxLink> menuLinks;
-
+    
     public AdminBasePage() {
+        this(new PageParameters());
+    }
+
+    public AdminBasePage(PageParameters params) {
         super();
         
         if (getUser() == null) {
@@ -64,7 +71,19 @@ public class AdminBasePage extends BasePage {
         
         //main panel
         mainContainer = new WebMarkupContainer("mainContainer");
-        mainPanel = new AccountsPanel("mainPanel");
+        if (params != null && !params.get("target").isNull() && !params.get("target").isEmpty()) {
+            String target = params.get("target").toString();
+            switch (target) {
+                case "brands": mainPanel = new BrandsPanel("mainPanel");
+                    break;
+                case "catalogue": mainPanel = new CataloguePanel("mainPanel");
+                    break;
+                default: mainPanel = new AccountsPanel("mainPanel");
+                    break;
+            }
+        } else {
+            mainPanel = new AccountsPanel("mainPanel");
+        }
         mainContainer.add(mainPanel);
         add(mainContainer.setOutputMarkupId(true));
     }
@@ -74,6 +93,7 @@ public class AdminBasePage extends BasePage {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 mainPanel = new AccountsPanel("mainPanel");
+                mainContainer.replace(mainPanel);
                 setActiveLink(accountsLink, target);
                 target.add(mainContainer);
             }
@@ -81,23 +101,26 @@ public class AdminBasePage extends BasePage {
         add(catalogueLink = new AjaxLink("catalogueLink") {
             @Override
             public void onClick(AjaxRequestTarget target) {
-                mainPanel = new AccountsPanel("mainPanel");
+                mainPanel = new CataloguePanel("mainPanel");
+                mainContainer.replace(mainPanel);
                 setActiveLink(catalogueLink, target);
                 target.add(mainContainer);
             }
         });
-        add(proposalsLink = new AjaxLink("proposalsLink") {
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                mainPanel = new AccountsPanel("mainPanel");
-                setActiveLink(proposalsLink, target);
-                target.add(mainContainer);
-            }
-        });
+//        add(proposalsLink = new AjaxLink("proposalsLink") {
+//            @Override
+//            public void onClick(AjaxRequestTarget target) {
+//                mainPanel = new AccountsPanel("mainPanel");
+//                mainContainer.replace(mainPanel);
+//                setActiveLink(proposalsLink, target);
+//                target.add(mainContainer);
+//            }
+//        });
         add(manufacturersLink = new AjaxLink("manufacturersLink") {
             @Override
             public void onClick(AjaxRequestTarget target) {
-                mainPanel = new AccountsPanel("mainPanel");
+                mainPanel = new BrandsPanel("mainPanel");
+                mainContainer.replace(mainPanel);
                 setActiveLink(manufacturersLink, target);
                 target.add(mainContainer);
             }
@@ -106,6 +129,7 @@ public class AdminBasePage extends BasePage {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 mainPanel = new AccountsPanel("mainPanel");
+                mainContainer.replace(mainPanel);
                 setActiveLink(faqLink, target);
                 target.add(mainContainer);
             }
@@ -114,18 +138,19 @@ public class AdminBasePage extends BasePage {
             @Override
             public void onClick(AjaxRequestTarget target) {
                 mainPanel = new AccountsPanel("mainPanel");
+                mainContainer.replace(mainPanel);
                 setActiveLink(blogLink, target);
                 target.add(mainContainer);
             }
         });
         accountsLink.setOutputMarkupId(true);
         catalogueLink.setOutputMarkupId(true);
-        proposalsLink.setOutputMarkupId(true);
+//        proposalsLink.setOutputMarkupId(true);
         manufacturersLink.setOutputMarkupId(true);
         faqLink.setOutputMarkupId(true);
         blogLink.setOutputMarkupId(true);
         
-        menuLinks = Arrays.asList(accountsLink, catalogueLink, proposalsLink, manufacturersLink, faqLink, blogLink);
+        menuLinks = Arrays.asList(accountsLink, catalogueLink, /*proposalsLink,*/ manufacturersLink, faqLink, blogLink);
     }
     
     private void setActiveLink(AjaxLink active, AjaxRequestTarget art) {

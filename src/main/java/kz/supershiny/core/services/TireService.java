@@ -364,4 +364,27 @@ public class TireService extends JPAService {
         }
         return result;
     }
+    
+    /**
+     * Return true if we can delete manufacturer (if no Tire is connected to it)
+     * 
+     * @param m
+     * @return 
+     */
+    @Transactional(readOnly = true)
+    public boolean checkManufacturerToDelete(Manufacturer m) {
+        if (m == null || m.getId() == null) {
+            return true;
+        }
+        long result = -1L;
+        try {
+            result = (Long) em.createQuery("SELECT COUNT(t.id) FROM Tire t WHERE t.manufacturer = :m")
+                    .setParameter("m", m)
+                    .getSingleResult();
+            return result == 0;
+        } catch (Exception ex) {
+            LOG.error("Unable to count tires of manufacturer: " + m.getCompanyName());
+        }
+        return false;
+    }
 }
