@@ -15,7 +15,6 @@ import kz.supershiny.web.wicket.components.BootstrapPagingNavigator;
 import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.panels.catalogue.CatalogSearchPanel;
 import kz.supershiny.web.wicket.panels.catalogue.TireWidgetPanel;
-import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;

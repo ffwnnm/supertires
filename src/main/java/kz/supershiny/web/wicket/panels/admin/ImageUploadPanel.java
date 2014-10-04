@@ -11,7 +11,6 @@ import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.ImageService;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
-import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -23,6 +22,7 @@ import org.apache.wicket.markup.html.form.upload.MultiFileUploadField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
@@ -35,7 +35,7 @@ import org.apache.wicket.util.lang.Bytes;
  *
  * @author aishmanov
  */
-public class ImageUploadPanel extends BasePanel {
+public class ImageUploadPanel extends Panel {
 
     private UploadForm uploadForm;
     private List<TireImage> images = new ArrayList<TireImage>();
@@ -68,7 +68,7 @@ public class ImageUploadPanel extends BasePanel {
                         return ti.getImageBody();
                     }
                 });
-                defaultLink = new AjaxLink("default") {
+                defaultLink = new AjaxLink("defaultLink") {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
                         for (TireImage item : images) {
@@ -85,7 +85,7 @@ public class ImageUploadPanel extends BasePanel {
                     defaultLink.setEnabled(true);
                     defaultLink.add(new AttributeAppender("class", Model.of("btn btn-default")));
                 }
-                removeLink = new ConfirmationLink("remove", new StringResourceModel("ask.deletion", ImageUploadPanel.this, null).getString()) {
+                removeLink = new ConfirmationLink("removeLink", new StringResourceModel("ask.deletion", ImageUploadPanel.this, null).getString()) {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
                         images.remove(ti);

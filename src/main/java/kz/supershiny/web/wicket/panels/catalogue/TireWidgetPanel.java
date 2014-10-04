@@ -8,17 +8,17 @@ import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
-import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
+import kz.supershiny.web.wicket.pages.admin.AdminBasePage;
 import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
 import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -87,7 +87,7 @@ public class TireWidgetPanel extends BasePanel {
         add(new Link("adminEdit") {
             @Override
             public void onClick() {
-                setResponsePage(new CatalogEditorPage(tire));
+                setResponsePage(new AdminBasePage(new PageParameters().add("target", "catalogue").add("tireId", tire.getId())));
             }
         }.setVisible(isLoggedIn()));
         
@@ -102,7 +102,7 @@ public class TireWidgetPanel extends BasePanel {
         add(new Link("adminEdit2") {
             @Override
             public void onClick() {
-                setResponsePage(new CatalogEditorPage(tire));
+                setResponsePage(new AdminBasePage(new PageParameters().add("target", "catalogue").add("tireId", tire.getId())));
             }
         }.setVisible(isLoggedIn()));
     }

@@ -44,6 +44,22 @@ public class TireService extends JPAService {
     }
     
     @Transactional(readOnly = true)
+    public Tire getTireById(Long tireId) {
+        if (tireId == null) return null;
+        Tire result = null;
+        try {
+            result = (Tire) em.createQuery("SELECT T FROM Tire T WHERE T.id = :id")
+                    .setParameter("id", tireId)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            result = null;
+            LOG.error("Unable to get Tire by id: " + tireId);
+        }
+        return result;
+    }
+    
+    
+    @Transactional(readOnly = true)
     public long countTiresByCriteria(TireSearchCriteria criteria) {
         Long result;
         if(criteria == null || criteria.isEmpty()) {

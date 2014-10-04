@@ -76,7 +76,15 @@ public class AdminBasePage extends BasePage {
             switch (target) {
                 case "brands": mainPanel = new BrandsPanel("mainPanel");
                     break;
-                case "catalogue": mainPanel = new CataloguePanel("mainPanel");
+                case "catalogue": 
+                {
+                    if (!params.get("tireId").isNull() && !params.get("tireId").isEmpty()) {
+                        long tireId = Long.parseLong(params.get("tireId").toString());
+                        mainPanel = new CataloguePanel("mainPanel", tireId);
+                    } else {
+                        mainPanel = new CataloguePanel("mainPanel");
+                    }
+                }
                     break;
                 default: mainPanel = new AccountsPanel("mainPanel");
                     break;

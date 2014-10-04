@@ -18,7 +18,6 @@ import kz.supershiny.core.model.TireSize;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
 import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -328,7 +327,6 @@ public final class CatalogEditorPanel extends BasePanel {
 //                    target.add(getPage());
                     
                     //TODO: use AJAX instead ^
-                    setResponsePage(CatalogEditorPage.class);
                 }
             };
             clearButton = new AjaxButton("clear") {

@@ -9,7 +9,6 @@ import kz.supershiny.core.model.User;
 import kz.supershiny.core.services.UserService;
 import kz.supershiny.web.wicket.TiresApplication;
 import kz.supershiny.web.wicket.pages.admin.AdminBasePage;
-import kz.supershiny.web.wicket.pages.admin.CatalogEditorPage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
