@@ -79,7 +79,7 @@ public class TiresApplication extends WebApplication {
 
     @Override
     public Class<? extends Page> getHomePage() {
-        return HomePage.class;
+        return CataloguePage.class;
     }
     
     private void mountPages() {
@@ -89,7 +89,7 @@ public class TiresApplication extends WebApplication {
         mount(new TiresPageMapper("/admin-blog", BlogEntryPage.class));
         mount(new TiresPageMapper("/admin-company", ManufacturersEditorPage.class));
         mount(new TiresPageMapper("/admin-proposal", ProposalsViewPage.class));
-        mount(new TiresPageMapper("/catalogue", CataloguePage.class));
+        mount(new TiresPageMapper("/", CataloguePage.class));
         mount(new TiresPageMapper("/contacts", ContactsPage.class));
         mount(new TiresPageMapper("/propose", ProposalPage.class));
         mount(new TiresPageMapper("/company", ManufacturerPage.class));

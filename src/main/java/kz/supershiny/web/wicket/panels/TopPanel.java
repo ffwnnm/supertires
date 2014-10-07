@@ -7,6 +7,7 @@ package kz.supershiny.web.wicket.panels;
 import kz.supershiny.core.model.User;
 import kz.supershiny.web.wicket.TiresApplication;
 import kz.supershiny.web.wicket.pages.HomePage;
+import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -27,7 +28,7 @@ public final class TopPanel extends Panel {
         add(new Link("logoLink") {
             @Override
             public void onClick() {
-                setResponsePage(HomePage.class);
+                setResponsePage(CataloguePage.class);
             }
         });
         
