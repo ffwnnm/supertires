@@ -1,82 +1,94 @@
-<wicket:panel>
-    <wicket:extend>
-        <!-- Content Column -->
-        <div class="col-md-9 col-sm-12 col-lg-9" style="font-size: larger;">
-            <wicket:message key="disclaimer"/>&nbsp;&nbsp;&nbsp;
-            <a href="#" wicket:id="editCatalogue" class="btn btn-success">
-                <wicket:message key="editCatalogue"/> <span class="glyphicon glyphicon-circle-arrow-right"/>
-            </a>
-            <hr/>
-        </div>
-        <div class="col-md-9 col-sm-12 col-lg-9">
-            <div>
-                <div wicket:id="feedback" class="alert alert-danger"></div>
-            </div>
-            <div>
-                <form role="form" wicket:id="editorForm">
-                    <div class="row">
-                        <div class="form-group col-lg-12 col-md-12">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-refresh"/> Очистить</button>
-                            <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"/> Удалить</button>
-                            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-saved"/> Сохранить</button>
-                        </div>
-                    </div>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" 
+      xml:lang="en" 
+      lang="en">
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <wicket:panel>
+            <wicket:extend>
+                <!-- Content Column -->
+                <div class="col-md-9 col-sm-12 col-lg-9" style="font-size: larger;">
+                    <wicket:message key="disclaimer"/>&nbsp;&nbsp;&nbsp;
+                    <a href="#" wicket:id="editCatalogue" class="btn btn-success">
+                        <wicket:message key="editCatalogue"/> <span class="glyphicon glyphicon-circle-arrow-right"/>
+                    </a>
                     <hr/>
-                    <div class="row">
-                        <div class="form-group col-lg-6 col-md-6">
-                            <label for="input2"><wicket:message key="manufacturer"/></label>
-                            <input type="text" class="form-control" wicket:id="manufacturer"/>
-                        </div>
-                        <div class="form-group col-lg-6 col-md-6">
-                            <label for="input2"><wicket:message key="type"/></label>
-                            <select class="form-control" wicket:id="type"></select>
-                        </div>
-                        <div class="clearfix"></div>
-
-                        <div class="form-group col-lg-6 col-md-6">
-                            <label for="input2"><wicket:message key="modelName"/></label>
-                            <input type="text" class="form-control" wicket:id="modelName"/>
-                        </div>
-                        <div class="form-group col-lg-6 col-md-6">
-                            <label for="input2"><wicket:message key="season"/></label>
-                            <select class="form-control" wicket:id="season"></select>
-                        </div>
-                        <div class="clearfix"></div>
-
-                        <div class="form-group col-lg-6 col-md-6">
-                            <label for="input2"><wicket:message key="size"/></label>
-                            <input type="text" class="form-control" wicket:id="size"/>
-                        </div>
-                        <div class="form-group col-lg-6 col-md-6">
-                            <label for="input2"><wicket:message key="price"/></label>
-                            <input type="text" class="form-control" wicket:id="price"/>
-                        </div>
-                        <div class="clearfix"></div>
-
-                        <div class="form-group col-lg-6 col-md-6">
-                            <label for="input2"><wicket:message key="country"/></label>
-                            <input type="text" class="form-control" wicket:id="country"/>
-                        </div>
-                        <div class="form-group col-lg-6 col-md-6">
-                            <label for="input2"><wicket:message key="quantity"/></label>
-                            <input type="text" class="form-control" wicket:id="quantity"/>
-                        </div>
-                        <div class="clearfix"></div>
+                </div>
+                <div class="col-md-9 col-sm-12 col-lg-9">
+                    <div>
+                        <div wicket:id="feedback" class="alert alert-danger"></div>
                     </div>
-                    <hr/>
-                    
-                    <div wicket:id="imagesPanel"></div>
-                    
-                    <hr/>
-                    <div class="row">
-                        <div class="form-group col-lg-12 col-md-12">
-                            <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-refresh"/> Очистить</button>
-                            <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"/> Удалить</button>
-                            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-saved"/> Сохранить</button>
-                        </div>
+                    <div>
+                        <form role="form" wicket:id="editorForm">
+                            <div class="row">
+                                <div class="form-group col-lg-12 col-md-12">
+                                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-refresh"/> Очистить</button>
+                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"/> Удалить</button>
+                                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-saved"/> Сохранить</button>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="input2"><wicket:message key="manufacturer"/></label>
+                                    <input type="text" class="form-control" wicket:id="manufacturer"/>
+                                </div>
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="input2"><wicket:message key="type"/></label>
+                                    <select class="form-control" wicket:id="type"></select>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="input2"><wicket:message key="modelName"/></label>
+                                    <input type="text" class="form-control" wicket:id="modelName"/>
+                                </div>
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="input2"><wicket:message key="season"/></label>
+                                    <select class="form-control" wicket:id="season"></select>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="input2"><wicket:message key="size"/></label>
+                                    <input type="text" class="form-control" wicket:id="size"/>
+                                </div>
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="input2"><wicket:message key="price"/></label>
+                                    <input type="text" class="form-control" wicket:id="price"/>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="input2"><wicket:message key="country"/></label>
+                                    <input type="text" class="form-control" wicket:id="country"/>
+                                </div>
+                                <div class="form-group col-lg-6 col-md-6">
+                                    <label for="input2"><wicket:message key="quantity"/></label>
+                                    <input type="text" class="form-control" wicket:id="quantity"/>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <hr/>
+
+                            <!--images uploader-->
+                            <div wicket:id="imagesPanel"></div>
+
+                            <hr/>
+                            <div class="row">
+                                <div class="form-group col-lg-12 col-md-12">
+                                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-refresh"/> Очистить</button>
+                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"/> Удалить</button>
+                                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-saved"/> Сохранить</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
-            </div>
-        </div>
-    </wicket:extend>
-</wicket:panel>
+                </div>
+            </wicket:extend>
+        </wicket:panel>
+    </body>
+</html>
