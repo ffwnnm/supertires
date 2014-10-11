@@ -21,6 +21,8 @@ public class Error404Page extends BasePage {
     public Error404Page() {
         super();
         
+        add(new BookmarkablePageLink("homeLink", CataloguePage.class));
+        
         add(new BookmarkablePageLink("catalogueLink", CataloguePage.class));
         add(new BookmarkablePageLink("blogLink", BlogPage.class));
         add(new BookmarkablePageLink("aboutLink", ContactsPage.class));

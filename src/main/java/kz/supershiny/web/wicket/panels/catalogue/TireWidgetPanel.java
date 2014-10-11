@@ -7,11 +7,13 @@ package kz.supershiny.web.wicket.panels.catalogue;
 import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.TireService;
+import kz.supershiny.web.wicket.components.BootstrapModalWindow;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
 import kz.supershiny.web.wicket.pages.admin.AdminBasePage;
 import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
 import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
@@ -29,20 +31,31 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  * @author kilrwhle
  */
 public class TireWidgetPanel extends BasePanel {
-    
+
     @SpringBean
     private TireService tireService;
-    
+
     private final Tire tire;
     private Image mainImage;
+    private AjaxLink previewLink;
+    private BootstrapModalWindow previewer;
 
     public TireWidgetPanel(String id, Tire pTire) {
         super(id);
-        
+
         this.tire = pTire;
         
+        previewer = new BootstrapModalWindow("myModal", new ImageViewer(BootstrapModalWindow.MODAL_PANEL_ID, "Some header", tire));
+        add(previewer);
+
         TireImage preview = tireService.getPreviewForTire(tire);
-        if(preview != null) {
+        if (preview != null) {
+            previewLink = new AjaxLink("previewLink") {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    
+                }
+            };
             mainImage = new Image("preview", new DynamicImageResource() {
                 @Override
                 protected byte[] getImageData(IResource.Attributes atrbts) {
@@ -54,11 +67,19 @@ public class TireWidgetPanel extends BasePanel {
                     }
                 }
             });
-            add(mainImage);
+            previewLink.add(mainImage);
+            add(previewLink);
         } else {
-            add(new ContextImage("preview", "images/default-preview.png"));
+            previewLink = new AjaxLink("previewLink") {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    target.appendJavaScript("$('#" + previewer.getModalWindowId() + "').modal()");
+                }
+            };
+            previewLink.add(new ContextImage("preview", "images/default-preview.png"));
+            add(previewLink);
         }
-        
+
         add(new Label("price", new PropertyModel(tire, "price")));
         add(new Label("price2", new PropertyModel(tire, "price")));
         add(new Link("manufacturerLink") {
@@ -70,11 +91,11 @@ public class TireWidgetPanel extends BasePanel {
         add(new Label("modelName", tire.getModelName()));
         add(new Label("sizeCentimeters", tire.getSize().getSizeVerbal()));
         add(new Label("season", new StringResourceModel(tire.getSeason(), TireWidgetPanel.this, null).getString()));
-        
+
         add(new Label("type", tire.getType().getTypeName()));
         add(new Label("country", tire.getCountry().getName()));
         add(new Label("tireId", tire.getId()));
-        
+
         //admin catalog edit buttons
         add(new ConfirmationLink("adminRemove", new StringResourceModel("ask.deletion", TireWidgetPanel.this, null).getString()) {
             @Override
@@ -83,14 +104,14 @@ public class TireWidgetPanel extends BasePanel {
                 target.add(getPage());
             }
         }.setVisible(isLoggedIn()));
-        
+
         add(new Link("adminEdit") {
             @Override
             public void onClick() {
                 setResponsePage(new AdminBasePage(new PageParameters().add("target", "catalogue").add("tireId", tire.getId())));
             }
         }.setVisible(isLoggedIn()));
-        
+
         add(new ConfirmationLink("adminRemove2", new StringResourceModel("ask.deletion", TireWidgetPanel.this, null).getString()) {
             @Override
             public void onClick(AjaxRequestTarget target) {
@@ -98,7 +119,7 @@ public class TireWidgetPanel extends BasePanel {
                 target.add(getPage());
             }
         }.setVisible(isLoggedIn()));
-        
+
         add(new Link("adminEdit2") {
             @Override
             public void onClick() {
@@ -106,5 +127,5 @@ public class TireWidgetPanel extends BasePanel {
             }
         }.setVisible(isLoggedIn()));
     }
-    
+
 }

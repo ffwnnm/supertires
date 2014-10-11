@@ -1,32 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-  <persistence-unit name="tires-pu" transaction-type="RESOURCE_LOCAL">
-    <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>kz.supershiny.core.model.Country</class>
-    <class>kz.supershiny.core.model.Manufacturer</class>
-    <class>kz.supershiny.core.model.Tire</class>
-    <class>kz.supershiny.core.model.TireSize</class>
-    <class>kz.supershiny.core.model.TireType</class>
-    <class>kz.supershiny.core.model.User</class>
-    <class>kz.supershiny.core.model.TireImage</class>
-    <class>kz.supershiny.core.model.BlogEntry</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties>
-      <property name="hibernate.show_sql" value="false"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tires2"/>
-      <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://107.170.22.91:5656/tires"/>-->
-      <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://postgres-env-4910938.j.dnr.kz/tires"/>-->
+    <persistence-unit name="tires-pu" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>kz.supershiny.core.model.Country</class>
+        <class>kz.supershiny.core.model.Manufacturer</class>
+        <class>kz.supershiny.core.model.Tire</class>
+        <class>kz.supershiny.core.model.TireSize</class>
+        <class>kz.supershiny.core.model.TireType</class>
+        <class>kz.supershiny.core.model.User</class>
+        <class>kz.supershiny.core.model.TireImage</class>
+        <class>kz.supershiny.core.model.BlogEntry</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tires2"/>
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://107.170.22.91:5656/tires"/>-->
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://postgres-env-4910938.j.dnr.kz/tires"/>-->
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <!--<property name="javax.persistence.jdbc.user" value="webadmin"/>-->
+            <property name="javax.persistence.jdbc.password" value="feb1323"/>
+            <!--<property name="javax.persistence.jdbc.password" value="adwt74Gdp98m"/>-->
+            
+            <!--<property name="javax.persistence.jdbc.password" value="BZtZV3sm5D"/>-->
       
-      <property name="javax.persistence.jdbc.user" value="postgres"/>
-      <property name="javax.persistence.jdbc.password" value="feb1323"/>
-      <!--<property name="javax.persistence.jdbc.password" value="adwt74Gdp98m"/>-->
-      
-      <!--<property name="javax.persistence.jdbc.user" value="webadmin"/>-->
-      <!--<property name="javax.persistence.jdbc.password" value="BZtZV3sm5D"/>-->
-      
-      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-      <property name="hibernate.hbm2ddl.auto" value="validate"/>
-    </properties>
-  </persistence-unit>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            
+            <!--Connection pool-->
+            <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
+
+            <property name="hibernate.c3p0.max_size" value="50" />
+            <property name="hibernate.c3p0.min_size" value="5" />
+            <property name="hibernate.c3p0.timeout" value="300" />
+            <property name="hibernate.c3p0.max_statements" value="20" />
+            <property name="hibernate.c3p0.idle_test_period" value="60" />
+            <property name="hibernate.c3p0.acquire_increment" value="1" />
+        </properties>
+    </persistence-unit>
 </persistence>

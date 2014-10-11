@@ -329,10 +329,9 @@ public class TireService extends JPAService {
         
         try {
             List results = em.createQuery(
-                    "SELECT i FROM TireImage i WHERE i.tire = :tire AND i.preview = :preview ORDER BY i.id DESC"
+                    "SELECT i FROM TireImage i WHERE i.tire = :tire AND i.isPreview IS TRUE ORDER BY i.id DESC"
                     )
                     .setParameter("tire", tire)
-                    .setParameter("preview", Constants.Y)
                     .setMaxResults(1).getResultList();
             result = (TireImage) results.get(0);
         } catch (Exception ex) {
