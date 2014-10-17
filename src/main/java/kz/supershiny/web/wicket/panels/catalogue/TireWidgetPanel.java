@@ -7,13 +7,13 @@ package kz.supershiny.web.wicket.panels.catalogue;
 import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.TireService;
-import kz.supershiny.web.wicket.components.BootstrapModalWindow;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
 import kz.supershiny.web.wicket.pages.admin.AdminBasePage;
 import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
 import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
@@ -38,33 +38,37 @@ public class TireWidgetPanel extends BasePanel {
     private final Tire tire;
     private Image mainImage;
     private AjaxLink previewLink;
-    private BootstrapModalWindow previewer;
+    private ModalWindow previewer;
 
     public TireWidgetPanel(String id, Tire pTire) {
         super(id);
 
         this.tire = pTire;
-        
-        previewer = new BootstrapModalWindow("myModal", new ImageViewer(BootstrapModalWindow.MODAL_PANEL_ID, "Some header", tire));
-        add(previewer);
 
-        TireImage preview = tireService.getPreviewForTire(tire);
+        previewer = new ModalWindow("myModal");
+        previewer.setResizable(false).setAutoSize(true)
+                .setInitialWidth(740).setInitialHeight(560)
+                .setMinimalWidth(740).setMinimalHeight(560);
+        add(previewer.setOutputMarkupId(true));
+
+        final TireImage preview = tireService.getPreviewForTire(tire);
         if (preview != null) {
             previewLink = new AjaxLink("previewLink") {
                 @Override
                 public void onClick(AjaxRequestTarget target) {
-                    
+                    previewer.setTitle(
+                            new StringResourceModel("title.tirePhotos", TireWidgetPanel.this, null).getString() + " "
+                            + tire.getManufacturer().getCompanyName() + " "
+                            + tire.getModelName()
+                    );
+                    previewer.setContent(new ImageViewerPanel(previewer.getContentId(), tire));
+                    previewer.show(target);
                 }
             };
             mainImage = new Image("preview", new DynamicImageResource() {
                 @Override
                 protected byte[] getImageData(IResource.Attributes atrbts) {
-                    TireImage preview = tireService.getPreviewForTire(tire);
-                    if (preview != null) {
-                        return preview.getImageBody();
-                    } else {
-                        return null;
-                    }
+                    return preview.getImageBody();
                 }
             });
             previewLink.add(mainImage);
@@ -72,9 +76,7 @@ public class TireWidgetPanel extends BasePanel {
         } else {
             previewLink = new AjaxLink("previewLink") {
                 @Override
-                public void onClick(AjaxRequestTarget target) {
-                    target.appendJavaScript("$('#" + previewer.getModalWindowId() + "').modal()");
-                }
+                public void onClick(AjaxRequestTarget target) {}
             };
             previewLink.add(new ContextImage("preview", "images/default-preview.png"));
             add(previewLink);

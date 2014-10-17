@@ -8,12 +8,15 @@ package kz.supershiny.web.wicket.panels.catalogue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.text.SimpleAttributeSet;
 import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.ImageService;
 import kz.supershiny.core.services.TireService;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
@@ -32,39 +35,41 @@ import org.slf4j.LoggerFactory;
  */
 public class ImageViewerPanel extends Panel {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ImageViewer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ImageViewerPanel.class);
 
     @SpringBean
     private TireService tireService;
 
     private Map<Integer, TireImage> images;
     private ListView numbers;
+    private Image image;
+    private int selected = 0;
+    private int total = 0;
 
     public ImageViewerPanel(String id, Tire tire) {
         super(id);
 
         images = new HashMap<Integer, TireImage>();
-        int counter = 1;
+        int counter = 0;
         try {
-            for (TireImage ti : tireService.getImagesForTire(tire, ImageService.ImageSize.LARGE)) {
+            for (TireImage ti : tireService.getImagesForTire(tire, ImageService.ImageSize.ORIGINAL)) {
                 images.put(counter, ti);
                 counter++;
             }
         } catch (NullPointerException ex) {
             LOG.error("Empty images list!");
         }
+        
+        total = images.size();
 
-        add(new Label("tireModel", tire.getModelName()));
-
-        Image mainImage;
         if (!images.isEmpty()) {
-            mainImage = new Image("image", new DynamicImageResource() {
+            image = new Image("image", new DynamicImageResource() {
                 @Override
                 protected byte[] getImageData(IResource.Attributes atrbts) {
-                    return images.get(1).getImageBody();
+                    return images.get(selected).getImageBody();
                 }
             });
-            add(mainImage);
+            add(image.setOutputMarkupId(true));
         } else {
             add(new ContextImage("image", "images/default-preview.png"));
         }
@@ -73,31 +78,53 @@ public class ImageViewerPanel extends Panel {
 
             @Override
             public void onClick(AjaxRequestTarget art) {
-
+                if (selected > 0) {
+                    switchImage(--selected, art);
+                }
             }
         });
         add(new AjaxLink("next") {
 
             @Override
             public void onClick(AjaxRequestTarget art) {
-
+                if (selected < total - 1) {
+                    switchImage(++selected, art);
+                }
             }
         });
 
         numbers = new ListView("numbers", new ArrayList(images.keySet())) {
 
             @Override
-            protected void populateItem(ListItem li) {
-                li.add(new AjaxLink("numberLink") {
+            protected void populateItem(final ListItem li) {
+                final int index = (Integer) li.getModelObject();
+                AjaxLink link = new AjaxLink("numberLink") {
 
                     @Override
                     public void onClick(AjaxRequestTarget art) {
-
+                        switchImage(index, art);
                     }
-                }.add(new Label("number", (Integer) li.getModelObject())));
+                };
+                link.add(new Label("number", index + 1));
+//                if (index == selected) {
+//                    link.add(AttributeModifier.replace("class", "btn btn-primary"));
+//                } else {
+//                    link.add(AttributeModifier.replace("class", "btn btn-default"));
+//                }
+                li.add(link);
             }
         };
         add(numbers.setOutputMarkupId(true));
+    }
+    
+    private void switchImage(final int index, AjaxRequestTarget art) {
+        image.setImageResource(new DynamicImageResource() {
+            @Override
+            protected byte[] getImageData(IResource.Attributes atrbts) {
+                return images.get(index).getImageBody();
+            }
+        });
+        art.add(image);
     }
 
 }
