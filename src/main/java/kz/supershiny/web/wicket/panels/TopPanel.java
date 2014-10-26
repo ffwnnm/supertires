@@ -28,7 +28,7 @@ public final class TopPanel extends BasePanel {
         add(new Link("logoLink") {
             @Override
             public void onClick() {
-                setResponsePage(BlogPage.class);
+                setResponsePage(CataloguePage.class);
             }
         });
         
