@@ -14,13 +14,31 @@
 
             <div class="container" wicket:id="tiresContainer">
                 <h1 wicket:id="empty"></h1>
-                <div align="center" wicket:id="navigator1"></div>
-                <div wicket:id="widgetsList">
-                    <div class="row tire" wicket:id="widget">
+                <div class="row" wicket:id="paging1">
+                    <div class="col-lg-9 col-md-8 col-sm-6 col-xs-6">
+                        <div align="center" wicket:id="navigator1"></div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                        <div style="float: right; margin-right: 40px;">
+                            <h3><wicket:message key="found"/> <span wicket:id="itemsCount1"></span></h3>
+                        </div>
+                    </div>
+                </div>
+                <div wicket:id="widgetsList" class="tire">
+                    <div class="row" wicket:id="widget">
                         Widget panel here
                     </div>
                 </div>
-                <div align="center" wicket:id="navigator2"></div>
+                <div class="row" wicket:id="paging2">
+                    <div class="col-lg-9 col-md-8 col-sm-6 col-xs-6">
+                        <div align="center" wicket:id="navigator2"></div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                        <div style="float: right; margin-right: 40px;">
+                            <h3><wicket:message key="found"/> <span wicket:id="itemsCount2"></span></h3>
+                        </div>
+                    </div>
+                </div>
             </div>
         </wicket:extend>
     </body>

@@ -11,7 +11,7 @@ import kz.supershiny.core.pojo.TireSearchCriteria;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.TiresApplication;
-import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
@@ -51,6 +51,7 @@ public class CatalogSearchPanel extends Panel {
         private DropDownChoice<Float> width;
         private DropDownChoice<Float> height;
         private DropDownChoice<Float> radius;
+        private DropDownChoice<String> sorting;
 
         public CatalogSearchForm(String id) {
             super(id, new CompoundPropertyModel<TireSearchCriteria>(criteria));
@@ -68,9 +69,16 @@ public class CatalogSearchPanel extends Panel {
                     return true;
                 }
             };
+            sorting = new DropDownChoice<String>("sorting", Constants.sortings) {
+                @Override
+                protected boolean localizeDisplayValues() {
+                    return true;
+                }
+            };
             manufacturer = new DropDownChoice<Manufacturer>("manufacturer", uniqueManufacturers);
 
             add(season.setOutputMarkupId(true));
+            add(sorting.setOutputMarkupId(true));
             add(manufacturer.setOutputMarkupId(true));
 
             add(new Link("clear") {
@@ -80,7 +88,7 @@ public class CatalogSearchPanel extends Panel {
                     CatalogSearchForm.this.onSubmit();
                 }
             });
-            add(new Button("search"));
+            add(new AjaxSubmitLink("search") {});
         }
 
         @Override

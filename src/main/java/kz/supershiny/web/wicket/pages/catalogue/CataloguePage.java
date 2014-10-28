@@ -37,6 +37,7 @@ public class CataloguePage extends BasePage {
     private List<Tire> tires;
     private DataView<Tire> tiresDataView;
     private WebMarkupContainer tiresContainer;
+    private WebMarkupContainer paging1, paging2;
 
     public CataloguePage() {
         super();
@@ -75,6 +76,10 @@ public class CataloguePage extends BasePage {
         };
 
         tiresContainer = new WebMarkupContainer("tiresContainer");
+        paging1 = new WebMarkupContainer("paging1");
+        paging2 = new WebMarkupContainer("paging2");
+        tiresContainer.add(paging1);
+        tiresContainer.add(paging2);
         if (catalogProvider.size() > 0) {
             tiresContainer.add(new Label("empty").setVisible(false));
             tiresDataView = new DataView<Tire>("widgetsList", catalogProvider, Constants.ITEMS_PER_PAGE) {
@@ -84,13 +89,19 @@ public class CataloguePage extends BasePage {
                 }
             };
             tiresContainer.add(tiresDataView.setOutputMarkupId(true));
-            tiresContainer.add(new BootstrapPagingNavigator("navigator1", tiresDataView));
-            tiresContainer.add(new BootstrapPagingNavigator("navigator2", tiresDataView));
+            paging1.add(new BootstrapPagingNavigator("navigator1", tiresDataView));
+            paging2.add(new BootstrapPagingNavigator("navigator2", tiresDataView));
+            paging1.add(new Label("itemsCount1", catalogProvider.size() + ""));
+            paging2.add(new Label("itemsCount2", catalogProvider.size() + ""));
         } else {
             tiresContainer.add(new Label("empty", new StringResourceModel("catalog.empty", CataloguePage.this, null).getString()).setVisible(true));
             tiresContainer.add(new Label("widgetsList").setVisible(false));
-            tiresContainer.add(new Label("navigator1").setVisible(false));
-            tiresContainer.add(new Label("navigator2").setVisible(false));
+            paging1.setVisible(false);
+            paging2.setVisible(false);
+//            paging1.add(new Label("navigator1").setVisible(false));
+//            paging2.add(new Label("navigator2").setVisible(false));
+//            paging1.add(new Label("itemsCount1").setVisible(false));
+//            paging2.add(new Label("itemsCount2").setVisible(false));
         }
 
         add(tiresContainer.setOutputMarkupId(true));

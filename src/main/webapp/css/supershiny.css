@@ -30,12 +30,25 @@ body {
 .search-panel {
     margin-top: 20px;
 }
-.tire :hover {
-    /*
-    border: 1px solid black;
-    border-radius: 6px;
-    */
-    /* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
+
+.tire {
+    padding: 10px;
+}
+
+.tire:nth-child(2n+1):hover {
+    background: rgba(255, 0, 0, .2);
+    box-shadow: 0 0 15px rgba(255,0,0,0.2);
+}
+.tire:nth-child(2n):hover {
+    background: rgba(255, 0, 0, .2);
+    box-shadow: 0 0 15px rgba(255,0,0,0.2);
+}
+
+.tire:nth-child(2n+1) {
+    background: rgba(245, 245, 245, .1);
+}
+.tire:nth-child(2n) {
+    background: rgba(105, 105, 105, .1);
 }
 /* fix for modal window shifts */
 .modal {

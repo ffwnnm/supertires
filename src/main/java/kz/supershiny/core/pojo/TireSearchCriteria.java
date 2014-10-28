@@ -26,6 +26,7 @@ public class TireSearchCriteria implements Serializable {
     private TireType type;
     private Country country;
     private Manufacturer manufacturer;
+    private String sorting = Constants.SORT_ARTICLE_DESC;
     
     private long currentPage = 0;
     private long itemsTotal = 0;
@@ -36,7 +37,9 @@ public class TireSearchCriteria implements Serializable {
     }
     
     public boolean isEmpty() {
-        return (size == null || size.isEmpty())
+        return (sorting == null || sorting.isEmpty())
+                &&
+                (size == null || size.isEmpty())
                 &&
                 season == null && type == null
                 &&
@@ -139,5 +142,13 @@ public class TireSearchCriteria implements Serializable {
 
     public void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    public String getSorting() {
+        return sorting;
+    }
+
+    public void setSorting(String sorting) {
+        this.sorting = sorting;
     }
 }

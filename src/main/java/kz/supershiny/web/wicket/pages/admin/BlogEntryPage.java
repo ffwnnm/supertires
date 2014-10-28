@@ -63,7 +63,7 @@ public class BlogEntryPage extends BasePage {
         listView = new PageableListView(
                 "entriesList", 
                 new PropertyModel(BlogEntryPage.this, "entries"), 
-                Constants.ITEMS_PER_PAGE_SIMPLE
+                Constants.ITEMS_PER_PAGE
         ) {
             @Override
             protected void populateItem(ListItem li) {

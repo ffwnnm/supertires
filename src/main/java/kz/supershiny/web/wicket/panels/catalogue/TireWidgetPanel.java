@@ -47,8 +47,8 @@ public class TireWidgetPanel extends BasePanel {
 
         previewer = new ModalWindow("myModal");
         previewer.setResizable(false).setAutoSize(true)
-                .setInitialWidth(740).setInitialHeight(560)
-                .setMinimalWidth(740).setMinimalHeight(560);
+                .setInitialWidth(840).setInitialHeight(620)
+                .setMinimalWidth(840).setMinimalHeight(620);
         add(previewer.setOutputMarkupId(true));
 
         final TireImage preview = tireService.getPreviewForTire(tire);

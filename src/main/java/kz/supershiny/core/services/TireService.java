@@ -135,7 +135,7 @@ public class TireService extends JPAService {
             }
         } else {    
             String header = "SELECT T FROM Tire T";
-            String footer = " ORDER BY T.id DESC";
+            String footer = " ORDER BY T.id DESC";  //sorting by default, ARTICLE_DESC
             String conditions = " WHERE 1=1 ";
             HashMap<String, Object> predicates = new HashMap<String, Object>();
             
@@ -145,17 +145,16 @@ public class TireService extends JPAService {
 //                predicates.put("size", criteria.getSize());
 //            }
             if(criteria.getHeight() != null || criteria.getWidth() != null || criteria.getRadius() != null) {
-                header += " JOIN T.size S ";
                 if(criteria.getHeight() != null) {
-                    conditions += "AND S.height = :height ";
+                    conditions += " AND T.size.height = :height ";
                     predicates.put("height", criteria.getHeight());
                 }
                 if(criteria.getWidth()!= null) {
-                    conditions += "AND S.width = :width ";
+                    conditions += " AND T.size.width = :width ";
                     predicates.put("width", criteria.getWidth());
                 }
                 if(criteria.getRadius()!= null) {
-                    conditions += "AND S.radius = :radius ";
+                    conditions += " AND T.size.radius = :radius ";
                     predicates.put("radius", criteria.getRadius());
                 }
             }
@@ -167,6 +166,21 @@ public class TireService extends JPAService {
                 header += " JOIN T.manufacturer M ";
                 conditions += "AND M.companyName = :manufacturer ";
                 predicates.put("manufacturer", criteria.getManufacturer().getCompanyName());
+            }
+            //sorting
+            if(criteria.getSorting() != null && !Constants.SORT_ARTICLE_DESC.equals(criteria.getSorting())) {
+                switch (criteria.getSorting()) {
+                    case Constants.SORT_PRICE_ASC: footer = " ORDER BY T.price ASC";
+                        break;
+                    case Constants.SORT_PRICE_DESC: footer = " ORDER BY T.price DESC";
+                        break;
+                    case Constants.SORT_RADIUS_ASC: footer = " ORDER BY T.size.radius ASC";
+                        break;
+                    case Constants.SORT_RADIUS_DESC: footer = " ORDER BY T.size.radius DESC";
+                        break;
+                    default: footer = " ORDER BY T.id DESC";
+                        break;
+                }
             }
             
             Query query = em.createQuery(header + conditions + footer);
