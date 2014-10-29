@@ -31,6 +31,7 @@ body {
     margin-top: 20px;
 }
 
+//catalog list
 .tire {
     padding: 10px;
 }
@@ -64,8 +65,49 @@ body {
     height: 440px;
 }*/
 
+//modal window caption
 .w_captionText {
     font-size: 100%;
+}
+
+//wicket autocomplete textfield
+.wicket-aa {
+    font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana;
+    font-size: 16px;
+    background-color: white;
+    border-width: 2px;
+    border-color: #cccccc;
+    border-style: solid;
+    padding: 2px;
+    margin: 1px 0 0 0;
+    text-align:left;
+    position: fixed;
+    width: 140px;
+}
+.wicket-aa ul { 
+    list-style:none; 
+    padding: 2px; 
+    margin:0; 
+    font-family: "Lucida Grande","Lucida Sans Unicode",Tahoma,Verdana;
+    background-color: white;
+    border-width: 2px;
+    border-color: #cccccc;
+    border-style: solid;
+    padding: 2px;
+    margin: 1px 0 0 0;
+    text-align:left;
+    cursor: pointer;
+}
+.wicket-aa ul li { 
+    margin-left: 20px; 
+    font-size: 14px; 
+}
+.wicket-aa ul li.selected { 
+    font-size: 16px; 
+    background-color: #428bca; 
+    color: white; 
+    padding: 3px; 
+    margin-left: 12px;
 }
 /********************************************/
 

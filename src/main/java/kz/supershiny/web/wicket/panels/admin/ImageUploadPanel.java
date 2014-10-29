@@ -12,13 +12,13 @@ import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.ImageService;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
-import org.apache.wicket.markup.html.form.upload.MultiFileUploadField;
+import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -104,7 +104,7 @@ public class ImageUploadPanel extends Panel {
     //Upload images
     private class UploadForm extends Form {
 
-        private MultiFileUploadField fileUpload;
+        private FileUploadField fileUpload;
         private List<FileUpload> uploads = new ArrayList<FileUpload>();
 
         public UploadForm(String id) {
@@ -113,17 +113,27 @@ public class ImageUploadPanel extends Panel {
             setMultiPart(true);
             setMaxSize(Bytes.kilobytes(8172));
 
-            fileUpload = new MultiFileUploadField("fileUpload", new PropertyModel<List<FileUpload>>(this, "uploads"));
-            fileUpload.add(new AjaxFormSubmitBehavior("onchange") {
+            fileUpload = new FileUploadField("fileUpload", new PropertyModel<List<FileUpload>>(this, "uploads"));
+            add(fileUpload.setOutputMarkupId(true));
+            
+            add(new AjaxSubmitLink("uploadButton") {
+
                 @Override
-                protected void onSubmit(AjaxRequestTarget target) {
-                    processUploads();
+                protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                    if (uploads != null) {
+                        processUploads();
+                    }
                     target.add(fileUpload);
                     target.add(uploadForm);
                     target.add(viewContainer);
                 }
+                
             });
-            add(fileUpload.setOutputMarkupId(true));
+        }
+
+        @Override
+        protected void onSubmit() {
+            
         }
 
         public List<FileUpload> getUploads() {

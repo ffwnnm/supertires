@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /error/
+Disallow: /login/
+Disallow: /admin/
+Disallow: /404/

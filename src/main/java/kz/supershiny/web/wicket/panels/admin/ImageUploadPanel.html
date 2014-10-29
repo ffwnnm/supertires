@@ -11,12 +11,12 @@
             <h4><wicket:message key="uploadCaption"/></h4>
 
             <div class="row">
-                <div class="form-group col-lg-6 col-md-8">
+                <div class="form-group">
                     <form wicket:id="uploadForm">
                         <div class="input-group">
-                            <input type="file" multiple="multiple" wicket:id="fileUpload" class="form-control"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button"><wicket:message key="upload"/></button>
+                                <input type="file" multiple="true" wicket:id="fileUpload" class="form-control" style="width: 300px;"/>
+                                <a href="#" class="btn btn-primary" wicket:id="uploadButton"><wicket:message key="upload"/></a>
                             </span>
                         </div>
                     </form>
@@ -24,9 +24,11 @@
             </div>
 
             <div class="row" wicket:id="viewContainer">
-                <div class="col-sm-6 col-md-4" wicket:id="imagesView">
+                <div class="col-sm-12 col-md-6 col-lg-6" wicket:id="imagesView">
                     <div class="thumbnail">
-                        <img wicket:id="image" style="height: 300px; width: 300px;" alt="..."/>
+                        <div style="width: 300px; height: 300px; margin: auto;">
+                            <img wicket:id="image" style="max-height: 300px; width: 300px;" alt="..."/>
+                        </div>
                         <div class="caption">
                             <p class="btn-group">
                                 <a wicket:id="defaultLink" class="btn btn-default"><span class="glyphicon glyphicon-check"/> <wicket:message key="default"/></a>

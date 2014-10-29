@@ -33,6 +33,7 @@ import org.apache.wicket.util.convert.IConverter;
 import org.hibernate.cfg.ComponentPropertyHolder;
 
 /**
+ * NEW
  * 
  * @author kilrwhle
  */
