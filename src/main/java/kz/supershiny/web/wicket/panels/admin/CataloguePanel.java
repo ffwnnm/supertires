@@ -2,8 +2,6 @@ package kz.supershiny.web.wicket.panels.admin;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import kz.supershiny.core.model.Country;
@@ -13,24 +11,25 @@ import kz.supershiny.core.model.TireSize;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Constants;
+import kz.supershiny.web.wicket.components.ConfirmationLink;
 import kz.supershiny.web.wicket.components.TiresAutocompleteTextField;
+import kz.supershiny.web.wicket.pages.admin.AdminBasePage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import kz.supershiny.web.wicket.panels.BasePanel;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.autocomplete.AutoCompleteTextField;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.ComponentDetachableModel;
-import org.apache.wicket.model.ComponentPropertyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.convert.ConversionException;
 import org.apache.wicket.util.convert.IConverter;
-import org.hibernate.cfg.ComponentPropertyHolder;
 
 /**
  * NEW
@@ -56,10 +55,10 @@ public class CataloguePanel extends BasePanel {
         this(id, -1L);
     }
     
-    public CataloguePanel(String id, long tireId) {
+    public CataloguePanel(String id, Long tireId) {
         super(id);
         
-        initDictData(tireId);
+        initData(tireId);
         buildPanel();
     }
     
@@ -68,7 +67,7 @@ public class CataloguePanel extends BasePanel {
      * 
      * @param tireId 
      */
-    private void initDictData(long tireId) {
+    private void initData(Long tireId) {
         //dicts
         typesList = tireService.getTypes();
         sizesList = tireService.getUniqueSizes();
@@ -83,7 +82,7 @@ public class CataloguePanel extends BasePanel {
         if(modelsList == null) modelsList = new ArrayList<String>();
         
         //selected tire
-        if(tireId == -1L) {
+        if(tireId == null) {
             currentTire = new Tire();
         } else {
             currentTire = tireService.getTireWithImages(tireId);
@@ -117,9 +116,71 @@ public class CataloguePanel extends BasePanel {
             super(id, new CompoundPropertyModel<Tire>(currentTire));
             
             addFormFields();
+            addControls();
             
             imagesPanel = new ImageUploadPanel("imagesPanel", currentTire);
             add(imagesPanel.setOutputMarkupId(true));
+        }
+        
+        private void clearForm(AjaxRequestTarget target) {
+            initData(null);
+            editor.setModelObject(currentTire);
+            target.add(editor);
+            target.add(imagesPanel);
+        }
+        
+        private void removeTire(AjaxRequestTarget target) {
+            if (currentTire != null && currentTire.getId() != null) {
+                tireService.delete(currentTire);
+                clearForm(target);
+            }
+        }
+
+        @Override
+        protected void onValidate() {
+            super.onValidate();
+            feed.setVisible(this.hasError());
+        }
+
+        @Override
+        protected void onSubmit() {
+//            currentTire.setImages(imagesPanel.getImages());
+            if (currentTire.getId() != null) {
+                tireService.update(currentTire);
+            } else {
+                tireService.save(currentTire);
+            }
+            setResponsePage(new AdminBasePage(new PageParameters().add("target", "catalogue").add("tireId", currentTire.getId())));
+        }
+        
+        private void addControls() {
+            //top
+            add(new AjaxLink("clear") {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    clearForm(target);
+                }
+            });
+            add(new ConfirmationLink("remove", new StringResourceModel("ask.deletion", CataloguePanel.this, null).getString()) {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    removeTire(target);
+                }
+            });
+            
+            //bottom
+            add(new AjaxLink("clear2") {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    clearForm(target);
+                }
+            });
+            add(new ConfirmationLink("remove2", new StringResourceModel("ask.deletion", CataloguePanel.this, null).getString()) {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    removeTire(target);
+                }
+            });
         }
         
         private void addFormFields() {
@@ -234,13 +295,13 @@ public class CataloguePanel extends BasePanel {
             price = new TextField<BigDecimal>("price");
             quantity = new TextField<Long>("quantity");
             
-            add(manufacturer.setOutputMarkupId(true));
-            add(country.setOutputMarkupId(true));
-            add(size.setOutputMarkupId(true));
-            add(modelName.setOutputMarkupId(true));
-            add(season.setOutputMarkupId(true));
-            add(type.setOutputMarkupId(true));
-            add(price.setOutputMarkupId(true));
+            add(manufacturer.setRequired(true).setOutputMarkupId(true));
+            add(country.setRequired(true).setOutputMarkupId(true));
+            add(size.setRequired(true).setOutputMarkupId(true));
+            add(modelName.setRequired(true).setOutputMarkupId(true));
+            add(season.setRequired(true).setOutputMarkupId(true));
+            add(type.setRequired(true).setOutputMarkupId(true));
+            add(price.setRequired(true).setOutputMarkupId(true));
             add(quantity.setOutputMarkupId(true));
         }
         

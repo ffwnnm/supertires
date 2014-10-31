@@ -78,10 +78,12 @@ public class AdminBasePage extends BasePage {
                     break;
                 case "catalogue": 
                 {
-                    if (!params.get("tireId").isNull() && !params.get("tireId").isEmpty()) {
-                        long tireId = Long.parseLong(params.get("tireId").toString());
+                    Long tireId;
+                    try {
+                        tireId = new Long(params.get("tireId").toString());
                         mainPanel = new CataloguePanel("mainPanel", tireId);
-                    } else {
+                    } catch (Exception ex) {
+                        tireId = null;
                         mainPanel = new CataloguePanel("mainPanel");
                     }
                 }

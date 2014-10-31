@@ -23,8 +23,6 @@ public class TiresAutocompleteTextField<T> extends AutoCompleteTextField<T> {
         super(id, type);
         this.choices = choices;
     }
-    
-    
 
     @Override
     protected Iterator<T> getChoices(String input) {

@@ -32,6 +32,7 @@ public class LoginPage extends BasePage {
     @SpringBean
     private UserService userService;
     
+    private FeedbackPanel feed;
     private User user;
 
     public LoginPage() {
@@ -49,7 +50,8 @@ public class LoginPage extends BasePage {
             }
         });
         
-        add(new FeedbackPanel("loginFeedback").setOutputMarkupId(true));
+        feed = new FeedbackPanel("loginFeedback");
+        add(feed.setVisible(false).setOutputMarkupPlaceholderTag(true));
         add(new LoginForm("loginForm").setVisible(user == null));
     }
     
@@ -77,6 +79,7 @@ public class LoginPage extends BasePage {
             } catch (TiresAuthenticationException ex) {
                 user = null;
                 LoginPage.this.error(new StringResourceModel("error.authentication", LoginPage.this, null).getString());
+                feed.setVisible(true);
                 LOG.info("Authentication failed: " + login + " / " + password);
             }
         }

@@ -26,8 +26,12 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.resource.AbstractResource;
 import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
+import org.apache.wicket.request.resource.caching.IResourceCachingStrategy;
+import org.apache.wicket.request.resource.caching.IStaticCacheableResource;
+import org.apache.wicket.request.resource.caching.ResourceUrl;
 import org.apache.wicket.util.lang.Bytes;
 
 /**
@@ -39,7 +43,6 @@ public class ImageUploadPanel extends Panel {
 
     private UploadForm uploadForm;
     private List<TireImage> images = new ArrayList<TireImage>();
-    private TireImage preview;
     private Tire tire;
     private ListView imagesView;
     private WebMarkupContainer viewContainer;
@@ -48,8 +51,11 @@ public class ImageUploadPanel extends Panel {
         super(id);
         
         this.tire = tire;
-        this.preview = tire.getPreview();
-        this.images = tire.getImages() == null ? new ArrayList<TireImage>() : tire.getImages();
+        if (tire == null || tire.getImages() == null) {
+            this.images = new ArrayList<TireImage>();
+        } else {
+            this.images = tire.getImages();
+        }
 
         uploadForm = new UploadForm("uploadForm");
         add(uploadForm.setOutputMarkupId(true));
@@ -101,6 +107,10 @@ public class ImageUploadPanel extends Panel {
         add(viewContainer.setOutputMarkupId(true));
     }
 
+    public List<TireImage> getImages() {
+        return images;
+    }
+
     //Upload images
     private class UploadForm extends Form {
 
@@ -143,6 +153,12 @@ public class ImageUploadPanel extends Panel {
         private void processUploads() {
             for (FileUpload item : uploads) {
                 images.add(new TireImage(null, item.getClientFileName(), ImageService.ImageSize.ORIGINAL, item.getBytes()));
+            }
+            if (images != null && !images.isEmpty()) {
+                for (TireImage img : images) {
+                    img.setTire(tire);
+                }
+                tire.setImages(images);
             }
             if (uploads != null) {
                 uploads.clear();

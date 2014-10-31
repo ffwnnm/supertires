@@ -42,7 +42,7 @@ public class BrandsPanel extends BasePanel {
     
     private Manufacturer manufacturer;
     private List<Manufacturer> manufacturers;
-    private AccountsForm brandsForm;
+    private BrandsForm brandsForm;
     private FeedbackPanel feed;
 
     public BrandsPanel(String id) {
@@ -53,7 +53,7 @@ public class BrandsPanel extends BasePanel {
         add(feed = new FeedbackPanel("feedback"));
         feed.setVisible(false).setOutputMarkupId(true);
         
-        add(brandsForm = new AccountsForm("brandsForm"));
+        add(brandsForm = new BrandsForm("brandsForm"));
         brandsForm.setOutputMarkupId(true);
     }
     
@@ -66,13 +66,13 @@ public class BrandsPanel extends BasePanel {
         manufacturers.add(manufacturer);
     }
     
-    private class AccountsForm extends Form {
+    private class BrandsForm extends Form {
         
         private DropDownChoice manufacturersChoice;
         private TextField companyName;
         private TextArea description;
 
-        public AccountsForm(String id) {
+        public BrandsForm(String id) {
             super(id, new CompoundPropertyModel<Manufacturer>(manufacturer));
             
             companyName = new TextField("companyName");
