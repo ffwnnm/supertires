@@ -4,16 +4,19 @@
  */
 package kz.supershiny.web.wicket.panels.catalogue;
 
+import javax.swing.text.SimpleAttributeSet;
 import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
+import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.pages.admin.AdminBasePage;
 import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
 import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.head.StringHeaderItem;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
@@ -38,31 +41,18 @@ public class TireWidgetPanel extends BasePanel {
     private final Tire tire;
     private Image mainImage;
     private AjaxLink previewLink;
-    private ModalWindow previewer;
 
     public TireWidgetPanel(String id, Tire pTire) {
         super(id);
 
         this.tire = pTire;
 
-        previewer = new ModalWindow("myModal");
-        previewer.setResizable(false).setAutoSize(true)
-                .setInitialWidth(840).setInitialHeight(620)
-                .setMinimalWidth(840).setMinimalHeight(620);
-        add(previewer.setOutputMarkupId(true));
-
         final TireImage preview = tireService.getPreviewForTire(tire);
         if (preview != null) {
             previewLink = new AjaxLink("previewLink") {
                 @Override
                 public void onClick(AjaxRequestTarget target) {
-                    previewer.setTitle(
-                            new StringResourceModel("title.tirePhotos", TireWidgetPanel.this, null).getString() + " "
-                            + tire.getManufacturer().getCompanyName() + " "
-                            + tire.getModelName()
-                    );
-                    previewer.setContent(new ImageViewerPanel(previewer.getContentId(), tire));
-                    previewer.show(target);
+                    ((BasePage) TireWidgetPanel.this.getPage()).showModal(new ImageViewerPanel("bsModalContent", tire), target);
                 }
             };
             mainImage = new Image("preview", new DynamicImageResource() {

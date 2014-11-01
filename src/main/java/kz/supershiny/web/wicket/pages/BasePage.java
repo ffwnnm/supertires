@@ -10,10 +10,14 @@ import kz.supershiny.core.model.User;
 import kz.supershiny.web.wicket.TiresApplication;
 import kz.supershiny.web.wicket.TiresSession;
 import kz.supershiny.web.wicket.panels.BottomPanel;
+import kz.supershiny.web.wicket.panels.EmptyPanel;
 import kz.supershiny.web.wicket.panels.TopPanel;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.StringResourceModel;
 
@@ -22,12 +26,27 @@ import org.apache.wicket.model.StringResourceModel;
  * @author kilrwhle
  */
 public class BasePage extends WebPage {
+    
+    private Panel panelModal;
+    private WebMarkupContainer bsModal;
 
     public BasePage() {
         super();
         
         add(new TopPanel("topPanel"));
         add(new BottomPanel("bottomPanel"));
+        
+        bsModal = new WebMarkupContainer("bsModal");
+        add(bsModal.setOutputMarkupPlaceholderTag(true).setMarkupId("bsModal"));
+        
+        panelModal = new EmptyPanel("bsModalContent");
+        bsModal.add(panelModal.setOutputMarkupPlaceholderTag(true));
+    }
+    
+    public void showModal(Panel panel, AjaxRequestTarget art) {
+        bsModal.replace(panel);
+        art.add(bsModal);
+        art.appendJavaScript("showModal();");
     }
     
     protected User getUser() {

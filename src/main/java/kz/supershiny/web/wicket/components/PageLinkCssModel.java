@@ -19,8 +19,7 @@ class PageLinkCssModel implements IModel<String>, Serializable {
     protected final IPageable pageable;
     private final String css;
 
-    public PageLinkCssModel(IPageable pageable, long pageNumber,
-            String css) {
+    public PageLinkCssModel(IPageable pageable, long pageNumber, String css) {
         this.pageNumber = pageNumber;
         this.pageable = pageable;
         this.css = css;

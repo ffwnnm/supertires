@@ -1,3 +1,12 @@
+//modal controls
+function closeModal() {
+    $('#bsModal').modal('hide');
+}
+
+function showModal() {
+    $('#bsModal').modal('show');
+}
+
 // Activates the Carousel
 $('.carousel').carousel({
   interval: 5000

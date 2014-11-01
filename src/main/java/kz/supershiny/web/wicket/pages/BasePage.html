@@ -13,8 +13,8 @@
             <link rel="shortcut icon" href="images/favicon.png"></link>
             <link href="css/bootstrap.min.css" rel="stylesheet"></link>
             <link href="css/glyphicons-free.css" rel="stylesheet"></link>
-            <link href="css/supershiny.css" rel="stylesheet"></link>
             <link href="css/wysiwyg.css" rel="stylesheet"></link>
+            <link href="css/supershiny.css" rel="stylesheet"></link>
         </wicket:link>
     </wicket:head>
     <body>
@@ -34,11 +34,17 @@
             bottomPanel here
         </div>
         
+        <div wicket:id="bsModal" class="modal fade" id="bsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" wicket:id="bsModalContent"></div>
+            </div>
+        </div>
+        
         <!-- JavaScript -->
         <!--<script src="js/jquery-1.10.2.js"></script>-->
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/supershiny.js"></script>
         <script src="js/bootstrap-wysiwyg.js"></script>
         <script src="js/jquery.hotkeys.js"></script>
+        <script src="js/supershiny.js"></script>
     </body>
 </html>

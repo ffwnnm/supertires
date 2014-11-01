@@ -34,8 +34,8 @@ public class ImageService extends JPAService {
     public static final int LARGE_WIDTH = 600;
     public static final int LARGE_HEIGHT = 600;
     //thumb
-    public static final int SMALL_WIDTH = 200;
-    public static final int SMALL_HEIGHT = 200;
+    public static final int SMALL_WIDTH = 145;
+    public static final int SMALL_HEIGHT = 145;
     
     /**
      * Creates a filename for a photo of a good.

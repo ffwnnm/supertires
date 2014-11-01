@@ -8,7 +8,6 @@ package kz.supershiny.web.wicket.panels.catalogue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.text.SimpleAttributeSet;
 import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.ImageService;
@@ -23,6 +22,7 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -41,13 +41,19 @@ public class ImageViewerPanel extends Panel {
     private TireService tireService;
 
     private Map<Integer, TireImage> images;
+    private WebMarkupContainer numbersContainer;
     private ListView numbers;
     private Image image;
+    private AjaxLink prev, next;
     private int selected = 0;
     private int total = 0;
 
     public ImageViewerPanel(String id, Tire tire) {
         super(id);
+        
+        add(new Label("modal.title", new StringResourceModel("modal.photos", ImageViewerPanel.this, null).getString()
+                                        + " " + tire.getManufacturer().getCompanyName() + " " + tire.getModelName())
+        );
 
         images = new HashMap<Integer, TireImage>();
         int counter = 0;
@@ -74,47 +80,61 @@ public class ImageViewerPanel extends Panel {
             add(new ContextImage("image", "images/default-preview.png"));
         }
 
-        add(new AjaxLink("prev") {
-
+        prev = new AjaxLink("prev") {
             @Override
             public void onClick(AjaxRequestTarget art) {
                 if (selected > 0) {
                     switchImage(--selected, art);
                 }
+                art.add(prev);
+                art.add(next);
             }
-        });
-        add(new AjaxLink("next") {
-
+            @Override
+            public boolean isEnabled() {
+                return selected > 0;
+            }
+        };
+        add(prev.setOutputMarkupPlaceholderTag(true));
+        next = new AjaxLink("next") {
             @Override
             public void onClick(AjaxRequestTarget art) {
                 if (selected < total - 1) {
                     switchImage(++selected, art);
                 }
+                art.add(prev);
+                art.add(next);
             }
-        });
+            @Override
+            public boolean isEnabled() {
+                return selected < total - 1;
+            }
+        };
+        add(next.setOutputMarkupPlaceholderTag(true));
 
+        numbersContainer = new WebMarkupContainer("numbersContainer");
+        add(numbersContainer.setOutputMarkupId(true));
         numbers = new ListView("numbers", new ArrayList(images.keySet())) {
 
             @Override
             protected void populateItem(final ListItem li) {
                 final int index = (Integer) li.getModelObject();
                 AjaxLink link = new AjaxLink("numberLink") {
-
                     @Override
                     public void onClick(AjaxRequestTarget art) {
+                        selected = index;
                         switchImage(index, art);
                     }
                 };
                 link.add(new Label("number", index + 1));
-//                if (index == selected) {
-//                    link.add(AttributeModifier.replace("class", "btn btn-primary"));
-//                } else {
-//                    link.add(AttributeModifier.replace("class", "btn btn-default"));
-//                }
+                if (index == selected) {
+                    link.add(AttributeModifier.replace("class", "btn btn-primary"));
+                } else {
+                    link.add(AttributeModifier.replace("class", "btn btn-default"));
+                }
                 li.add(link);
             }
         };
-        add(numbers.setOutputMarkupId(true));
+        numbersContainer.add(numbers.setOutputMarkupId(true));
     }
     
     private void switchImage(final int index, AjaxRequestTarget art) {
@@ -125,6 +145,9 @@ public class ImageViewerPanel extends Panel {
             }
         });
         art.add(image);
+        art.add(prev);
+        art.add(next);
+        art.add(numbersContainer);
     }
 
 }

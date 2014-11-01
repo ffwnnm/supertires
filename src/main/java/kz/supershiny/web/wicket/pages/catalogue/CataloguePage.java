@@ -98,10 +98,6 @@ public class CataloguePage extends BasePage {
             tiresContainer.add(new Label("widgetsList").setVisible(false));
             paging1.setVisible(false);
             paging2.setVisible(false);
-//            paging1.add(new Label("navigator1").setVisible(false));
-//            paging2.add(new Label("navigator2").setVisible(false));
-//            paging1.add(new Label("itemsCount1").setVisible(false));
-//            paging2.add(new Label("itemsCount2").setVisible(false));
         }
 
         add(tiresContainer.setOutputMarkupId(true));

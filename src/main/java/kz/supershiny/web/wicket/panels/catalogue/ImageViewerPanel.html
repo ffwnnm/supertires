@@ -9,29 +9,43 @@
     </head>
     <body>
         <wicket:panel>
-                <div class="modal-body">
-                    <div class="row">
-                        <div>
+            <div class="modal-header">
+                <button type="button" class="close" style="color: red;" onclick="closeModal();">&times;</button>
+                <h5 class="modal-title" id="myModalLabel"><span wicket:id="modal.title"/></h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <a href="#" wicket:id="prev" class="paging-arrow">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="height: 420px;">
                             <center>
-                                <img wicket:id="image" style="height: 540px; max-width: 800px;"></img>
+                                <span class="glyphicon glyphicon-chevron-left" style="margin-top: 200px;"></span>
                             </center>
                         </div>
+                    </a>
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <center>
+                            <img wicket:id="image" style="max-width: 600px; height: 420px;"></img>
+                        </center>
                     </div>
+                    <a href="#" wicket:id="next" class="paging-arrow">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="height: 420px;">
+                            <center>
+                                <span class="glyphicon glyphicon-chevron-right" style="margin-top: 200px;"></span>
+                            </center>
+                        </div>
+                    </a>
                 </div>
-                    <center>
-                    <div class="btn-group">
-                        <a href="#" wicket:id="prev" style="font-size: x-large; margin-right: 20px; text-decoration: none;">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                        </a>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group" wicket:id="numbersContainer">
                         <span wicket:id="numbers">
                             <a href="#" class="btn btn-default" wicket:id="numberLink"><span wicket:id="number"/></a>
                         </span>
-                        <a href="#" wicket:id="next" style="font-size: x-large; margin-left: 20px; text-decoration: none;">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                        </a>
                     </div>
-                        </center>
-                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                    <button type="button" class="btn btn-danger" onclick="closeModal();"><wicket:message key="modal.close"/></button>
+                </div>
+            </div>
         </wicket:panel>
     </body>
 </html>
