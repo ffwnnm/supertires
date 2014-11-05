@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package kz.supershiny.web.wicket.components;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -15,29 +14,27 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
  *
  * @author kilrwhle
  */
-public class ConfirmationLink<T> extends AjaxLink<T>
-{
+public class ConfirmationLink<T> extends AjaxLink<T> {
+
     private static final long serialVersionUID = 1L;
     private final String text;
- 
-    public ConfirmationLink( String id, String text )
-    {
-        super( id );
+
+    public ConfirmationLink(String id, String text) {
+        super(id);
         this.text = text;
     }
- 
+
     @Override
-    protected void updateAjaxAttributes( AjaxRequestAttributes attributes )
-    {
-        super.updateAjaxAttributes( attributes );
- 
+    protected void updateAjaxAttributes(AjaxRequestAttributes attributes) {
+        super.updateAjaxAttributes(attributes);
+
         AjaxCallListener ajaxCallListener = new AjaxCallListener();
-        ajaxCallListener.onPrecondition( "return confirm('" + text + "');" );
-        attributes.getAjaxCallListeners().add( ajaxCallListener );
+        ajaxCallListener.onPrecondition("return confirm('" + text + "');");
+        attributes.getAjaxCallListeners().add(ajaxCallListener);
     }
 
     @Override
     public void onClick(AjaxRequestTarget target) {
-        
+
     }
 }

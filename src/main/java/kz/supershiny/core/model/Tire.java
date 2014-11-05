@@ -116,6 +116,10 @@ public class Tire implements Serializable {
         return "Tire{" + "modelName=" + modelName + ", season=" + season + ", size=" + size + ", type=" + type + ", country=" + country + ", manufacturer=" + manufacturer + '}';
     }
     
+    public boolean isEmpty() {
+        return this.country == null || this.manufacturer == null || this.modelName == null || this.price == null || this.season == null || this.size == null || this.type == null;
+    }
+    
     public void addImage(TireImage image) {
         if(images == null) images = new ArrayList<TireImage>();
         image.setTire(this);

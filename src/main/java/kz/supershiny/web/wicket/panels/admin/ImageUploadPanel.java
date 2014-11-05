@@ -7,7 +7,6 @@ package kz.supershiny.web.wicket.panels.admin;
 
 import java.util.ArrayList;
 import java.util.List;
-import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.ImageService;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
@@ -26,12 +25,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.request.resource.AbstractResource;
 import org.apache.wicket.request.resource.DynamicImageResource;
 import org.apache.wicket.request.resource.IResource;
-import org.apache.wicket.request.resource.caching.IResourceCachingStrategy;
-import org.apache.wicket.request.resource.caching.IStaticCacheableResource;
-import org.apache.wicket.request.resource.caching.ResourceUrl;
 import org.apache.wicket.util.lang.Bytes;
 
 /**
@@ -42,20 +37,14 @@ import org.apache.wicket.util.lang.Bytes;
 public class ImageUploadPanel extends Panel {
 
     private UploadForm uploadForm;
-    private List<TireImage> images = new ArrayList<TireImage>();
-    private Tire tire;
+    private List<TireImage> currentImages = new ArrayList<TireImage>();
     private ListView imagesView;
     private WebMarkupContainer viewContainer;
 
-    public ImageUploadPanel(String id, Tire tire) {
+    public ImageUploadPanel(String id, List<TireImage> images) {
         super(id);
         
-        this.tire = tire;
-        if (tire == null || tire.getImages() == null) {
-            this.images = new ArrayList<TireImage>();
-        } else {
-            this.images = tire.getImages();
-        }
+        initData(images);
 
         uploadForm = new UploadForm("uploadForm");
         add(uploadForm.setOutputMarkupId(true));
@@ -77,7 +66,7 @@ public class ImageUploadPanel extends Panel {
                 defaultLink = new AjaxLink("defaultLink") {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
-                        for (TireImage item : images) {
+                        for (TireImage item : currentImages) {
                             item.setIsPreview(Boolean.FALSE);
                         }
                         ti.setIsPreview(Boolean.TRUE);
@@ -94,7 +83,7 @@ public class ImageUploadPanel extends Panel {
                 removeLink = new ConfirmationLink("removeLink", new StringResourceModel("ask.deletion", ImageUploadPanel.this, null).getString()) {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
-                        images.remove(ti);
+                        currentImages.remove(ti);
                         target.add(viewContainer);
                     }
                 };
@@ -106,9 +95,16 @@ public class ImageUploadPanel extends Panel {
         viewContainer.add(imagesView.setOutputMarkupId(true));
         add(viewContainer.setOutputMarkupId(true));
     }
+    
+    private void initData(List<TireImage> images) {
+        currentImages = images;
+        if (currentImages == null) {
+            currentImages = new ArrayList<TireImage>();
+        }
+    }
 
     public List<TireImage> getImages() {
-        return images;
+        return currentImages;
     }
 
     //Upload images
@@ -152,13 +148,7 @@ public class ImageUploadPanel extends Panel {
 
         private void processUploads() {
             for (FileUpload item : uploads) {
-                images.add(new TireImage(null, item.getClientFileName(), ImageService.ImageSize.ORIGINAL, item.getBytes()));
-            }
-            if (images != null && !images.isEmpty()) {
-                for (TireImage img : images) {
-                    img.setTire(tire);
-                }
-                tire.setImages(images);
+                currentImages.add(new TireImage(null, item.getClientFileName(), ImageService.ImageSize.ORIGINAL, item.getBytes()));
             }
             if (uploads != null) {
                 uploads.clear();

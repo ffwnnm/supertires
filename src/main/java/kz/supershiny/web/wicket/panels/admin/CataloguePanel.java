@@ -7,6 +7,7 @@ import java.util.Locale;
 import kz.supershiny.core.model.Country;
 import kz.supershiny.core.model.Manufacturer;
 import kz.supershiny.core.model.Tire;
+import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.model.TireSize;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.services.TireService;
@@ -52,14 +53,21 @@ public class CataloguePanel extends BasePanel {
     private CatalogueEditorForm editor;
     
     public CataloguePanel(String id) {
-        this(id, -1L);
+        this(id, null);
     }
     
     public CataloguePanel(String id, Long tireId) {
         super(id);
         
         initData(tireId);
-        buildPanel();
+        
+        feed = new FeedbackPanel("feedback");
+        add(feed.setOutputMarkupPlaceholderTag(true).setVisible(false));
+        
+        add(new BookmarkablePageLink("editCatalogue", CataloguePage.class));
+        
+        editor = new CatalogueEditorForm("editorForm");
+        add(editor.setOutputMarkupId(true));
     }
     
     /**
@@ -82,21 +90,10 @@ public class CataloguePanel extends BasePanel {
         if(modelsList == null) modelsList = new ArrayList<String>();
         
         //selected tire
-        if(tireId == null) {
+        currentTire = tireService.getTireWithImages(tireId);
+        if(currentTire == null) {
             currentTire = new Tire();
-        } else {
-            currentTire = tireService.getTireWithImages(tireId);
         }
-    }
-    
-    private void buildPanel() {
-        feed = new FeedbackPanel("feedback");
-        add(feed.setOutputMarkupId(true).setVisible(false));
-        
-        add(new BookmarkablePageLink("editCatalogue", CataloguePage.class));
-        
-        editor = new CatalogueEditorForm("editorForm");
-        add(editor.setOutputMarkupId(true));
     }
     
     private class CatalogueEditorForm extends Form {
@@ -109,7 +106,6 @@ public class CataloguePanel extends BasePanel {
         private DropDownChoice<String> season;
         private TextField<BigDecimal> price;
         private TextField<Long> quantity;
-        
         private ImageUploadPanel imagesPanel;
 
         public CatalogueEditorForm(String id) {
@@ -118,15 +114,21 @@ public class CataloguePanel extends BasePanel {
             addFormFields();
             addControls();
             
-            imagesPanel = new ImageUploadPanel("imagesPanel", currentTire);
+            imagesPanel = new ImageUploadPanel("imagesPanel", currentTire.getImages());
             add(imagesPanel.setOutputMarkupId(true));
         }
         
         private void clearForm(AjaxRequestTarget target) {
             initData(null);
-            editor.setModelObject(currentTire);
-            target.add(editor);
+            editor.setDefaultModel(new CompoundPropertyModel<Tire>(currentTire));
+            
+            ImageUploadPanel newImagesPanel = new ImageUploadPanel("imagesPanel", currentTire.getImages());
+            newImagesPanel.setOutputMarkupId(true);
+            imagesPanel.replaceWith(newImagesPanel);
+            imagesPanel = newImagesPanel;
+            
             target.add(imagesPanel);
+            target.add(editor);
         }
         
         private void removeTire(AjaxRequestTarget target) {
@@ -139,12 +141,47 @@ public class CataloguePanel extends BasePanel {
         @Override
         protected void onValidate() {
             super.onValidate();
+            
+            //set model values
+            currentTire.setCountry(country.getConvertedInput());
+            currentTire.setManufacturer(manufacturer.getConvertedInput());
+            currentTire.setModelName(modelName.getConvertedInput());
+            currentTire.setPrice(price.getConvertedInput());
+            currentTire.setQuantity(quantity.getConvertedInput());
+            currentTire.setSeason(season.getConvertedInput());
+            currentTire.setSize(size.getConvertedInput());
+            currentTire.setType(type.getConvertedInput());
+            
+            if (currentTire.isEmpty()) {
+                editor.error(new StringResourceModel("error.emptyTire", CataloguePanel.this, null).getString());
+            }
+            
+            if (!this.hasError()) {
+                //save non-persistent entities (new manufacturers, countries, etc)
+                if(currentTire.getCountry().getId() == null) {
+                    tireService.save(currentTire.getCountry());
+                }
+                if(currentTire.getManufacturer().getId() == null) {
+                    tireService.save(currentTire.getManufacturer());
+                }
+                if(currentTire.getSize().getId() == null) {
+                    tireService.save(currentTire.getSize());
+                }
+                //set images for this tire
+                List<TireImage> imagesForUpload = imagesPanel.getImages();
+                if(imagesForUpload != null && !imagesForUpload.isEmpty()) {
+                    for(TireImage item : imagesForUpload) {
+                        item.setTire(currentTire);
+                    }
+                }
+                currentTire.setImages(imagesForUpload);
+            }
+            
             feed.setVisible(this.hasError());
         }
 
         @Override
         protected void onSubmit() {
-//            currentTire.setImages(imagesPanel.getImages());
             if (currentTire.getId() != null) {
                 tireService.update(currentTire);
             } else {
@@ -199,10 +236,10 @@ public class CataloguePanel extends BasePanel {
                             if(string != null && !string.isEmpty()) {
                                 int pos = manufacturersList.indexOf(new Manufacturer(string));
                                 result = pos > -1 ? manufacturersList.get(pos) : new Manufacturer(string);
-                            } else {
-                                editor.error(new StringResourceModel("error.invalidManufacturer", CataloguePanel.this, null).getString());
+                                return (C) result;
                             }
-                            return (C) result;
+                            editor.error(new StringResourceModel("error.invalidManufacturer", CataloguePanel.this, null).getString());
+                            return null;
                         }
 
                         @Override
@@ -230,10 +267,10 @@ public class CataloguePanel extends BasePanel {
                             if(string != null && !string.isEmpty()) {
                                 int pos = countriesList.indexOf(new Country(string));
                                 result = pos > -1 ? countriesList.get(pos) : new Country(string);
-                            } else {
-                                editor.error(new StringResourceModel("error.invalidCountry", CataloguePanel.this, null).getString());
+                                return (C) result;
                             }
-                            return (C) result;
+                            editor.error(new StringResourceModel("error.invalidCountry", CataloguePanel.this, null).getString());
+                            return null;
                         }
 
                         @Override
@@ -263,11 +300,11 @@ public class CataloguePanel extends BasePanel {
                                 if(TireSize.TIRE_SIZE_PATTERN.matcher(string).matches()) {
                                     int pos = sizesList.indexOf(new TireSize(string));
                                     result = pos > -1 ? sizesList.get(pos) : new TireSize(string);
+                                    return (C) result;
                                 }
-                            } else {
-                                editor.error(new StringResourceModel("error.invalidSize", CataloguePanel.this, null).getString());
                             }
-                            return (C) result;
+                            editor.error(new StringResourceModel("error.invalidSize", CataloguePanel.this, null).getString());
+                            return null;
                         }
 
                         @Override

@@ -83,7 +83,6 @@ public class AdminBasePage extends BasePage {
                         tireId = new Long(params.get("tireId").toString());
                         mainPanel = new CataloguePanel("mainPanel", tireId);
                     } catch (Exception ex) {
-                        tireId = null;
                         mainPanel = new CataloguePanel("mainPanel");
                     }
                 }

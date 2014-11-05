@@ -203,7 +203,8 @@ public class TireService extends JPAService {
     
     @Transactional(readOnly = true)
     public Tire getTireWithImages(Long id) {
-        Tire result = null;
+        if (id == null) return null;
+        Tire result;
         try {
             result = (Tire) em.createQuery("SELECT T FROM Tire T WHERE T.id = :id")
                     .setParameter("id", id)
