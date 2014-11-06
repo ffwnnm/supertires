@@ -6,7 +6,11 @@ package kz.supershiny.web.wicket.pages.general;
 
 import kz.supershiny.core.model.Manufacturer;
 import kz.supershiny.web.wicket.pages.BasePage;
+import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
 
 /**
  *
@@ -15,19 +19,37 @@ import org.apache.wicket.markup.html.basic.Label;
 public class ManufacturerPage extends BasePage {
     
     private Manufacturer manufacturer;
+    private Label name, description;
 
     public ManufacturerPage() {
-        super();
+        setResponsePage(CataloguePage.class);
     }
     
     public ManufacturerPage(Manufacturer manufacturer) {
         super();
         
         this.manufacturer = manufacturer;
+        if (this.manufacturer == null) {
+            setResponsePage(CataloguePage.class);
+            return;
+        }
         
-        add(new Label("companyName", this.manufacturer.getCompanyName()));
-        add(new Label("description", this.manufacturer.getDescription()).setEscapeModelStrings(false));
+        name = new Label("manufacturerName", this.manufacturer.getCompanyName());
+        add(name);
         
-        //add logo!
+        add(new Link("homepage") {
+            @Override
+            public void onClick() {
+                setResponsePage(CataloguePage.class);
+            }
+        });
+        
+        description = new Label(
+                "manufacturerDescription", 
+                this.manufacturer.getDescription() == null 
+                        ? "<h2>" + new StringResourceModel("emptyDescription", ManufacturerPage.this, null).getString() + "</h2>"
+                        : this.manufacturer.getDescription()
+        );
+        add(description.setEscapeModelStrings(false));
     }
 }

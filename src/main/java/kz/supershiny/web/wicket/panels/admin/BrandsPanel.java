@@ -10,6 +10,7 @@ import java.util.List;
 import kz.supershiny.core.model.Manufacturer;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
+import kz.supershiny.web.wicket.components.RichTextEditor;
 import kz.supershiny.web.wicket.pages.admin.AdminBasePage;
 import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -18,7 +19,6 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -70,7 +70,7 @@ public class BrandsPanel extends BasePanel {
         
         private DropDownChoice manufacturersChoice;
         private TextField companyName;
-        private TextArea description;
+        private RichTextEditor editor;
 
         public BrandsForm(String id) {
             super(id, new CompoundPropertyModel<Manufacturer>(manufacturer));
@@ -78,8 +78,8 @@ public class BrandsPanel extends BasePanel {
             companyName = new TextField("companyName");
             add(companyName.setRequired(true).setOutputMarkupId(true));
             
-            description = new TextArea("description");
-            add(description.setRequired(true).setOutputMarkupId(true));
+            editor = new RichTextEditor("description", manufacturer.getDescription());
+            add(editor.setOutputMarkupId(true));
             
             //controls
             addControls();
@@ -111,7 +111,12 @@ public class BrandsPanel extends BasePanel {
                 protected void onUpdate(AjaxRequestTarget target) {
                     brandsForm.setModelObject(manufacturer);
                     target.add(companyName);
-                    target.add(description);
+                    
+                    RichTextEditor editorNew = new RichTextEditor("description", manufacturer.getDescription());
+                    editorNew.setOutputMarkupId(true);
+                    editor.replaceWith(editorNew);
+                    editor = editorNew;
+                    target.add(editor);
                 }
             });
             add(manufacturersChoice.setOutputMarkupId(true));
@@ -120,8 +125,14 @@ public class BrandsPanel extends BasePanel {
         private void clearForm(AjaxRequestTarget target) {
             initData();
             brandsForm.setModelObject(manufacturer);
+            
+            RichTextEditor editorNew = new RichTextEditor("description", manufacturer.getDescription());
+            editorNew.setOutputMarkupId(true);
+            editor.replaceWith(editorNew);
+            editor = editorNew;
+            
+            target.add(editor);
             target.add(companyName);
-            target.add(description);
         }
         
         private void removeManufacturer(AjaxRequestTarget target) {
@@ -144,6 +155,7 @@ public class BrandsPanel extends BasePanel {
         @Override
         protected void onValidate() {
             super.onValidate();
+            manufacturer.setDescription(editor.getPrettyContent());
             feed.setVisible(this.hasError());
         }
 

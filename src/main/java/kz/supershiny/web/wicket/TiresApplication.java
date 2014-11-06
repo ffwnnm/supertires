@@ -22,6 +22,7 @@ import kz.supershiny.web.wicket.pages.error.ErrorPage;
 import kz.supershiny.web.wicket.pages.general.BlogPage;
 import kz.supershiny.web.wicket.pages.general.ContactsPage;
 import kz.supershiny.web.wicket.pages.general.FAQPage;
+import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -85,6 +86,7 @@ public class TiresApplication extends WebApplication {
         mount(new TiresPageMapper("/blog", BlogPage.class));
         mount(new TiresPageMapper("/about", ContactsPage.class));
         mount(new TiresPageMapper("/faq", FAQPage.class));
+        mount(new TiresPageMapper("/company", ManufacturerPage.class));
         mount(new TiresPageMapper("/login", LoginPage.class));
         mount(new TiresPageMapper("/error", ErrorPage.class));
         mount(new TiresPageMapper("/404", Error404Page.class));

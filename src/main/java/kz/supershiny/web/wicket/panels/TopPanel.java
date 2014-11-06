@@ -33,9 +33,9 @@ public final class TopPanel extends BasePanel {
         });
         
         add(new BookmarkablePageLink("catalogueLink", CataloguePage.class));
-        add(new BookmarkablePageLink("blogLink", BlogPage.class));
+//        add(new BookmarkablePageLink("blogLink", BlogPage.class));
         add(new BookmarkablePageLink("aboutLink", ContactsPage.class));
-        add(new BookmarkablePageLink("faqLink", FAQPage.class));
+//        add(new BookmarkablePageLink("faqLink", FAQPage.class));
         add(
             new BookmarkablePageLink("loginLink", isLoggedIn()
                     ? AdminBasePage.class

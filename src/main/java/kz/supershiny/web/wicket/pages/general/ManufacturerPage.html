@@ -9,17 +9,34 @@
     </head>
     <body>
         <wicket:extend>
-            <div id="maincontent">
-                <div id="manufacturer-info">
-                    <div id="manufacturer-general-info">
-                        <h1 wicket:id="companyName"></h1>
-                        <p wicket:id="description"></p>
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <h3 class="page-header"><span wicket:id="manufacturerName"/>
+                            <small>
+                                <wicket:message key="aboutManufacturer"/>
+                            </small>
+                        </h3>
+                        <ol class="breadcrumb">
+                            <li><a href="#" wicket:id="homepage"><wicket:message key="homepage"/></a>
+                            </li>
+                            <li class="active"><wicket:message key="aboutManufacturer"/></li>
+                        </ol>
                     </div>
-                    <div id="manufacturer-logo">
-                        <img src="images/default-logo.png" alt="company logo" class="company-logo"/>
-                    </div>
+
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-10">
+                        <div wicket:id="manufacturerDescription"></div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                </div>
+
             </div>
+            <!-- /.container -->
         </wicket:extend>
     </body>
 </html>

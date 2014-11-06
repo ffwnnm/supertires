@@ -4,7 +4,6 @@
  */
 package kz.supershiny.web.wicket.panels.catalogue;
 
-import javax.swing.text.SimpleAttributeSet;
 import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.TireService;
@@ -15,8 +14,6 @@ import kz.supershiny.web.wicket.pages.general.ManufacturerPage;
 import kz.supershiny.web.wicket.panels.BasePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.head.StringHeaderItem;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.image.Image;
