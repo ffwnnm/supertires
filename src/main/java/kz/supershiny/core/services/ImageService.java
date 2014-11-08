@@ -14,7 +14,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import javax.imageio.ImageIO;
+import kz.supershiny.core.model.TireImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,25 +36,26 @@ public class ImageService extends JPAService {
     public static final int LARGE_WIDTH = 600;
     public static final int LARGE_HEIGHT = 600;
     //thumb
-    public static final int SMALL_WIDTH = 145;
-    public static final int SMALL_HEIGHT = 145;
+    public static final int SMALL_WIDTH = 170;
+    public static final int SMALL_HEIGHT = 170;
     
     /**
      * Creates a filename for a photo of a good.
-     * Syntax: goodId-original-filename
+     * Syntax: goodId-imagesize-filename
      * 
      * @param goodId
      * @param originalFilename
      * @param type original - 0, large - 1, small - 2
      * @return 
      */
-    public String getPhotoFilename(Long goodId, String originalFilename, int type) {
+    public static String getPhotoFilename(Long goodId, String originalFilename, ImageSize type) {
+        if (goodId == null) return null;
         String prefix = "";
         switch (type) {
-            case 1:
+            case LARGE:
                 prefix = ImageSize.LARGE.name();
                 break;
-            case 2:
+            case SMALL:
                 prefix = ImageSize.SMALL.name();
                 break;
             default:
@@ -72,9 +75,9 @@ public class ImageService extends JPAService {
      * @param type original - 0, large - 1, small - 2
      * @return resized image in byte array
      */
-    public byte[] resizeImage(byte[] originalData, int type) {
+    public static byte[] resizeImage(byte[] originalData, ImageSize type) {
         //if original flag, then return original
-        if (type == 0) {
+        if (type.equals(ImageSize.ORIGINAL)) {
             return originalData;
         }
 
@@ -86,17 +89,18 @@ public class ImageService extends JPAService {
             originalImage = ImageIO.read(in);
         } catch (IOException ex) {
             LOG.error("Cannot convert byte array to BufferedImage!", ex);
+            return null;
         }
         //get original size
         int scaledHeight = originalImage.getHeight();
         int scaledWidth = originalImage.getWidth();
 
         switch (type) {
-            case 1:
+            case LARGE:
                 scaledWidth = LARGE_WIDTH;
                 scaledHeight = LARGE_HEIGHT;
                 break;
-            case 2:
+            case SMALL:
                 scaledWidth = SMALL_WIDTH;
                 scaledHeight = SMALL_HEIGHT;
                 break;

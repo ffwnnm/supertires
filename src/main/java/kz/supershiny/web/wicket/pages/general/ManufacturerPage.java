@@ -9,7 +9,6 @@ import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 
 /**

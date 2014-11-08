@@ -6,9 +6,12 @@
 package kz.supershiny.web.wicket.panels.admin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.services.ImageService;
+import kz.supershiny.core.services.ImageService.ImageSize;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -38,6 +41,7 @@ public class ImageUploadPanel extends Panel {
 
     private UploadForm uploadForm;
     private List<TireImage> currentImages = new ArrayList<TireImage>();
+    private Set<String> deletedImages = new HashSet<String>();
     private ListView imagesView;
     private WebMarkupContainer viewContainer;
 
@@ -51,6 +55,7 @@ public class ImageUploadPanel extends Panel {
 
         //Display/edit images
         viewContainer = new WebMarkupContainer("viewContainer");
+        //images doesn't exist, wicket uses getter getImages() of ImageUploadPanel
         imagesView = new ListView("imagesView", new PropertyModel(ImageUploadPanel.this, "images")) {
             @Override
             protected void populateItem(ListItem li) {
@@ -66,10 +71,7 @@ public class ImageUploadPanel extends Panel {
                 defaultLink = new AjaxLink("defaultLink") {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
-                        for (TireImage item : currentImages) {
-                            item.setIsPreview(Boolean.FALSE);
-                        }
-                        ti.setIsPreview(Boolean.TRUE);
+                        setPreviewImage(ti.getFileName());
                         target.add(viewContainer);
                     }
                 };
@@ -80,10 +82,10 @@ public class ImageUploadPanel extends Panel {
                     defaultLink.setEnabled(true);
                     defaultLink.add(new AttributeAppender("class", Model.of("btn btn-default")));
                 }
-                removeLink = new ConfirmationLink("removeLink", new StringResourceModel("ask.deletion", ImageUploadPanel.this, null).getString()) {
+                removeLink = new ConfirmationLink("removeLink", new StringResourceModel("ask.deletionPhoto", ImageUploadPanel.this, null).getString()) {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
-                        currentImages.remove(ti);
+                        deletedImages.add(ti.getFileName());
                         target.add(viewContainer);
                     }
                 };
@@ -98,13 +100,43 @@ public class ImageUploadPanel extends Panel {
     
     private void initData(List<TireImage> images) {
         currentImages = images;
+        deletedImages = new HashSet<String>();
         if (currentImages == null) {
             currentImages = new ArrayList<TireImage>();
         }
     }
+    
+    //sets the image with this filename as default for all sizes
+    public void setPreviewImage(String imgName) {
+        for (TireImage item : currentImages) {
+            if (item.getFileName().equals(imgName)) {
+                item.setIsPreview(Boolean.TRUE);
+            } else {
+                item.setIsPreview(Boolean.FALSE);
+            }
+        }
+    }
 
+    //gets only LARGE images
     public List<TireImage> getImages() {
-        return currentImages;
+        List<TireImage> larges = new ArrayList<TireImage>();
+        for (TireImage img : currentImages) {
+            if (img.getImageSize().equals(ImageService.ImageSize.LARGE) && !deletedImages.contains(img.getFileName())) {
+                larges.add(img);
+            }
+        }
+        return larges;
+    }
+    
+    //returns the whole list of images of all sizes for persistence
+    public List<TireImage> getAllImages() {
+        List<TireImage> result = new ArrayList<TireImage>();
+        for (TireImage img : currentImages) {
+            if (!deletedImages.contains(img.getFileName())) {
+                result.add(img);
+            }
+        }
+        return result;
     }
 
     //Upload images
@@ -118,7 +150,7 @@ public class ImageUploadPanel extends Panel {
 
             setMultiPart(true);
             setMaxSize(Bytes.kilobytes(8172));
-
+ 
             fileUpload = new FileUploadField("fileUpload", new PropertyModel<List<FileUpload>>(this, "uploads"));
             add(fileUpload.setOutputMarkupId(true));
             
@@ -146,9 +178,18 @@ public class ImageUploadPanel extends Panel {
             return uploads;
         }
 
+        //all magic is done here
         private void processUploads() {
             for (FileUpload item : uploads) {
+                //add original
                 currentImages.add(new TireImage(null, item.getClientFileName(), ImageService.ImageSize.ORIGINAL, item.getBytes()));
+                //create and add large sized image
+                byte[] imgBytes;
+                imgBytes = ImageService.resizeImage(item.getBytes(), ImageSize.LARGE);
+                currentImages.add(new TireImage(null, item.getClientFileName(), ImageService.ImageSize.LARGE, imgBytes));
+                //create and add small sized image
+                imgBytes = ImageService.resizeImage(item.getBytes(), ImageSize.SMALL);
+                currentImages.add(new TireImage(null, item.getClientFileName(), ImageService.ImageSize.SMALL, imgBytes));
             }
             if (uploads != null) {
                 uploads.clear();

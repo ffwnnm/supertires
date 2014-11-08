@@ -59,7 +59,28 @@ public class TireImage implements Serializable {
         this.imageBody = imageBody;
     }
 
-    public TireImage() {
+    public TireImage() {}
+    
+    //returns only original filename
+    public String getFileName() {
+        if (fileName == null) return null;
+        String[] parts = fileName.split("-");
+        if (
+                parts.length > 2 && 
+                (
+                    parts[1].equals(ImageSize.LARGE.name()) || 
+                    parts[1].equals(ImageSize.ORIGINAL.name()) || 
+                    parts[1].equals(ImageSize.SMALL.name())
+                )
+        ) {
+            return fileName.substring(fileName.indexOf(parts[2]));
+        }
+        return fileName;
+    }
+    
+    //returns full name with goodId and size
+    public String getFullFileName() {
+        return fileName;
     }
 
     @Override
@@ -105,10 +126,6 @@ public class TireImage implements Serializable {
 
     public void setTire(Tire tire) {
         this.tire = tire;
-    }
-
-    public String getFileName() {
-        return fileName;
     }
 
     public void setFileName(String fileName) {

@@ -217,20 +217,6 @@ public class TireService extends JPAService {
         return result;
     }
     
-    @Transactional(readOnly = true)
-    public TireImage getTirePreview(Tire tire) {
-        TireImage result = null;
-        try {
-            result = (TireImage) em.createQuery("SELECT T FROM TireImage T WHERE T.tire = :tire AND T.isPreview = TRUE")
-                    .setParameter("tire", tire)
-                    .getSingleResult();
-        } catch (Exception ex) {
-            result = null;
-            LOG.error("Unable to load preview for tire!");
-        }
-        return result;
-    }
-    
     @Transactional(readOnly = false)
     public void removeImage(TireImage image) {
         if(image == null) return;
@@ -337,6 +323,12 @@ public class TireService extends JPAService {
         return result;
     }
     
+    /**
+     * Returns 1st SMALL image with flag preview == true
+     * 
+     * @param tire
+     * @return 
+     */
     @Transactional(readOnly = true)
     public TireImage getPreviewForTire(Tire tire) {
         TireImage result = null;
@@ -344,9 +336,10 @@ public class TireService extends JPAService {
         
         try {
             List results = em.createQuery(
-                    "SELECT i FROM TireImage i WHERE i.tire = :tire AND i.isPreview IS TRUE ORDER BY i.id DESC"
+                    "SELECT i FROM TireImage i WHERE i.tire = :tire AND i.imageSize = :size AND i.isPreview IS TRUE ORDER BY i.id DESC"
                     )
                     .setParameter("tire", tire)
+                    .setParameter("size", ImageService.ImageSize.SMALL)
                     .setMaxResults(1).getResultList();
             result = (TireImage) results.get(0);
         } catch (Exception ex) {
@@ -417,4 +410,32 @@ public class TireService extends JPAService {
         }
         return false;
     }
+    
+    /**
+     * Temporary method for creating previews for existing images
+     */
+//    @Transactional(readOnly = false)
+//    public void createPreviews() {
+//        List<TireImage> images = em.createQuery("SELECT img FROM TireImage img").getResultList();
+//        if (images != null) {
+//            String filename;
+//            byte[] body;
+//            for (TireImage item : images) {
+//                System.out.println(item.getFileName());
+//                
+//                filename = ImageService.getPhotoFilename(item.getTire().getId(), item.getFileName(), ImageService.ImageSize.LARGE);
+//                body = ImageService.resizeImage(item.getImageBody(), ImageService.ImageSize.LARGE);
+//                TireImage newItem1 = new TireImage(item.getTire(), filename, ImageService.ImageSize.LARGE, body);
+//                filename = ImageService.getPhotoFilename(item.getTire().getId(), item.getFileName(), ImageService.ImageSize.SMALL);
+//                body = ImageService.resizeImage(item.getImageBody(), ImageService.ImageSize.SMALL);
+//                TireImage newItem2 = new TireImage(item.getTire(), filename, ImageService.ImageSize.SMALL, body);
+//                
+//                newItem1.setIsPreview(item.getIsPreview());
+//                newItem2.setIsPreview(item.getIsPreview());
+//                
+//                save(newItem1);
+//                save(newItem2);
+//            }
+//        }
+//    }
 }

@@ -10,6 +10,7 @@ import kz.supershiny.core.model.Tire;
 import kz.supershiny.core.model.TireImage;
 import kz.supershiny.core.model.TireSize;
 import kz.supershiny.core.model.TireType;
+import kz.supershiny.core.services.ImageService;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Constants;
 import kz.supershiny.web.wicket.components.ConfirmationLink;
@@ -116,6 +117,14 @@ public class CataloguePanel extends BasePanel {
             
             imagesPanel = new ImageUploadPanel("imagesPanel", currentTire.getImages());
             add(imagesPanel.setOutputMarkupId(true));
+            
+//            add(new AjaxLink("createPreviews") {
+//                
+//                @Override
+//                public void onClick(AjaxRequestTarget art) {
+//                    tireService.createPreviews();
+//                }
+//            });
         }
         
         private void clearForm(AjaxRequestTarget target) {
@@ -156,37 +165,42 @@ public class CataloguePanel extends BasePanel {
                 editor.error(new StringResourceModel("error.emptyTire", CataloguePanel.this, null).getString());
             }
             
-            if (!this.hasError()) {
-                //save non-persistent entities (new manufacturers, countries, etc)
-                if(currentTire.getCountry().getId() == null) {
-                    tireService.save(currentTire.getCountry());
-                }
-                if(currentTire.getManufacturer().getId() == null) {
-                    tireService.save(currentTire.getManufacturer());
-                }
-                if(currentTire.getSize().getId() == null) {
-                    tireService.save(currentTire.getSize());
-                }
-                //set images for this tire
-                List<TireImage> imagesForUpload = imagesPanel.getImages();
-                if(imagesForUpload != null && !imagesForUpload.isEmpty()) {
-                    for(TireImage item : imagesForUpload) {
-                        item.setTire(currentTire);
-                    }
-                }
-                currentTire.setImages(imagesForUpload);
-            }
-            
             feed.setVisible(this.hasError());
         }
 
         @Override
         protected void onSubmit() {
+            //save non-persistent entities (new manufacturers, countries, etc)
+            if(currentTire.getCountry().getId() == null) {
+                tireService.save(currentTire.getCountry());
+            }
+            if(currentTire.getManufacturer().getId() == null) {
+                tireService.save(currentTire.getManufacturer());
+            }
+            if(currentTire.getSize().getId() == null) {
+                tireService.save(currentTire.getSize());
+            }
+            
+            currentTire.setImages(new ArrayList<TireImage>());
+            
             if (currentTire.getId() != null) {
                 tireService.update(currentTire);
             } else {
                 tireService.save(currentTire);
             }
+            
+            //set images for this tire
+            List<TireImage> imagesForUpload = imagesPanel.getAllImages();
+            if(imagesForUpload != null && !imagesForUpload.isEmpty()) {
+                for(TireImage item : imagesForUpload) {
+                    item.setTire(currentTire);
+                    item.setFileName(ImageService.getPhotoFilename(currentTire.getId(), item.getFileName(), item.getImageSize()));
+                }
+            }
+            currentTire.setImages(imagesForUpload);
+            
+            tireService.update(currentTire);
+            
             setResponsePage(new AdminBasePage(new PageParameters().add("target", "catalogue").add("tireId", currentTire.getId())));
         }
         

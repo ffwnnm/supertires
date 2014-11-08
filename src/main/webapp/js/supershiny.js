@@ -30,6 +30,16 @@ function showModal() {
     $('#bsModal').modal('show');
 }
 
+//left/right keys triggers for images listview
+$("body").keydown(function (e) {
+    if (e.keyCode === 37) { // left
+        $("#prev").click();
+    }
+    else if (e.keyCode === 39) { // right
+        $("#next").click();
+    }
+});
+
 // Activates Tooltips for Social Links
 $('.tooltip-social').tooltip({
   selector: "a[data-toggle=tooltip]"

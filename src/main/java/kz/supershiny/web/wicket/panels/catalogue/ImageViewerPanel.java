@@ -58,7 +58,7 @@ public class ImageViewerPanel extends Panel {
         images = new HashMap<Integer, TireImage>();
         int counter = 0;
         try {
-            for (TireImage ti : tireService.getImagesForTire(tire, ImageService.ImageSize.ORIGINAL)) {
+            for (TireImage ti : tireService.getImagesForTire(tire, ImageService.ImageSize.LARGE)) {
                 images.put(counter, ti);
                 counter++;
             }
@@ -94,7 +94,7 @@ public class ImageViewerPanel extends Panel {
                 return selected > 0;
             }
         };
-        add(prev.setOutputMarkupPlaceholderTag(true));
+        add(prev.setMarkupId("prev").setOutputMarkupPlaceholderTag(true));
         next = new AjaxLink("next") {
             @Override
             public void onClick(AjaxRequestTarget art) {
@@ -109,7 +109,7 @@ public class ImageViewerPanel extends Panel {
                 return selected < total - 1;
             }
         };
-        add(next.setOutputMarkupPlaceholderTag(true));
+        add(next.setMarkupId("next").setOutputMarkupPlaceholderTag(true));
 
         numbersContainer = new WebMarkupContainer("numbersContainer");
         add(numbersContainer.setOutputMarkupId(true));
