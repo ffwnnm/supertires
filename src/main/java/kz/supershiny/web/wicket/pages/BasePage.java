@@ -93,16 +93,4 @@ public class BasePage extends WebPage {
         return new StringResourceModel("base.title", BasePage.this, null);
     }
     
-//    @Override
-//    public void renderHead(IHeaderResponse response) {
-//        super.renderHead(response);
-//        List<String> jsRefs = Arrays.asList("bootstrap-wysiwyg.js", "bootstrap.min.js", "jquery-1.10.2.js", "jquery.hotkeys.js", "supershiny.js");
-//        List<String> cssRefs = Arrays.asList("bootstrap.min.css", "glyphicons-free.css", "wysiwyg.css", "supershiny.css");
-//        for (String ref : jsRefs) {
-//            response.render(JavaScriptReferenceHeaderItem.forReference(new JavaScriptResourceReference(BasePage.class, ref)));
-//        }
-//        for (String ref : cssRefs) {
-//            response.render(JavaScriptReferenceHeaderItem.forReference(new CssResourceReference(BasePage.class, ref)));
-//        }
-//    }
 }
