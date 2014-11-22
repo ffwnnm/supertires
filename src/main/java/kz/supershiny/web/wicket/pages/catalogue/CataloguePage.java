@@ -44,6 +44,7 @@ public class CataloguePage extends BasePage {
         add(new CatalogSearchPanel("searchPanel") {
             @Override
             public void refreshListData(AjaxRequestTarget art) {
+                getCriteria().resetPaging();
                 refreshTiresList(art);
             }
         });
