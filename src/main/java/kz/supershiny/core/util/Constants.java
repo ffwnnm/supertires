@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Constants {
     //Initial user data
-    public static final String ADMIN_PHONE = "123";
+    public static final String ADMIN_PHONE = "77770123210";
     public static final String ADMIN_PASS = "123";
     public static final String ADMIN_UNAME = "Администратор";
     
@@ -36,6 +36,7 @@ public class Constants {
     public static final int MAX_IMAGES_UPLOAD_SIZE_KB = 8192;
     public static final int MAX_IMAGES_PER_ITEM = 10;
     public static final int ITEMS_PER_PAGE = 10;
+    public static final int PAGING_SIZE = 5;
     
     public static final String Y = "Y";
     public static final String N = "N";

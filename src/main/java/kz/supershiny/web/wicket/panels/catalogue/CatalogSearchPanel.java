@@ -10,11 +10,11 @@ import kz.supershiny.core.model.Manufacturer;
 import kz.supershiny.core.pojo.TireSearchCriteria;
 import kz.supershiny.core.services.TireService;
 import kz.supershiny.core.util.Constants;
-import kz.supershiny.web.wicket.TiresApplication;
+import kz.supershiny.web.wicket.TiresSession;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -23,7 +23,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
  *
  * @author aishmanov
  */
-public class CatalogSearchPanel extends Panel {
+public abstract class CatalogSearchPanel extends Panel {
 
     @SpringBean
     private TireService tireService;
@@ -32,7 +32,6 @@ public class CatalogSearchPanel extends Panel {
     private List<Float> uniqueWidth;
     private List<Float> uniqueHeight;
     private List<Float> uniqueRadius;
-    private TireSearchCriteria criteria;
     private CatalogSearchForm searchForm;
 
     public CatalogSearchPanel(String id) {
@@ -54,7 +53,7 @@ public class CatalogSearchPanel extends Panel {
         private DropDownChoice<String> sorting;
 
         public CatalogSearchForm(String id) {
-            super(id, new CompoundPropertyModel<TireSearchCriteria>(criteria));
+            super(id, new CompoundPropertyModel<TireSearchCriteria>(getCriteria()));
 
             width = new DropDownChoice<Float>("width", uniqueWidth);
             height = new DropDownChoice<Float>("height", uniqueHeight);
@@ -81,25 +80,28 @@ public class CatalogSearchPanel extends Panel {
             add(sorting.setOutputMarkupId(true));
             add(manufacturer.setOutputMarkupId(true));
 
-            add(new Link("clear") {
+            add(new AjaxSubmitLink("clear") {
                 @Override
-                public void onClick() {
-                    criteria = new TireSearchCriteria();
-                    CatalogSearchForm.this.onSubmit();
+                protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                    getCriteria().clear();
+                    target.add(searchForm);
+                    refreshListData(target);
                 }
             });
-            add(new AjaxSubmitLink("search") {});
+            add(new AjaxSubmitLink("search") {
+                @Override
+                protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                    target.add(searchForm);
+                    refreshListData(target);
+                }
+            });
         }
-
-        @Override
-        protected void onSubmit() {
-            ((TiresApplication) getApplication())
-                    .getTiresSession()
-                    .setTireSearchCriteria(criteria);
-            setResponsePage(getPage().getClass());
-        }
-
     }
+    
+    
+    //refresh list on which the search is performed
+    public abstract void refreshListData(AjaxRequestTarget art);
+    
 
     private void initData() {
         uniqueManufacturers = tireService.getUniqueManufacturers();
@@ -119,9 +121,9 @@ public class CatalogSearchPanel extends Panel {
         if (uniqueHeight == null) {
             uniqueHeight = new ArrayList<Float>();
         }
-
-        criteria = ((TiresApplication) getApplication())
-                .getTiresSession()
-                .getTireSearchCriteria();
+    }
+    
+    private TireSearchCriteria getCriteria() {
+        return ((TiresSession) getSession()).getTireSearchCriteria();
     }
 }

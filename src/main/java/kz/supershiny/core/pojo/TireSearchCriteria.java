@@ -14,7 +14,7 @@ import kz.supershiny.core.util.Constants;
  *
  * @author kilrwhle
  */
-public class TireSearchCriteria implements Serializable {
+public class TireSearchCriteria extends SearchCriteria implements Serializable {
     
     //size
     private Float width;
@@ -27,13 +27,26 @@ public class TireSearchCriteria implements Serializable {
     private Country country;
     private Manufacturer manufacturer;
     private String sorting = Constants.SORT_ARTICLE_DESC;
-    
-    private long currentPage = 0;
-    private long itemsTotal = 0;
-    private long firstOffset = 0;
-    private long itemsPerPage = Constants.ITEMS_PER_PAGE;
 
     public TireSearchCriteria() {
+    }
+    
+    @Override
+    public void clear() {
+        super.clear();
+        init();
+    }
+    
+    private void init() {
+        width = null;
+        height = null;
+        radius = null;
+        size = null;
+        season = null;
+        type = null;
+        country = null;
+        manufacturer = null;
+        sorting = Constants.SORT_ARTICLE_DESC;
     }
     
     public boolean isEmpty() {
@@ -46,38 +59,6 @@ public class TireSearchCriteria implements Serializable {
                 manufacturer == null && country == null
                 &&
                 height == null && width == null && radius == null;
-    }
-
-    public long getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(long currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public long getItemsTotal() {
-        return itemsTotal;
-    }
-
-    public void setItemsTotal(long itemsTotal) {
-        this.itemsTotal = itemsTotal;
-    }
-
-    public long getFirstOffset() {
-        return firstOffset;
-    }
-
-    public void setFirstOffset(long firstOffset) {
-        this.firstOffset = firstOffset;
-    }
-
-    public long getItemsPerPage() {
-        return itemsPerPage;
-    }
-
-    public void setItemsPerPage(long itemsPerPage) {
-        this.itemsPerPage = itemsPerPage;
     }
 
     public String getSize() {

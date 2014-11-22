@@ -15,7 +15,9 @@ import kz.supershiny.core.model.TireSize;
 import kz.supershiny.core.model.TireType;
 import kz.supershiny.core.pojo.TireSearchCriteria;
 import kz.supershiny.core.util.Constants;
+import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.criterion.Projections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -70,16 +72,11 @@ public class TireService extends JPAService {
                 result = 0L;
                 LOG.error("Unable to count all tires!");
             }
-        } else {    
+        } else {
             String header = "SELECT COUNT(T.id) FROM Tire T";
             String conditions = " WHERE 1=1 ";
             HashMap<String, Object> predicates = new HashMap<String, Object>();
             
-//            if(criteria.getSize() != null && !criteria.getSize().isEmpty()) {
-//                header += " JOIN T.size S ";
-//                conditions += "AND S.sizeVerbal = :size ";
-//                predicates.put("size", criteria.getSize());
-//            }
             if(criteria.getHeight() != null || criteria.getWidth() != null || criteria.getRadius() != null) {
                 header += " JOIN T.size S ";
                 if(criteria.getHeight() != null) {
@@ -117,33 +114,33 @@ public class TireService extends JPAService {
                 LOG.error("Unable to count tires by criteria!");
             }
         }
-        return result.longValue();
+        return result;
     }
     
     @Transactional(readOnly = true)
     public List<Tire> getTiresByCriteria(TireSearchCriteria criteria) {
+        if (criteria == null) return null;
+        
         List<Tire> result = null;
-        if(criteria == null || criteria.isEmpty()) {
+        
+        criteria.setTotal(countTiresByCriteria(criteria));  //count results
+        
+        if (criteria.isEmpty()) {
             try {
                 result = em.createQuery("SELECT T FROM Tire T ORDER BY T.id DESC")
-                        .setMaxResults((int) criteria.getItemsPerPage())
-                        .setFirstResult((int) criteria.getFirstOffset())
+                        .setMaxResults((int) criteria.getPageSize())
+                        .setFirstResult((int) criteria.getBegin())
                         .getResultList();
             } catch (Exception ex) {
                 result = null;
                 LOG.error("Unable to load all tires!");
             }
-        } else {    
+        } else {
             String header = "SELECT T FROM Tire T";
             String footer = " ORDER BY T.id DESC";  //sorting by default, ARTICLE_DESC
             String conditions = " WHERE 1=1 ";
             HashMap<String, Object> predicates = new HashMap<String, Object>();
             
-//            if(criteria.getSize() != null && !criteria.getSize().isEmpty()) {
-//                header += " JOIN T.size S ";
-//                conditions += "AND S.sizeVerbal = :size ";
-//                predicates.put("size", criteria.getSize());
-//            }
             if(criteria.getHeight() != null || criteria.getWidth() != null || criteria.getRadius() != null) {
                 if(criteria.getHeight() != null) {
                     conditions += " AND T.size.height = :height ";
@@ -190,14 +187,17 @@ public class TireService extends JPAService {
             
             try {
                 result = query
-                        .setMaxResults((int) criteria.getItemsPerPage())
-                        .setFirstResult((int) criteria.getFirstOffset())
+                        .setMaxResults((int) criteria.getPageSize())
+                        .setFirstResult((int) criteria.getBegin())
                         .getResultList();
             } catch (Exception ex) {
                 result = null;
                 LOG.error("Unable to get tires by criteria!");
             }
         }
+        
+        criteria.setResultSize(result == null ? 0L : result.size());
+        
         return result;
     }
     
