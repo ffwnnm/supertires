@@ -42,7 +42,7 @@ public class CataloguePanel extends BasePanel {
     
     @SpringBean
     private TireService tireService;
-    
+
     private List<TireType> typesList;
     private List<TireSize> sizesList;
     private List<Country> countriesList;

@@ -7,6 +7,8 @@ package kz.supershiny.web.wicket.pages.admin;
 
 import java.util.Arrays;
 import java.util.List;
+
+import kz.supershiny.core.services.InfoService;
 import kz.supershiny.web.wicket.pages.BasePage;
 import kz.supershiny.web.wicket.pages.LoginPage;
 import kz.supershiny.web.wicket.pages.catalogue.CataloguePage;
@@ -21,12 +23,16 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 /**
  *
  * @author kilrwhle
  */
 public class AdminBasePage extends BasePage {
+
+    @SpringBean
+    private InfoService infoService;
     
     private BasePanel mainPanel;
     private WebMarkupContainer mainContainer;
@@ -65,6 +71,7 @@ public class AdminBasePage extends BasePage {
                 setResponsePage(CataloguePage.class);
             }
         });
+        add(new Label("sessionsCounter", infoService.getSessionsCount()));
         
         //links
         addLeftMenu();

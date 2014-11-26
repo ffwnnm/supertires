@@ -4,6 +4,7 @@
  */
 package kz.supershiny.core.services;
 
+import java.math.BigInteger;
 import java.util.List;
 import kz.supershiny.core.model.BlogEntry;
 import org.slf4j.Logger;
@@ -29,6 +30,19 @@ public class InfoService extends JPAService {
         } catch (Exception ex) {
             result = null;
             LOG.error("Unable to load all blog entries!");
+        }
+        return result;
+    }
+
+    @Transactional(readOnly = true)
+    public Long getSessionsCount() {
+        Long result = 0L;
+        try {
+            result = ((BigInteger) em.createNativeQuery("SELECT last_value FROM sessions").getSingleResult())
+                    .longValue();
+        } catch (Exception ex) {
+            result = 0L;
+            LOG.error("Unable to get sessions count!");
         }
         return result;
     }
