@@ -124,7 +124,9 @@ public class TiresApplication extends WebApplication {
                 new TireType("Под шипы"), 
                 new TireType("Шипованная"),
                 new TireType("Симметричная"),
-                new TireType("Асимметричная")
+                new TireType("Асимметричная"),
+                new TireType("Направленная"),
+                new TireType("Грязевая")
                 );
         for(TireType t : types) {
             try {
